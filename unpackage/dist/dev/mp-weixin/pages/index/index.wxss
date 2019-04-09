@@ -1,0 +1,39 @@
+
+.van-button {
+	background: #ffffff;
+	border: 1 upx solid #ffffff;
+	color: orange;
+	margin-top: 30rpx;
+	width: 260rpx;
+}
+input {
+	width: 400rpx;
+	border-bottom: 1rpx solid #8F8F94;
+	margin-top: 80rpx;
+}
+.contents {
+	text-align: center;
+	height: 400rpx;
+}
+.logos {
+	height: 250rpx;
+	width: 150rpx;
+	margin-top: 200rpx;
+}
+.content_box {
+	width: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	margin-top: 50rpx;
+}
+.title {
+	font-size: 36rpx;
+	color: #8f8f94;
+}
+
