@@ -1,0 +1,38 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/Home/Home/Home",
+    "pages/good/good/good",
+    "pages/asd/asd/asd"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#d4237a",
+    "titleSize": "300px",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/Home/Home/Home",
+        "text": "首页",
+        "iconPath": "static/logoImg/Home/Home.png",
+        "selectedIconPath": "static/logoImg/Home/Homes.png"
+      },
+      {
+        "pagePath": "pages/asd/asd/asd",
+        "text": "我的",
+        "iconPath": "static/logoImg/Home/my.png",
+        "selectedIconPath": "static/logoImg/Home/mys.png"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
+}

@@ -18,12 +18,20 @@
 </template>
 
 <script>
-
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
+
+
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex';
+
+
+
+
 	export default {
 		data() {
 			return {
-				title: 'Hello',
 				loginData: {
 					usernmae: '',
 					password: ''
@@ -31,23 +39,52 @@
 			}
 		},
 		onLoad() {
-
+			/**
+			 * 获取vuex全局变量
+			 */
+			// this.$store.state.nickname
+			console.log(this.$store.state.nickname)
 		},
 		methods: {
 			login() {
 				uni.showLoading({
 					title: '加载中'
 				});
-				uni.request({
-					url: 'HTTP://192.168.1.105:3000/login/query',
-					success(res) {
-						console.log(res);
-						setTimeout(function() {
-							uni.hideLoading();
-						}, 2000);
-					}
 
+
+
+				uni.switchTab({
+					url: '../Home/Home/Home'
 				})
+
+
+
+				// 				uni.request({
+				// 					url: 'HTTP://192.168.2.80:3000/login/query',
+				// 					success(res) {
+				// 
+				// 						setTimeout(function() {
+				// 							uni.hideLoading();
+				// 
+				// 						}, 500);
+				// 
+				// 						if (res.data.code == 1) {
+				// 							uni.switchTab({
+				// 								url: '../Home/Home/Home'
+				// 							})
+				// 						}
+				// 						console.log(res)
+				// 
+				// 					}
+				// 
+				// 				})
+
+
+				setTimeout(function() {
+					uni.hideLoading();
+
+				}, 500);
+
 				console.log(this.loginData)
 
 				// 				Dialog.alert({
@@ -56,7 +93,7 @@
 				// 				}).then(() => {
 				// 					// on close
 				// 				});
-				
+
 
 			}
 		}

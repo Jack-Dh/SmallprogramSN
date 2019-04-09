@@ -8,14 +8,66 @@
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
 				}
-				
+
+			}
+		}, {
+			"path": "pages/Home/Home/Home",
+			"style": {
+				"usingComponents": {
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
+					"van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
+					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
+					"van-icon": "/wxcomponents/vant/dist/icon/index"
+				}
+
 			}
 		}
+
+		, {
+			"path": "pages/good/good/good",
+			"style": {}
+		}, {
+			"path": "pages/asd/asd/asd",
+			"style": {}
+		}
 	],
+	"tabBar": {
+		"color": "#8a8a8a",
+		"selectedColor": "#8a8a8a",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [
+			/**
+			 * iconPath  //未选中
+			 *selectedIconPath //选中图标
+			 */
+			{
+				"pagePath": "pages/Home/Home/Home",
+				"text": "首页",
+				"iconPath": "static/logoImg/Home/Home.png",
+				"selectedIconPath": "static/logoImg/Home/Homes.png"
+			},
+// 			{
+// 				"pagePath": "pages/good/good/good",
+// 				"text": "good",
+// 				"iconPath": "static/logoImg/2.png",
+// 				"selectedIconPath": "static/logoImg/1.png"
+// 			},
+			{
+				"pagePath": "pages/asd/asd/asd",
+				"text": "我的",
+				"iconPath": "static/logoImg/Home/my.png",
+				"selectedIconPath": "static/logoImg/Home/mys.png"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	}
+
+
 }

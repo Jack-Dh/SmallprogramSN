@@ -28,35 +28,72 @@
 
 
 
+var _dialog = _interopRequireDefault(__webpack_require__(/*! ../../wxcomponents/vant/dist/dialog/dialog */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\wxcomponents\\vant\\dist\\dialog\\dialog.js"));
 
-var _dialog = _interopRequireDefault(__webpack_require__(/*! ../../wxcomponents/vant/dist/dialog/dialog */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\wxcomponents\\vant\\dist\\dialog\\dialog.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default = { data: function data() {return { title: 'Hello', loginData: { usernmae: '', password: '' } };}, onLoad: function onLoad() {}, methods: { login: function login() {uni.showLoading({ title: '加载中' });uni.request({
-        url: 'HTTP://192.168.1.105:3000/login/query',
-        success: function success(res) {
-          console.log(res);
-          setTimeout(function () {
-            uni.hideLoading();
-          }, 2000);
-        } });
 
+var _vuex = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { loginData: { usernmae: '', password: '' } };}, onLoad: function onLoad() {/**
+                                                                                                                            * 获取vuex全局变量
+                                                                                                                            */ // this.$store.state.nickname
+    console.log(this.$store.state.nickname);
+  },
+  methods: {
+    login: function login() {
+      uni.showLoading({
+        title: '加载中' });
+
+
+
+
+      uni.switchTab({
+        url: '../Home/Home/Home' });
+
+
+
+
+      // 				uni.request({
+      // 					url: 'HTTP://192.168.2.80:3000/login/query',
+      // 					success(res) {
+      // 
+      // 						setTimeout(function() {
+      // 							uni.hideLoading();
+      // 
+      // 						}, 500);
+      // 
+      // 						if (res.data.code == 1) {
+      // 							uni.switchTab({
+      // 								url: '../Home/Home/Home'
+      // 							})
+      // 						}
+      // 						console.log(res)
+      // 
+      // 					}
+      // 
+      // 				})
+
+
+      setTimeout(function () {
+        uni.hideLoading();
+
+      }, 500);
 
       console.log(this.loginData);
 
