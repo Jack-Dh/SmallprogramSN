@@ -13,6 +13,7 @@
 		}, {
 			"path": "pages/Home/Home/Home",
 			"style": {
+				"enablePullDownRefresh": true,//下拉刷新
 				"usingComponents": {
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
@@ -20,6 +21,7 @@
 					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
 					"van-icon": "/wxcomponents/vant/dist/icon/index"
 				}
+			
 
 			}
 		}

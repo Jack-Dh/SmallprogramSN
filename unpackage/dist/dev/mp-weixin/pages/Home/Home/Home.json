@@ -1,4 +1,5 @@
 {
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "van-button": "/wxcomponents/vant/dist/button/index",
     "van-dialog": "/wxcomponents/vant/dist/dialog/index",

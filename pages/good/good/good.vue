@@ -1,6 +1,6 @@
 <template>
 	<view>
-		good
+	good
 	</view>
 </template>
 
@@ -10,7 +10,8 @@
 			return {
 				
 			};
-		}
+		},
+	
 	}
 </script>
 

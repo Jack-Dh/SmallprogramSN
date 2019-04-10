@@ -21,10 +21,10 @@
 	import Dialog from '../../wxcomponents/vant/dist/dialog/dialog';
 
 
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex';
+// 	import {
+// 		mapState,
+// 		mapMutations
+// 	} from 'vuex';
 
 
 
