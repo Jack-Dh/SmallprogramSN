@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "uni-app",
+  "navigationBarTitleText": "首诺供应链",
   "usingComponents": {
     "van-button": "/wxcomponents/vant/dist/button/index",
     "van-dialog": "/wxcomponents/vant/dist/dialog/index"
