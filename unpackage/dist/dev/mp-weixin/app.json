@@ -1,9 +1,9 @@
 {
   "pages": [
-    "pages/index/index",
+    "pages/login/login",
     "pages/Home/Home/Home",
     "pages/good/good/good",
-    "pages/asd/asd/asd"
+    "pages/myPage/myPage/myPage"
   ],
   "subPackages": [],
   "window": {
@@ -25,7 +25,7 @@
         "selectedIconPath": "static/logoImg/Home/Homes.png"
       },
       {
-        "pagePath": "pages/asd/asd/asd",
+        "pagePath": "pages/myPage/myPage/myPage",
         "text": "我的",
         "iconPath": "static/logoImg/Home/my.png",
         "selectedIconPath": "static/logoImg/Home/mys.png"

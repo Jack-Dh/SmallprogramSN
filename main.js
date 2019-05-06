@@ -7,7 +7,12 @@ import App from './App'
  * Vuex全局变量
  */
 import store from './stroe/index.js'
+
 Vue.prototype.$store = store;
+
+
+
+
 
 
 

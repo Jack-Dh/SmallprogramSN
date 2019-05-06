@@ -1,7 +1,7 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "首诺供应链",//项目标题
 				"usingComponents": {
@@ -14,6 +14,7 @@
 			"path": "pages/Home/Home/Home",
 			"style": {
 				"enablePullDownRefresh": true,//下拉刷新
+				"navigationBarTitleText": "首诺供应链" , //设置页面头部名字
 				"usingComponents": {
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
@@ -30,8 +31,10 @@
 			"path": "pages/good/good/good",
 			"style": {}
 		}, {
-			"path": "pages/asd/asd/asd",
-			"style": {}
+			"path": "pages/myPage/myPage/myPage",
+			"style": {
+				"navigationBarTitleText": "首诺供应链"  //设置页面头部名字
+			}
 		}
 	],
 	"tabBar": {
@@ -55,9 +58,9 @@
 // 				"text": "good",
 // 				"iconPath": "static/logoImg/2.png",
 // 				"selectedIconPath": "static/logoImg/1.png"
-// 			},
+// 				},
 			{
-				"pagePath": "pages/asd/asd/asd",
+				"pagePath": "pages/myPage/myPage/myPage",
 				"text": "我的",
 				"iconPath": "static/logoImg/Home/my.png",
 				"selectedIconPath": "static/logoImg/Home/mys.png"

@@ -31,6 +31,25 @@ function hasOwn(obj, key) {
 
 function noop() {}
 
+/**
+                    * Create a cached version of a pure function.
+                    */
+function cached(fn) {
+  var cache = Object.create(null);
+  return function cachedFn(str) {
+    var hit = cache[str];
+    return hit || (cache[str] = fn(str));
+  };
+}
+
+/**
+   * Camelize a hyphen-delimited string.
+   */
+var camelizeRE = /-(\w)/g;
+var camelize = cached(function (str) {
+  return str.replace(camelizeRE, function (_, c) {return c ? c.toUpperCase() : '';});
+});
+
 var SYNC_API_RE = /requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$/;
 
 var CONTEXT_API_RE = /^create|Manager$/;
@@ -56,10 +75,11 @@ function handlePromise(promise) {
 }
 
 function shouldPromise(name) {
-  if (isSyncApi(name)) {
-    return false;
-  }
-  if (isCallbackApi(name)) {
+  if (
+  isContextApi(name) ||
+  isSyncApi(name) ||
+  isCallbackApi(name))
+  {
     return false;
   }
   return true;
@@ -163,7 +183,7 @@ function processArgs(methodName, fromArgs) {var argsOption = arguments.length > 
         } else if (isPlainObject(keyOption)) {// {name:newName,value:value}可重新指定参数 key:value
           toArgs[keyOption.name ? keyOption.name : key] = keyOption.value;
         }
-      } else if (CALLBACKS.includes(key)) {
+      } else if (CALLBACKS.indexOf(key) !== -1) {
         toArgs[key] = processCallback(methodName, fromArgs[key], returnValue);
       } else {
         if (!keepFromArgs) {
@@ -278,11 +298,81 @@ var api = /*#__PURE__*/Object.freeze({});
 
 
 
-var MOCKS = ['__route__', '__wxExparserNodeId__', '__wxWebviewId__'];
+var MPPage = Page;
+var MPComponent = Component;
 
-function initMocks(vm) {
+var customizeRE = /:/g;
+
+var customize = cached(function (str) {
+  return camelize(str.replace(customizeRE, '-'));
+});
+
+function initTriggerEvent(mpInstance) {
+  {
+    if (!wx.canIUse('nextTick')) {
+      return;
+    }
+  }
+  var oldTriggerEvent = mpInstance.triggerEvent;
+  mpInstance.triggerEvent = function (event) {for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {args[_key2 - 1] = arguments[_key2];}
+    return oldTriggerEvent.apply(mpInstance, [customize(event)].concat(args));
+  };
+}
+
+Page = function Page() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var name = 'onLoad';
+  var oldHook = options[name];
+  if (!oldHook) {
+    options[name] = function () {
+      initTriggerEvent(this);
+    };
+  } else {
+    options[name] = function () {
+      initTriggerEvent(this);for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {args[_key3] = arguments[_key3];}
+      return oldHook.apply(this, args);
+    };
+  }
+  return MPPage(options);
+};
+
+var behavior = Behavior({
+  created: function created() {
+    initTriggerEvent(this);
+  } });
+
+
+Component = function Component() {var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  (options.behaviors || (options.behaviors = [])).unshift(behavior);
+  return MPComponent(options);
+};
+
+var mocks = ['__route__', '__wxExparserNodeId__', '__wxWebviewId__'];
+
+function triggerLink(mpInstance, vueOptions) {
+  mpInstance.triggerEvent('__l', mpInstance.$vm || vueOptions, {
+    bubbles: true,
+    composed: true });
+
+}
+
+function handleLink(event) {
+  if (event.detail.$mp) {// vm
+    if (!event.detail.$parent) {
+      event.detail.$parent = this.$vm;
+      event.detail.$parent.$children.push(event.detail);
+
+      event.detail.$root = this.$vm.$root;
+    }
+  } else {// vueOptions
+    if (!event.detail.parent) {
+      event.detail.parent = this.$vm;
+    }
+  }
+}
+
+function initMocks(vm, mocks) {
   var mpInstance = vm.$mp[vm.mpType];
-  MOCKS.forEach(function (mock) {
+  mocks.forEach(function (mock) {
     if (hasOwn(mpInstance, mock)) {
       vm[mock] = mpInstance[mock];
     }
@@ -316,8 +406,12 @@ function getData(vueOptions, context) {
     } catch (e) {}
   }
 
+  if (!isPlainObject(data)) {
+    data = {};
+  }
+
   Object.keys(methods).forEach(function (methodName) {
-    if (!hasOwn(data, methodName)) {
+    if (context.__lifecycle_hooks__.indexOf(methodName) === -1 && !hasOwn(data, methodName)) {
       data[methodName] = methods[methodName];
     }
   });
@@ -335,9 +429,65 @@ function createObserver(name) {
   };
 }
 
-function getProperties(props) {
-  var properties = {
-    vueSlots: { // 小程序不能直接定义 $slots 的 props，所以通过 vueSlots 转换到 $slots
+function getBehaviors(vueOptions) {
+  var vueBehaviors = vueOptions['behaviors'];
+  var vueExtends = vueOptions['extends'];
+  var vueMixins = vueOptions['mixins'];
+
+  var vueProps = vueOptions['props'];
+
+  if (!vueProps) {
+    vueOptions['props'] = vueProps = [];
+  }
+
+  var behaviors = [];
+  if (Array.isArray(vueBehaviors)) {
+    vueBehaviors.forEach(function (behavior) {
+      behaviors.push(behavior.replace('uni://', "wx".concat("://")));
+      if (behavior === 'uni://form-field') {
+        if (Array.isArray(vueProps)) {
+          vueProps.push('name');
+          vueProps.push('value');
+        } else {
+          vueProps['name'] = String;
+          vueProps['value'] = null;
+        }
+      }
+    });
+  }
+  if (isPlainObject(vueExtends) && vueExtends.props) {
+    behaviors.push(
+    Behavior({
+      properties: getProperties(vueExtends.props, true) }));
+
+
+  }
+  if (Array.isArray(vueMixins)) {
+    vueMixins.forEach(function (vueMixin) {
+      if (isPlainObject(vueMixin) && vueMixin.props) {
+        behaviors.push(
+        Behavior({
+          properties: getProperties(vueMixin.props, true) }));
+
+
+      }
+    });
+  }
+  return behaviors;
+}
+
+function parsePropType(key, type, defaultValue, file) {
+  // [String]=>String
+  if (Array.isArray(type) && type.length === 1) {
+    return type[0];
+  }
+  return type;
+}
+
+function getProperties(props) {var isBehavior = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;var file = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '';
+  var properties = {};
+  if (!isBehavior) {
+    properties.vueSlots = { // 小程序不能直接定义 $slots 的 props，所以通过 vueSlots 转换到 $slots
       type: null,
       value: [],
       observer: function observer(newVal, oldVal) {
@@ -348,9 +498,9 @@ function getProperties(props) {
         this.setData({
           $slots: $slots });
 
-      } } };
+      } };
 
-
+  }
   if (Array.isArray(props)) {// ['title']
     props.forEach(function (key) {
       properties[key] = {
@@ -366,14 +516,18 @@ function getProperties(props) {
         if (isFn(value)) {
           value = value();
         }
+
+        opts.type = parsePropType(key, opts.type, value, file);
+
         properties[key] = {
-          type: PROP_TYPES.includes(opts.type) ? opts.type : null,
+          type: PROP_TYPES.indexOf(opts.type) !== -1 ? opts.type : null,
           value: value,
           observer: createObserver(key) };
 
       } else {// content:String
+        var type = parsePropType(key, opts, null, file);
         properties[key] = {
-          type: PROP_TYPES.includes(opts) ? opts : null,
+          type: PROP_TYPES.indexOf(type) !== -1 ? type : null,
           observer: createObserver(key) };
 
       }
@@ -383,35 +537,146 @@ function getProperties(props) {
 }
 
 function wrapper$1(event) {
+  // TODO 又得兼容 mpvue 的 mp 对象
+  try {
+    event.mp = JSON.parse(JSON.stringify(event));
+  } catch (e) {}
+
   event.stopPropagation = noop;
   event.preventDefault = noop;
 
   event.target = event.target || {};
-  event.detail = event.detail || {};
 
-  // TODO 又得兼容 mpvue 的 mp 对象
-  event.mp = event;
-  event.target = Object.assign({}, event.target, event.detail);
+  if (!hasOwn(event, 'detail')) {
+    event.detail = {};
+  }
+
+  if (isPlainObject(event.detail)) {
+    event.target = Object.assign({}, event.target, event.detail);
+  }
+
   return event;
 }
 
-function processEventArgs(event) {var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];var isCustom = arguments.length > 2 ? arguments[2] : undefined;var methodName = arguments.length > 3 ? arguments[3] : undefined;
-  if (isCustom && !args.length) {// 无参数，直接传入 detail 数组
-    if (!Array.isArray(event.detail)) {// 应该是使用了 wxcomponent 原生组件，为了向前兼容，传递原始 event 对象
-      return [event];
+function getExtraValue(vm, dataPathsArray) {
+  var context = vm;
+  dataPathsArray.forEach(function (dataPathArray) {
+    var dataPath = dataPathArray[0];
+    var value = dataPathArray[2];
+    if (dataPath || typeof value !== 'undefined') {// ['','',index,'disable']
+      var propPath = dataPathArray[1];
+      var valuePath = dataPathArray[3];
+
+      var vFor = dataPath ? vm.__get_value(dataPath, context) : context;
+
+      if (Number.isInteger(vFor)) {
+        context = value;
+      } else if (!propPath) {
+        context = vFor[value];
+      } else {
+        if (Array.isArray(vFor)) {
+          context = vFor.find(function (vForItem) {
+            return vm.__get_value(propPath, vForItem) === value;
+          });
+        } else if (isPlainObject(vFor)) {
+          context = Object.keys(vFor).find(function (vForKey) {
+            return vm.__get_value(propPath, vFor[vForKey]) === value;
+          });
+        } else {
+          console.error('v-for 暂不支持循环数据：', vFor);
+        }
+      }
+
+      if (valuePath) {
+        context = vm.__get_value(valuePath, context);
+      }
     }
-    return event.detail;
+  });
+  return context;
+}
+
+function processEventExtra(vm, extra, event) {
+  var extraObj = {};
+
+  if (Array.isArray(extra) && extra.length) {
+    /**
+                                                  *[
+                                                  *    ['data.items', 'data.id', item.data.id],
+                                                  *    ['metas', 'id', meta.id]
+                                                  *],
+                                                  *[
+                                                  *    ['data.items', 'data.id', item.data.id],
+                                                  *    ['metas', 'id', meta.id]
+                                                  *],
+                                                  *'test'
+                                                  */
+    extra.forEach(function (dataPath, index) {
+      if (typeof dataPath === 'string') {
+        if (!dataPath) {// model,prop.sync
+          extraObj['$' + index] = vm;
+        } else {
+          if (dataPath === '$event') {// $event
+            extraObj['$' + index] = event;
+          } else if (dataPath.indexOf('$event.') === 0) {// $event.target.value
+            extraObj['$' + index] = vm.__get_value(dataPath.replace('$event.', ''), event);
+          } else {
+            extraObj['$' + index] = vm.__get_value(dataPath);
+          }
+        }
+      } else {
+        extraObj['$' + index] = getExtraValue(vm, dataPath);
+      }
+    });
   }
+
+  return extraObj;
+}
+
+function getObjByArray(arr) {
+  var obj = {};
+  for (var i = 1; i < arr.length; i++) {
+    var element = arr[i];
+    obj[element[0]] = element[1];
+  }
+  return obj;
+}
+
+function processEventArgs(vm, event) {var args = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];var extra = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];var isCustom = arguments.length > 4 ? arguments[4] : undefined;var methodName = arguments.length > 5 ? arguments[5] : undefined;
+  var isCustomMPEvent = false; // wxcomponent 组件，传递原始 event 对象
+  if (isCustom) {// 自定义事件
+    isCustomMPEvent = event.currentTarget &&
+    event.currentTarget.dataset &&
+    event.currentTarget.dataset.comType === 'wx';
+    if (!args.length) {// 无参数，直接传入 event 或 detail 数组
+      if (isCustomMPEvent) {
+        return [event];
+      }
+      return event.detail.__args__ || event.detail;
+    }
+  }
+
+  var extraObj = processEventExtra(vm, extra, event);
+
   var ret = [];
   args.forEach(function (arg) {
     if (arg === '$event') {
       if (methodName === '__set_model' && !isCustom) {// input v-model value
         ret.push(event.target.value);
       } else {
-        ret.push(isCustom ? event.detail[0] : event);
+        if (isCustom && !isCustomMPEvent) {
+          ret.push(event.detail.__args__[0]);
+        } else {// wxcomponent 组件或内置组件
+          ret.push(event);
+        }
       }
     } else {
-      ret.push(arg);
+      if (Array.isArray(arg) && arg[0] === 'o') {
+        ret.push(getObjByArray(arg));
+      } else if (typeof arg === 'string' && hasOwn(extraObj, arg)) {
+        ret.push(extraObj[arg]);
+      } else {
+        ret.push(arg);
+      }
     }
   });
 
@@ -444,17 +709,26 @@ function handleEvent(event) {var _this = this;
     if (eventsArray && eventType === type) {
       eventsArray.forEach(function (eventArray) {
         var methodName = eventArray[0];
-        var handler = _this.$vm[methodName];
-        if (!isFn(handler)) {
-          throw new Error(" _vm.".concat(methodName, " is not a function"));
-        }
-        if (isOnce) {
-          if (handler.once) {
-            return;
+        if (methodName) {
+          var handler = _this.$vm[methodName];
+          if (!isFn(handler)) {
+            throw new Error(" _vm.".concat(methodName, " is not a function"));
           }
-          handler.once = true;
+          if (isOnce) {
+            if (handler.once) {
+              return;
+            }
+            handler.once = true;
+          }
+          handler.apply(_this.$vm, processEventArgs(
+          _this.$vm,
+          event,
+          eventArray[1],
+          eventArray[2],
+          isCustom,
+          methodName));
+
         }
-        handler.apply(_this.$vm, processEventArgs(event, eventArray[1], isCustom, methodName));
       });
     }
   });
@@ -464,11 +738,11 @@ function initRefs(vm) {
   var mpInstance = vm.$mp[vm.mpType];
   Object.defineProperty(vm, '$refs', {
     get: function get() {
-      var $refs = Object.create(null);
+      var $refs = {};
       var components = mpInstance.selectAllComponents('.vue-ref');
       components.forEach(function (component) {
         var ref = component.dataset.ref;
-        $refs[ref] = component.$vm;
+        $refs[ref] = component.$vm || component;
       });
       var forComponents = mpInstance.selectAllComponents('.vue-ref-in-for');
       forComponents.forEach(function (component) {
@@ -476,7 +750,7 @@ function initRefs(vm) {
         if (!$refs[ref]) {
           $refs[ref] = [];
         }
-        $refs[ref].push(component.$vm);
+        $refs[ref].push(component.$vm || component);
       });
       return $refs;
     } });
@@ -484,11 +758,28 @@ function initRefs(vm) {
 }
 
 var hooks = [
-'onShow',
 'onHide',
 'onError',
-'onPageNotFound'];
+'onPageNotFound',
+'onUniNViewMessage'];
 
+
+function initVm(vm) {
+  if (this.$vm) {// 百度竟然 onShow 在 onLaunch 之前？
+    return;
+  }
+  {
+    if (!wx.canIUse('nextTick')) {// 事实 上2.2.3 即可，简单使用 2.3.0 的 nextTick 判断
+      console.error('当前微信基础库版本过低，请将 微信开发者工具-详情-项目设置-调试基础库版本 更换为`2.3.0`以上');
+    }
+  }
+
+  this.$vm = vm;
+
+  this.$vm.$mp = {
+    app: this };
+
+}
 
 function createApp(vm) {
   // 外部初始化时 Vue 还未初始化，放到 createApp 内部初始化 mixin
@@ -506,8 +797,10 @@ function createApp(vm) {
       delete this.$options.mpInstance;
 
       if (this.mpType !== 'app') {
-        initRefs(this);
-        initMocks(this);
+        {// 头条的 selectComponent 竟然是异步的
+          initRefs(this);
+        }
+        initMocks(this, mocks);
       }
     },
     created: function created() {// 处理 injections
@@ -518,42 +811,28 @@ function createApp(vm) {
 
   var appOptions = {
     onLaunch: function onLaunch(args) {
-      this.$vm = vm;
+      initVm.call(this, vm);
 
       this.$vm._isMounted = true;
       this.$vm.__call_hook('mounted');
 
       this.$vm.__call_hook('onLaunch', args);
+    },
+    onShow: function onShow(args) {
+      initVm.call(this, vm);
+
+      this.$vm.__call_hook('onShow', args);
     } };
 
+
+  // 兼容旧版本 globalData
+  appOptions.globalData = vm.$options.globalData || {};
 
   initHooks(appOptions, hooks); // 延迟执行，因为 App 的注册在 main.js 之前，可能导致生命周期内 Vue 原型上开发者注册的属性无法访问
 
   App(appOptions);
 
   return vm;
-}
-
-function triggerLink(mpInstance, vueOptions) {
-  mpInstance.triggerEvent('__l', mpInstance.$vm || vueOptions, {
-    bubbles: true,
-    composed: true });
-
-}
-
-function handleLink(event) {
-  if (event.detail.$mp) {// vm
-    if (!event.detail.$parent) {
-      event.detail.$parent = this.$vm;
-      event.detail.$parent.$children.push(event.detail);
-
-      event.detail.$root = this.$vm.$root;
-    }
-  } else {// vueOptions
-    if (!event.detail.parent) {
-      event.detail.parent = this.$vm;
-    }
-  }
 }
 
 var hooks$1 = [
@@ -572,6 +851,20 @@ var hooks$1 = [
 'onNavigationBarSearchInputClicked'];
 
 
+function initVm$1(VueComponent) {// 百度的 onLoad 触发在 attached 之前
+  if (this.$vm) {
+    return;
+  }
+
+  this.$vm = new VueComponent({
+    mpType: 'page',
+    mpInstance: this });
+
+
+  this.$vm.__call_hook('created');
+  this.$vm.$mount();
+}
+
 function createPage(vueOptions) {
   vueOptions = vueOptions.default || vueOptions;
   var VueComponent;
@@ -589,14 +882,7 @@ function createPage(vueOptions) {
     data: getData(vueOptions, _vue.default.prototype),
     lifetimes: { // 当页面作为组件时
       attached: function attached() {
-
-        this.$vm = new VueComponent({
-          mpType: 'page',
-          mpInstance: this });
-
-
-        this.$vm.__call_hook('created');
-        this.$vm.$mount();
+        initVm$1.call(this, VueComponent);
       },
       ready: function ready() {
         this.$vm.__call_hook('beforeMount');
@@ -610,6 +896,7 @@ function createPage(vueOptions) {
 
     methods: { // 作为页面时
       onLoad: function onLoad(args) {
+        initVm$1.call(this, VueComponent);
         this.$vm.$mp.query = args; // 又要兼容 mpvue
         this.$vm.__call_hook('onLoad', args); // 开发者可能会在 onLoad 时赋值，提前到 mount 之前
       },
@@ -626,37 +913,39 @@ function createPage(vueOptions) {
   return Component(pageOptions);
 }
 
-function initVueComponent(mpInstace, VueComponent) {var extraOptions = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  if (mpInstace.$vm) {
+function initVm$2(VueComponent) {
+  if (this.$vm) {
     return;
   }
 
-  var options = Object.assign({
+  var options = {
     mpType: 'component',
-    mpInstance: mpInstace,
-    propsData: mpInstace.properties },
-  extraOptions);
+    mpInstance: this,
+    propsData: this.properties };
+
   // 初始化 vue 实例
-  mpInstace.$vm = new VueComponent(options);
+  this.$vm = new VueComponent(options);
 
   // 处理$slots,$scopedSlots（暂不支持动态变化$slots）
-  var vueSlots = mpInstace.properties.vueSlots;
+  var vueSlots = this.properties.vueSlots;
   if (Array.isArray(vueSlots) && vueSlots.length) {
     var $slots = Object.create(null);
     vueSlots.forEach(function (slotName) {
       $slots[slotName] = true;
     });
-    mpInstace.$vm.$scopedSlots = mpInstace.$vm.$slots = $slots;
+    this.$vm.$scopedSlots = this.$vm.$slots = $slots;
   }
   // 性能优先，mount 提前到 attached 中，保证组件首次渲染数据被合并
   // 导致与标准 Vue 的差异，data 和 computed 中不能使用$parent，provide等组件属性
-  mpInstace.$vm.$mount();
+  this.$vm.$mount();
 }
 
 function createComponent(vueOptions) {
   vueOptions = vueOptions.default || vueOptions;
 
-  var properties = getProperties(vueOptions.props);
+  var behaviors = getBehaviors(vueOptions);
+
+  var properties = getProperties(vueOptions.props, false, vueOptions.__file);
 
   var VueComponent = _vue.default.extend(vueOptions);
 
@@ -666,13 +955,14 @@ function createComponent(vueOptions) {
       addGlobalClass: true },
 
     data: getData(vueOptions, _vue.default.prototype),
+    behaviors: behaviors,
     properties: properties,
     lifetimes: {
       attached: function attached() {
-        initVueComponent(this, VueComponent);
+        initVm$2.call(this, VueComponent);
       },
       ready: function ready() {
-        initVueComponent(this, VueComponent); // 目前发现部分情况小程序 attached 不触发
+        initVm$2.call(this, VueComponent); // 目前发现部分情况小程序 attached 不触发
         triggerLink(this); // 处理 parent,children
 
         // 补充生命周期
@@ -5321,7 +5611,7 @@ function initProps (vm, propsOptions) {
       }
       defineReactive$$1(props, key, value, function () {
         if (!isRoot && !isUpdatingChildComponent) {
-          warn(
+          !vm._getFormData && warn(//fixed by xxxxxx uni://form-field 时不告警
             "Avoid mutating a prop directly since the value will be " +
             "overwritten whenever the parent component re-renders. " +
             "Instead, use a data or computed property based on the prop's " +
@@ -5644,10 +5934,7 @@ function initMixin (Vue) {
     initEvents(vm);
     initRender(vm);
     callHook(vm, 'beforeCreate');
-    // initInjections(vm) // resolve injections before data/props
     initState(vm);
-    // initProvide(vm) // resolve provide after data/props
-    // callHook(vm, 'created')
 
     /* istanbul ignore if */
     if ( true && config.performance && mark) {
@@ -6203,6 +6490,67 @@ function type(obj) {
 
 /*  */
 
+function flushCallbacks$1(vm) {
+    if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+            var mpInstance = vm.$mp[vm.mpType];
+            console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
+                ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
+        }
+        var copies = vm.__next_tick_callbacks.slice(0);
+        vm.__next_tick_callbacks.length = 0;
+        for (var i = 0; i < copies.length; i++) {
+            copies[i]();
+        }
+    }
+}
+
+function hasRenderWatcher(vm) {
+    return queue.find(function (watcher) { return vm._watcher === watcher; })
+}
+
+function nextTick$1(vm, cb) {
+    //1.nextTick 之前 已 setData 且 setData 还未回调完成
+    //2.nextTick 之前存在 render watcher
+    if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+            var mpInstance = vm.$mp[vm.mpType];
+            console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
+                ']:nextVueTick');
+        }
+        return nextTick(cb, vm)
+    }else{
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+            var mpInstance$1 = vm.$mp[vm.mpType];
+            console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
+                ']:nextMPTick');
+        }
+    }
+    var _resolve;
+    if (!vm.__next_tick_callbacks) {
+        vm.__next_tick_callbacks = [];
+    }
+    vm.__next_tick_callbacks.push(function () {
+        if (cb) {
+            try {
+                cb.call(vm);
+            } catch (e) {
+                handleError(e, vm, 'nextTick');
+            }
+        } else if (_resolve) {
+            _resolve(vm);
+        }
+    });
+    // $flow-disable-line
+    if (!cb && typeof Promise !== 'undefined') {
+        return new Promise(function (resolve) {
+            _resolve = resolve;
+        })
+    }
+}
+
+/*  */
+
 function cloneWithData(vm) {
     // 确保当前 vm 所有数据被同步
     var dataKeys = [].concat(
@@ -6215,11 +6563,19 @@ function cloneWithData(vm) {
     }, Object.create(null));
     //TODO 需要把无用数据处理掉，比如 list=>l0 则 list 需要移除，否则多传输一份数据
     Object.assign(ret, vm.$mp.data || {});
-    //remove observer
+    if (
+        Array.isArray(vm.$options.behaviors) &&
+        vm.$options.behaviors.indexOf('uni://form-field') !== -1
+    ) { //form-field
+        ret['name'] = vm.name;
+        ret['value'] = vm.value;
+    }
     return JSON.parse(JSON.stringify(ret))
 }
 
 var patch = function(oldVnode, vnode) {
+    var this$1 = this;
+
     if (vnode === null) { //destroy
         return
     }
@@ -6238,9 +6594,13 @@ var patch = function(oldVnode, vnode) {
                     ']差量更新',
                     JSON.stringify(diffData));
             }
-            mpInstance.setData(diffData,function(){
-                //TODO
+            this.__next_tick_pending = true;
+            mpInstance.setData(diffData, function () {
+                this$1.__next_tick_pending = false;
+                flushCallbacks$1(this$1);
             });
+        } else {
+            flushCallbacks$1(this);
         }
     }
 };
@@ -6383,21 +6743,18 @@ function normalizeStyleBinding (bindingStyle) {
 
 /*  */
 
-
 var MP_METHODS = ['createSelectorQuery', 'createIntersectionObserver', 'selectAllComponents', 'selectComponent'];
-
-var customizeRE = /:/g;
-
-var customize = cached(function (str) {
-    return camelize(str.replace(customizeRE, '-'))
-});
 
 function getTarget(obj, path) {
     var parts = path.split('.');
-    if (parts.length === 1) {
-        return obj[parts[0]]
+    var key = parts[0];
+    if (key.indexOf('__$n') === 0) { //number index
+        key = parseInt(key.replace('__$n', ''));
     }
-    return getTarget(obj[parts[0]], parts.slice(1).join('.'))
+    if (parts.length === 1) {
+        return obj[key]
+    }
+    return getTarget(obj[key], parts.slice(1).join('.'))
 }
 
 function internalMixin(Vue) {
@@ -6406,10 +6763,15 @@ function internalMixin(Vue) {
 
     Vue.prototype.$emit = function(event) {
         if (this.$mp && event) {
-            //click-left,click:left => clickLeft
-            this.$mp[this.mpType]['triggerEvent'](customize(event), toArray(arguments, 1));
+            this.$mp[this.mpType]['triggerEvent'](event, {
+                __args__: toArray(arguments, 1)
+            });
         }
         return oldEmit.apply(this, arguments)
+    };
+    
+    Vue.prototype.$nextTick = function (fn) {
+      return nextTick$1(this, fn)
     };
 
     MP_METHODS.forEach(function (method) {
@@ -6443,30 +6805,20 @@ function internalMixin(Vue) {
         return ret
     };
 
-    Vue.prototype.__set_model = function(target, value, modifiers) {
+    Vue.prototype.__set_model = function(target, key, value, modifiers) {
         if (Array.isArray(modifiers)) {
-            if (modifiers.includes('trim')) {
+            if (modifiers.indexOf('trim') !== -1) {
                 value = value.trim();
             }
-            if (modifiers.includes('number')) {
+            if (modifiers.indexOf('number') !== -1) {
                 value = this._n(value);
             }
         }
-        if (target.indexOf('.') === -1) {
-            this[target] = value;
-        } else {
-            var paths = target.split('.');
-            var key = paths.pop();
-            this.$set(getTarget(this, paths.join('.')), key, value);
-        }
+        target[key] = value;
     };
 
     Vue.prototype.__set_sync = function(target, key, value) {
-        if (!target) {
-            this[key] = value;
-        } else {
-            this.$set(getTarget(this, target), key, value);
-        }
+        target[key] = value;
     };
 
     Vue.prototype.__get_orig = function(item) {
@@ -6474,6 +6826,10 @@ function internalMixin(Vue) {
             return item['$orig'] || item
         }
         return item
+    };
+
+    Vue.prototype.__get_value = function(dataPath, target) {
+        return getTarget(target || this, dataPath)
     };
 
 
@@ -6500,6 +6856,7 @@ var LIFECYCLE_HOOKS$1 = [
     'onShow',
     'onHide',
     'onUniNViewMessage',
+    'onError',
     //Page
     'onLoad',
     // 'onShow',
@@ -6532,14 +6889,14 @@ function lifecycleMixin$1(Vue) {
         var methods = extendOptions.methods;
         if (methods) {
             Object.keys(methods).forEach(function (methodName) {
-                if (LIFECYCLE_HOOKS$1.includes(methodName)) {
+                if (LIFECYCLE_HOOKS$1.indexOf(methodName)!==-1) {
                     extendOptions[methodName] = methods[methodName];
                     delete methods[methodName];
                 }
             });
         }
-        
-        return oldExtend.call(this,extendOptions)
+
+        return oldExtend.call(this, extendOptions)
     };
 
     var strategies = Vue.config.optionMergeStrategies;
@@ -6547,6 +6904,8 @@ function lifecycleMixin$1(Vue) {
     LIFECYCLE_HOOKS$1.forEach(function (hook) {
         strategies[hook] = mergeHook;
     });
+
+    Vue.prototype.__lifecycle_hooks__ = LIFECYCLE_HOOKS$1;
 }
 
 /*  */
@@ -6570,6 +6929,283 @@ internalMixin(Vue);
 /* harmony default export */ __webpack_exports__["default"] = (Vue);
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/node-libs-browser/mock/process.js":
+/*!********************************************************!*\
+  !*** ./node_modules/node-libs-browser/mock/process.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports.nextTick = function nextTick(fn) {
+	setTimeout(fn, 0);
+};
+
+exports.platform = exports.arch = 
+exports.execPath = exports.title = 'browser';
+exports.pid = 1;
+exports.browser = true;
+exports.env = {};
+exports.argv = [];
+
+exports.binding = function (name) {
+	throw new Error('No such module. (Possibly not yet loaded)')
+};
+
+(function () {
+    var cwd = '/';
+    var path;
+    exports.cwd = function () { return cwd };
+    exports.chdir = function (dir) {
+        if (!path) path = __webpack_require__(/*! path */ "./node_modules/path-browserify/index.js");
+        cwd = path.resolve(dir, cwd);
+    };
+})();
+
+exports.exit = exports.kill = 
+exports.umask = exports.dlopen = 
+exports.uptime = exports.memoryUsage = 
+exports.uvCounters = function() {};
+exports.features = {};
+
+
+/***/ }),
+
+/***/ "./node_modules/path-browserify/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/path-browserify/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// resolves . and .. elements in a path array with directory names there
+// must be no slashes, empty elements, or device names (c:\) in the array
+// (so also no leading and trailing slashes - it does not distinguish
+// relative and absolute paths)
+function normalizeArray(parts, allowAboveRoot) {
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = parts.length - 1; i >= 0; i--) {
+    var last = parts[i];
+    if (last === '.') {
+      parts.splice(i, 1);
+    } else if (last === '..') {
+      parts.splice(i, 1);
+      up++;
+    } else if (up) {
+      parts.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (allowAboveRoot) {
+    for (; up--; up) {
+      parts.unshift('..');
+    }
+  }
+
+  return parts;
+}
+
+// Split a filename into [root, dir, basename, ext], unix version
+// 'root' is just a slash, or nothing.
+var splitPathRe =
+    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+var splitPath = function(filename) {
+  return splitPathRe.exec(filename).slice(1);
+};
+
+// path.resolve([from ...], to)
+// posix version
+exports.resolve = function() {
+  var resolvedPath = '',
+      resolvedAbsolute = false;
+
+  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+    var path = (i >= 0) ? arguments[i] : process.cwd();
+
+    // Skip empty and invalid entries
+    if (typeof path !== 'string') {
+      throw new TypeError('Arguments to path.resolve must be strings');
+    } else if (!path) {
+      continue;
+    }
+
+    resolvedPath = path + '/' + resolvedPath;
+    resolvedAbsolute = path.charAt(0) === '/';
+  }
+
+  // At this point the path should be resolved to a full absolute path, but
+  // handle relative paths to be safe (might happen when process.cwd() fails)
+
+  // Normalize the path
+  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+    return !!p;
+  }), !resolvedAbsolute).join('/');
+
+  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+};
+
+// path.normalize(path)
+// posix version
+exports.normalize = function(path) {
+  var isAbsolute = exports.isAbsolute(path),
+      trailingSlash = substr(path, -1) === '/';
+
+  // Normalize the path
+  path = normalizeArray(filter(path.split('/'), function(p) {
+    return !!p;
+  }), !isAbsolute).join('/');
+
+  if (!path && !isAbsolute) {
+    path = '.';
+  }
+  if (path && trailingSlash) {
+    path += '/';
+  }
+
+  return (isAbsolute ? '/' : '') + path;
+};
+
+// posix version
+exports.isAbsolute = function(path) {
+  return path.charAt(0) === '/';
+};
+
+// posix version
+exports.join = function() {
+  var paths = Array.prototype.slice.call(arguments, 0);
+  return exports.normalize(filter(paths, function(p, index) {
+    if (typeof p !== 'string') {
+      throw new TypeError('Arguments to path.join must be strings');
+    }
+    return p;
+  }).join('/'));
+};
+
+
+// path.relative(from, to)
+// posix version
+exports.relative = function(from, to) {
+  from = exports.resolve(from).substr(1);
+  to = exports.resolve(to).substr(1);
+
+  function trim(arr) {
+    var start = 0;
+    for (; start < arr.length; start++) {
+      if (arr[start] !== '') break;
+    }
+
+    var end = arr.length - 1;
+    for (; end >= 0; end--) {
+      if (arr[end] !== '') break;
+    }
+
+    if (start > end) return [];
+    return arr.slice(start, end - start + 1);
+  }
+
+  var fromParts = trim(from.split('/'));
+  var toParts = trim(to.split('/'));
+
+  var length = Math.min(fromParts.length, toParts.length);
+  var samePartsLength = length;
+  for (var i = 0; i < length; i++) {
+    if (fromParts[i] !== toParts[i]) {
+      samePartsLength = i;
+      break;
+    }
+  }
+
+  var outputParts = [];
+  for (var i = samePartsLength; i < fromParts.length; i++) {
+    outputParts.push('..');
+  }
+
+  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+  return outputParts.join('/');
+};
+
+exports.sep = '/';
+exports.delimiter = ':';
+
+exports.dirname = function(path) {
+  var result = splitPath(path),
+      root = result[0],
+      dir = result[1];
+
+  if (!root && !dir) {
+    // No dirname whatsoever
+    return '.';
+  }
+
+  if (dir) {
+    // It has a dirname, strip trailing slash
+    dir = dir.substr(0, dir.length - 1);
+  }
+
+  return root + dir;
+};
+
+
+exports.basename = function(path, ext) {
+  var f = splitPath(path)[2];
+  // TODO: make this comparison case-insensitive on windows?
+  if (ext && f.substr(-1 * ext.length) === ext) {
+    f = f.substr(0, f.length - ext.length);
+  }
+  return f;
+};
+
+
+exports.extname = function(path) {
+  return splitPath(path)[3];
+};
+
+function filter (xs, f) {
+    if (xs.filter) return xs.filter(f);
+    var res = [];
+    for (var i = 0; i < xs.length; i++) {
+        if (f(xs[i], i, xs)) res.push(xs[i]);
+    }
+    return res;
+}
+
+// String.prototype.substr - negative index don't work in IE8
+var substr = 'ab'.substr(-1) === 'b'
+    ? function (str, start, len) { return str.substr(start, len) }
+    : function (str, start, len) {
+        if (start < 0) start = str.length + start;
+        return str.substr(start, len);
+    }
+;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../node-libs-browser/mock/process.js */ "./node_modules/node-libs-browser/mock/process.js")))
 
 /***/ }),
 
@@ -7631,6 +8267,20 @@ var index_esm = {
 
 /***/ }),
 
+/***/ "./node_modules/webpack/buildin/amd-options.js":
+/*!****************************************!*\
+  !*** (webpack)/buildin/amd-options.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
+
+/* WEBPACK VAR INJECTION */}.call(this, {}))
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -7662,6 +8312,704 @@ module.exports = g;
 
 /***/ }),
 
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\common\\md5.js":
+/*!**************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/common/md5.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process, global) {var __WEBPACK_AMD_DEFINE_RESULT__; /**
+               * [js-md5]{@link https://github.com/emn178/js-md5}
+               *
+               * @namespace md5
+               * @version 0.7.3
+               * @author Chen, Yi-Cyuan [emn178@gmail.com]
+               * @copyright Chen, Yi-Cyuan 2014-2017
+               * @license MIT
+               */
+(function () {
+  'use strict';
+
+  var ERROR = 'input is invalid type';
+  var WINDOW = typeof window === 'object';
+  var root = WINDOW ? window : {};
+  if (root.JS_MD5_NO_WINDOW) {
+    WINDOW = false;
+  }
+  var WEB_WORKER = !WINDOW && typeof self === 'object';
+  var NODE_JS = !root.JS_MD5_NO_NODE_JS && typeof process === 'object' && process.versions && process.versions.node;
+  if (NODE_JS) {
+    root = global;
+  } else if (WEB_WORKER) {
+    root = self;
+  }
+  var COMMON_JS = !root.JS_MD5_NO_COMMON_JS && typeof module === 'object' && module.exports;
+  var AMD =  true && __webpack_require__(/*! !webpack amd options */ "./node_modules/webpack/buildin/amd-options.js");
+  var ARRAY_BUFFER = !root.JS_MD5_NO_ARRAY_BUFFER && typeof ArrayBuffer !== 'undefined';
+  var HEX_CHARS = '0123456789abcdef'.split('');
+  var EXTRA = [128, 32768, 8388608, -2147483648];
+  var SHIFT = [0, 8, 16, 24];
+  var OUTPUT_TYPES = ['hex', 'array', 'digest', 'buffer', 'arrayBuffer', 'base64'];
+  var BASE64_ENCODE_CHAR = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'.split('');
+
+  var blocks = [],buffer8;
+  if (ARRAY_BUFFER) {
+    var buffer = new ArrayBuffer(68);
+    buffer8 = new Uint8Array(buffer);
+    blocks = new Uint32Array(buffer);
+  }
+
+  if (root.JS_MD5_NO_NODE_JS || !Array.isArray) {
+    Array.isArray = function (obj) {
+      return Object.prototype.toString.call(obj) === '[object Array]';
+    };
+  }
+
+  if (ARRAY_BUFFER && (root.JS_MD5_NO_ARRAY_BUFFER_IS_VIEW || !ArrayBuffer.isView)) {
+    ArrayBuffer.isView = function (obj) {
+      return typeof obj === 'object' && obj.buffer && obj.buffer.constructor === ArrayBuffer;
+    };
+  }
+
+  /**
+     * @method hex
+     * @memberof md5
+     * @description Output hash as hex string
+     * @param {String|Array|Uint8Array|ArrayBuffer} message message to hash
+     * @returns {String} Hex string
+     * @example
+     * md5.hex('The quick brown fox jumps over the lazy dog');
+     * // equal to
+     * md5('The quick brown fox jumps over the lazy dog');
+     */
+  /**
+         * @method digest
+         * @memberof md5
+         * @description Output hash as bytes array
+         * @param {String|Array|Uint8Array|ArrayBuffer} message message to hash
+         * @returns {Array} Bytes array
+         * @example
+         * md5.digest('The quick brown fox jumps over the lazy dog');
+         */
+  /**
+             * @method array
+             * @memberof md5
+             * @description Output hash as bytes array
+             * @param {String|Array|Uint8Array|ArrayBuffer} message message to hash
+             * @returns {Array} Bytes array
+             * @example
+             * md5.array('The quick brown fox jumps over the lazy dog');
+             */
+  /**
+                 * @method arrayBuffer
+                 * @memberof md5
+                 * @description Output hash as ArrayBuffer
+                 * @param {String|Array|Uint8Array|ArrayBuffer} message message to hash
+                 * @returns {ArrayBuffer} ArrayBuffer
+                 * @example
+                 * md5.arrayBuffer('The quick brown fox jumps over the lazy dog');
+                 */
+  /**
+                     * @method buffer
+                     * @deprecated This maybe confuse with Buffer in node.js. Please use arrayBuffer instead.
+                     * @memberof md5
+                     * @description Output hash as ArrayBuffer
+                     * @param {String|Array|Uint8Array|ArrayBuffer} message message to hash
+                     * @returns {ArrayBuffer} ArrayBuffer
+                     * @example
+                     * md5.buffer('The quick brown fox jumps over the lazy dog');
+                     */
+  /**
+                         * @method base64
+                         * @memberof md5
+                         * @description Output hash as base64 string
+                         * @param {String|Array|Uint8Array|ArrayBuffer} message message to hash
+                         * @returns {String} base64 string
+                         * @example
+                         * md5.base64('The quick brown fox jumps over the lazy dog');
+                         */
+  var createOutputMethod = function createOutputMethod(outputType) {
+    return function (message) {
+      return new Md5(true).update(message)[outputType]();
+    };
+  };
+
+  /**
+      * @method create
+      * @memberof md5
+      * @description Create Md5 object
+      * @returns {Md5} Md5 object.
+      * @example
+      * var hash = md5.create();
+      */
+  /**
+          * @method update
+          * @memberof md5
+          * @description Create and update Md5 object
+          * @param {String|Array|Uint8Array|ArrayBuffer} message message to hash
+          * @returns {Md5} Md5 object.
+          * @example
+          * var hash = md5.update('The quick brown fox jumps over the lazy dog');
+          * // equal to
+          * var hash = md5.create();
+          * hash.update('The quick brown fox jumps over the lazy dog');
+          */
+  var createMethod = function createMethod() {
+    var method = createOutputMethod('hex');
+    if (NODE_JS) {
+      method = nodeWrap(method);
+    }
+    method.create = function () {
+      return new Md5();
+    };
+    method.update = function (message) {
+      return method.create().update(message);
+    };
+    for (var i = 0; i < OUTPUT_TYPES.length; ++i) {
+      var type = OUTPUT_TYPES[i];
+      method[type] = createOutputMethod(type);
+    }
+    return method;
+  };
+
+  var nodeWrap = function nodeWrap(method) {
+    var crypto = eval("require('crypto')");
+    var Buffer = eval("require('buffer').Buffer");
+    var nodeMethod = function nodeMethod(message) {
+      if (typeof message === 'string') {
+        return crypto.createHash('md5').update(message, 'utf8').digest('hex');
+      } else {
+        if (message === null || message === undefined) {
+          throw ERROR;
+        } else if (message.constructor === ArrayBuffer) {
+          message = new Uint8Array(message);
+        }
+      }
+      if (Array.isArray(message) || ArrayBuffer.isView(message) ||
+      message.constructor === Buffer) {
+        return crypto.createHash('md5').update(new Buffer(message)).digest('hex');
+      } else {
+        return method(message);
+      }
+    };
+    return nodeMethod;
+  };
+
+
+
+  /**
+      * Md5 class
+      * @class Md5
+      * @description This is internal class.
+      * @see {@link md5.create}
+      */
+  function Md5(sharedMemory) {
+    if (sharedMemory) {
+      blocks[0] = blocks[16] = blocks[1] = blocks[2] = blocks[3] =
+      blocks[4] = blocks[5] = blocks[6] = blocks[7] =
+      blocks[8] = blocks[9] = blocks[10] = blocks[11] =
+      blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+      this.blocks = blocks;
+      this.buffer8 = buffer8;
+    } else {
+      if (ARRAY_BUFFER) {
+        var buffer = new ArrayBuffer(68);
+        this.buffer8 = new Uint8Array(buffer);
+        this.blocks = new Uint32Array(buffer);
+      } else {
+        this.blocks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      }
+    }
+    this.h0 = this.h1 = this.h2 = this.h3 = this.start = this.bytes = this.hBytes = 0;
+    this.finalized = this.hashed = false;
+    this.first = true;
+  }
+
+  /**
+     * @method update
+     * @memberof Md5
+     * @instance
+     * @description Update hash
+     * @param {String|Array|Uint8Array|ArrayBuffer} message message to hash
+     * @returns {Md5} Md5 object.
+     * @see {@link md5.update}
+     */
+  Md5.prototype.update = function (message) {
+    if (this.finalized) {
+      return;
+    }
+
+    var notString,type = typeof message;
+    if (type !== 'string') {
+      if (type === 'object') {
+        if (message === null) {
+          throw ERROR;
+        } else if (ARRAY_BUFFER && message.constructor === ArrayBuffer) {
+          message = new Uint8Array(message);
+        } else if (!Array.isArray(message)) {
+          if (!ARRAY_BUFFER || !ArrayBuffer.isView(message)) {
+            throw ERROR;
+          }
+        }
+      } else {
+        throw ERROR;
+      }
+      notString = true;
+    }
+    var code,index = 0,i,length = message.length,blocks = this.blocks;
+    var buffer8 = this.buffer8;
+
+    while (index < length) {
+      if (this.hashed) {
+        this.hashed = false;
+        blocks[0] = blocks[16];
+        blocks[16] = blocks[1] = blocks[2] = blocks[3] =
+        blocks[4] = blocks[5] = blocks[6] = blocks[7] =
+        blocks[8] = blocks[9] = blocks[10] = blocks[11] =
+        blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+      }
+
+      if (notString) {
+        if (ARRAY_BUFFER) {
+          for (i = this.start; index < length && i < 64; ++index) {
+            buffer8[i++] = message[index];
+          }
+        } else {
+          for (i = this.start; index < length && i < 64; ++index) {
+            blocks[i >> 2] |= message[index] << SHIFT[i++ & 3];
+          }
+        }
+      } else {
+        if (ARRAY_BUFFER) {
+          for (i = this.start; index < length && i < 64; ++index) {
+            code = message.charCodeAt(index);
+            if (code < 0x80) {
+              buffer8[i++] = code;
+            } else if (code < 0x800) {
+              buffer8[i++] = 0xc0 | code >> 6;
+              buffer8[i++] = 0x80 | code & 0x3f;
+            } else if (code < 0xd800 || code >= 0xe000) {
+              buffer8[i++] = 0xe0 | code >> 12;
+              buffer8[i++] = 0x80 | code >> 6 & 0x3f;
+              buffer8[i++] = 0x80 | code & 0x3f;
+            } else {
+              code = 0x10000 + ((code & 0x3ff) << 10 | message.charCodeAt(++index) & 0x3ff);
+              buffer8[i++] = 0xf0 | code >> 18;
+              buffer8[i++] = 0x80 | code >> 12 & 0x3f;
+              buffer8[i++] = 0x80 | code >> 6 & 0x3f;
+              buffer8[i++] = 0x80 | code & 0x3f;
+            }
+          }
+        } else {
+          for (i = this.start; index < length && i < 64; ++index) {
+            code = message.charCodeAt(index);
+            if (code < 0x80) {
+              blocks[i >> 2] |= code << SHIFT[i++ & 3];
+            } else if (code < 0x800) {
+              blocks[i >> 2] |= (0xc0 | code >> 6) << SHIFT[i++ & 3];
+              blocks[i >> 2] |= (0x80 | code & 0x3f) << SHIFT[i++ & 3];
+            } else if (code < 0xd800 || code >= 0xe000) {
+              blocks[i >> 2] |= (0xe0 | code >> 12) << SHIFT[i++ & 3];
+              blocks[i >> 2] |= (0x80 | code >> 6 & 0x3f) << SHIFT[i++ & 3];
+              blocks[i >> 2] |= (0x80 | code & 0x3f) << SHIFT[i++ & 3];
+            } else {
+              code = 0x10000 + ((code & 0x3ff) << 10 | message.charCodeAt(++index) & 0x3ff);
+              blocks[i >> 2] |= (0xf0 | code >> 18) << SHIFT[i++ & 3];
+              blocks[i >> 2] |= (0x80 | code >> 12 & 0x3f) << SHIFT[i++ & 3];
+              blocks[i >> 2] |= (0x80 | code >> 6 & 0x3f) << SHIFT[i++ & 3];
+              blocks[i >> 2] |= (0x80 | code & 0x3f) << SHIFT[i++ & 3];
+            }
+          }
+        }
+      }
+      this.lastByteIndex = i;
+      this.bytes += i - this.start;
+      if (i >= 64) {
+        this.start = i - 64;
+        this.hash();
+        this.hashed = true;
+      } else {
+        this.start = i;
+      }
+    }
+    if (this.bytes > 4294967295) {
+      this.hBytes += this.bytes / 4294967296 << 0;
+      this.bytes = this.bytes % 4294967296;
+    }
+    return this;
+  };
+
+  Md5.prototype.finalize = function () {
+    if (this.finalized) {
+      return;
+    }
+    this.finalized = true;
+    var blocks = this.blocks,i = this.lastByteIndex;
+    blocks[i >> 2] |= EXTRA[i & 3];
+    if (i >= 56) {
+      if (!this.hashed) {
+        this.hash();
+      }
+      blocks[0] = blocks[16];
+      blocks[16] = blocks[1] = blocks[2] = blocks[3] =
+      blocks[4] = blocks[5] = blocks[6] = blocks[7] =
+      blocks[8] = blocks[9] = blocks[10] = blocks[11] =
+      blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+    }
+    blocks[14] = this.bytes << 3;
+    blocks[15] = this.hBytes << 3 | this.bytes >>> 29;
+    this.hash();
+  };
+
+  Md5.prototype.hash = function () {
+    var a,b,c,d,bc,da,blocks = this.blocks;
+
+    if (this.first) {
+      a = blocks[0] - 680876937;
+      a = (a << 7 | a >>> 25) - 271733879 << 0;
+      d = (-1732584194 ^ a & 2004318071) + blocks[1] - 117830708;
+      d = (d << 12 | d >>> 20) + a << 0;
+      c = (-271733879 ^ d & (a ^ -271733879)) + blocks[2] - 1126478375;
+      c = (c << 17 | c >>> 15) + d << 0;
+      b = (a ^ c & (d ^ a)) + blocks[3] - 1316259209;
+      b = (b << 22 | b >>> 10) + c << 0;
+    } else {
+      a = this.h0;
+      b = this.h1;
+      c = this.h2;
+      d = this.h3;
+      a += (d ^ b & (c ^ d)) + blocks[0] - 680876936;
+      a = (a << 7 | a >>> 25) + b << 0;
+      d += (c ^ a & (b ^ c)) + blocks[1] - 389564586;
+      d = (d << 12 | d >>> 20) + a << 0;
+      c += (b ^ d & (a ^ b)) + blocks[2] + 606105819;
+      c = (c << 17 | c >>> 15) + d << 0;
+      b += (a ^ c & (d ^ a)) + blocks[3] - 1044525330;
+      b = (b << 22 | b >>> 10) + c << 0;
+    }
+
+    a += (d ^ b & (c ^ d)) + blocks[4] - 176418897;
+    a = (a << 7 | a >>> 25) + b << 0;
+    d += (c ^ a & (b ^ c)) + blocks[5] + 1200080426;
+    d = (d << 12 | d >>> 20) + a << 0;
+    c += (b ^ d & (a ^ b)) + blocks[6] - 1473231341;
+    c = (c << 17 | c >>> 15) + d << 0;
+    b += (a ^ c & (d ^ a)) + blocks[7] - 45705983;
+    b = (b << 22 | b >>> 10) + c << 0;
+    a += (d ^ b & (c ^ d)) + blocks[8] + 1770035416;
+    a = (a << 7 | a >>> 25) + b << 0;
+    d += (c ^ a & (b ^ c)) + blocks[9] - 1958414417;
+    d = (d << 12 | d >>> 20) + a << 0;
+    c += (b ^ d & (a ^ b)) + blocks[10] - 42063;
+    c = (c << 17 | c >>> 15) + d << 0;
+    b += (a ^ c & (d ^ a)) + blocks[11] - 1990404162;
+    b = (b << 22 | b >>> 10) + c << 0;
+    a += (d ^ b & (c ^ d)) + blocks[12] + 1804603682;
+    a = (a << 7 | a >>> 25) + b << 0;
+    d += (c ^ a & (b ^ c)) + blocks[13] - 40341101;
+    d = (d << 12 | d >>> 20) + a << 0;
+    c += (b ^ d & (a ^ b)) + blocks[14] - 1502002290;
+    c = (c << 17 | c >>> 15) + d << 0;
+    b += (a ^ c & (d ^ a)) + blocks[15] + 1236535329;
+    b = (b << 22 | b >>> 10) + c << 0;
+    a += (c ^ d & (b ^ c)) + blocks[1] - 165796510;
+    a = (a << 5 | a >>> 27) + b << 0;
+    d += (b ^ c & (a ^ b)) + blocks[6] - 1069501632;
+    d = (d << 9 | d >>> 23) + a << 0;
+    c += (a ^ b & (d ^ a)) + blocks[11] + 643717713;
+    c = (c << 14 | c >>> 18) + d << 0;
+    b += (d ^ a & (c ^ d)) + blocks[0] - 373897302;
+    b = (b << 20 | b >>> 12) + c << 0;
+    a += (c ^ d & (b ^ c)) + blocks[5] - 701558691;
+    a = (a << 5 | a >>> 27) + b << 0;
+    d += (b ^ c & (a ^ b)) + blocks[10] + 38016083;
+    d = (d << 9 | d >>> 23) + a << 0;
+    c += (a ^ b & (d ^ a)) + blocks[15] - 660478335;
+    c = (c << 14 | c >>> 18) + d << 0;
+    b += (d ^ a & (c ^ d)) + blocks[4] - 405537848;
+    b = (b << 20 | b >>> 12) + c << 0;
+    a += (c ^ d & (b ^ c)) + blocks[9] + 568446438;
+    a = (a << 5 | a >>> 27) + b << 0;
+    d += (b ^ c & (a ^ b)) + blocks[14] - 1019803690;
+    d = (d << 9 | d >>> 23) + a << 0;
+    c += (a ^ b & (d ^ a)) + blocks[3] - 187363961;
+    c = (c << 14 | c >>> 18) + d << 0;
+    b += (d ^ a & (c ^ d)) + blocks[8] + 1163531501;
+    b = (b << 20 | b >>> 12) + c << 0;
+    a += (c ^ d & (b ^ c)) + blocks[13] - 1444681467;
+    a = (a << 5 | a >>> 27) + b << 0;
+    d += (b ^ c & (a ^ b)) + blocks[2] - 51403784;
+    d = (d << 9 | d >>> 23) + a << 0;
+    c += (a ^ b & (d ^ a)) + blocks[7] + 1735328473;
+    c = (c << 14 | c >>> 18) + d << 0;
+    b += (d ^ a & (c ^ d)) + blocks[12] - 1926607734;
+    b = (b << 20 | b >>> 12) + c << 0;
+    bc = b ^ c;
+    a += (bc ^ d) + blocks[5] - 378558;
+    a = (a << 4 | a >>> 28) + b << 0;
+    d += (bc ^ a) + blocks[8] - 2022574463;
+    d = (d << 11 | d >>> 21) + a << 0;
+    da = d ^ a;
+    c += (da ^ b) + blocks[11] + 1839030562;
+    c = (c << 16 | c >>> 16) + d << 0;
+    b += (da ^ c) + blocks[14] - 35309556;
+    b = (b << 23 | b >>> 9) + c << 0;
+    bc = b ^ c;
+    a += (bc ^ d) + blocks[1] - 1530992060;
+    a = (a << 4 | a >>> 28) + b << 0;
+    d += (bc ^ a) + blocks[4] + 1272893353;
+    d = (d << 11 | d >>> 21) + a << 0;
+    da = d ^ a;
+    c += (da ^ b) + blocks[7] - 155497632;
+    c = (c << 16 | c >>> 16) + d << 0;
+    b += (da ^ c) + blocks[10] - 1094730640;
+    b = (b << 23 | b >>> 9) + c << 0;
+    bc = b ^ c;
+    a += (bc ^ d) + blocks[13] + 681279174;
+    a = (a << 4 | a >>> 28) + b << 0;
+    d += (bc ^ a) + blocks[0] - 358537222;
+    d = (d << 11 | d >>> 21) + a << 0;
+    da = d ^ a;
+    c += (da ^ b) + blocks[3] - 722521979;
+    c = (c << 16 | c >>> 16) + d << 0;
+    b += (da ^ c) + blocks[6] + 76029189;
+    b = (b << 23 | b >>> 9) + c << 0;
+    bc = b ^ c;
+    a += (bc ^ d) + blocks[9] - 640364487;
+    a = (a << 4 | a >>> 28) + b << 0;
+    d += (bc ^ a) + blocks[12] - 421815835;
+    d = (d << 11 | d >>> 21) + a << 0;
+    da = d ^ a;
+    c += (da ^ b) + blocks[15] + 530742520;
+    c = (c << 16 | c >>> 16) + d << 0;
+    b += (da ^ c) + blocks[2] - 995338651;
+    b = (b << 23 | b >>> 9) + c << 0;
+    a += (c ^ (b | ~d)) + blocks[0] - 198630844;
+    a = (a << 6 | a >>> 26) + b << 0;
+    d += (b ^ (a | ~c)) + blocks[7] + 1126891415;
+    d = (d << 10 | d >>> 22) + a << 0;
+    c += (a ^ (d | ~b)) + blocks[14] - 1416354905;
+    c = (c << 15 | c >>> 17) + d << 0;
+    b += (d ^ (c | ~a)) + blocks[5] - 57434055;
+    b = (b << 21 | b >>> 11) + c << 0;
+    a += (c ^ (b | ~d)) + blocks[12] + 1700485571;
+    a = (a << 6 | a >>> 26) + b << 0;
+    d += (b ^ (a | ~c)) + blocks[3] - 1894986606;
+    d = (d << 10 | d >>> 22) + a << 0;
+    c += (a ^ (d | ~b)) + blocks[10] - 1051523;
+    c = (c << 15 | c >>> 17) + d << 0;
+    b += (d ^ (c | ~a)) + blocks[1] - 2054922799;
+    b = (b << 21 | b >>> 11) + c << 0;
+    a += (c ^ (b | ~d)) + blocks[8] + 1873313359;
+    a = (a << 6 | a >>> 26) + b << 0;
+    d += (b ^ (a | ~c)) + blocks[15] - 30611744;
+    d = (d << 10 | d >>> 22) + a << 0;
+    c += (a ^ (d | ~b)) + blocks[6] - 1560198380;
+    c = (c << 15 | c >>> 17) + d << 0;
+    b += (d ^ (c | ~a)) + blocks[13] + 1309151649;
+    b = (b << 21 | b >>> 11) + c << 0;
+    a += (c ^ (b | ~d)) + blocks[4] - 145523070;
+    a = (a << 6 | a >>> 26) + b << 0;
+    d += (b ^ (a | ~c)) + blocks[11] - 1120210379;
+    d = (d << 10 | d >>> 22) + a << 0;
+    c += (a ^ (d | ~b)) + blocks[2] + 718787259;
+    c = (c << 15 | c >>> 17) + d << 0;
+    b += (d ^ (c | ~a)) + blocks[9] - 343485551;
+    b = (b << 21 | b >>> 11) + c << 0;
+
+    if (this.first) {
+      this.h0 = a + 1732584193 << 0;
+      this.h1 = b - 271733879 << 0;
+      this.h2 = c - 1732584194 << 0;
+      this.h3 = d + 271733878 << 0;
+      this.first = false;
+    } else {
+      this.h0 = this.h0 + a << 0;
+      this.h1 = this.h1 + b << 0;
+      this.h2 = this.h2 + c << 0;
+      this.h3 = this.h3 + d << 0;
+    }
+  };
+
+  /**
+      * @method hex
+      * @memberof Md5
+      * @instance
+      * @description Output hash as hex string
+      * @returns {String} Hex string
+      * @see {@link md5.hex}
+      * @example
+      * hash.hex();
+      */
+  Md5.prototype.hex = function () {
+    this.finalize();
+
+    var h0 = this.h0,h1 = this.h1,h2 = this.h2,h3 = this.h3;
+
+    return HEX_CHARS[h0 >> 4 & 0x0F] + HEX_CHARS[h0 & 0x0F] +
+    HEX_CHARS[h0 >> 12 & 0x0F] + HEX_CHARS[h0 >> 8 & 0x0F] +
+    HEX_CHARS[h0 >> 20 & 0x0F] + HEX_CHARS[h0 >> 16 & 0x0F] +
+    HEX_CHARS[h0 >> 28 & 0x0F] + HEX_CHARS[h0 >> 24 & 0x0F] +
+    HEX_CHARS[h1 >> 4 & 0x0F] + HEX_CHARS[h1 & 0x0F] +
+    HEX_CHARS[h1 >> 12 & 0x0F] + HEX_CHARS[h1 >> 8 & 0x0F] +
+    HEX_CHARS[h1 >> 20 & 0x0F] + HEX_CHARS[h1 >> 16 & 0x0F] +
+    HEX_CHARS[h1 >> 28 & 0x0F] + HEX_CHARS[h1 >> 24 & 0x0F] +
+    HEX_CHARS[h2 >> 4 & 0x0F] + HEX_CHARS[h2 & 0x0F] +
+    HEX_CHARS[h2 >> 12 & 0x0F] + HEX_CHARS[h2 >> 8 & 0x0F] +
+    HEX_CHARS[h2 >> 20 & 0x0F] + HEX_CHARS[h2 >> 16 & 0x0F] +
+    HEX_CHARS[h2 >> 28 & 0x0F] + HEX_CHARS[h2 >> 24 & 0x0F] +
+    HEX_CHARS[h3 >> 4 & 0x0F] + HEX_CHARS[h3 & 0x0F] +
+    HEX_CHARS[h3 >> 12 & 0x0F] + HEX_CHARS[h3 >> 8 & 0x0F] +
+    HEX_CHARS[h3 >> 20 & 0x0F] + HEX_CHARS[h3 >> 16 & 0x0F] +
+    HEX_CHARS[h3 >> 28 & 0x0F] + HEX_CHARS[h3 >> 24 & 0x0F];
+  };
+
+  /**
+      * @method toString
+      * @memberof Md5
+      * @instance
+      * @description Output hash as hex string
+      * @returns {String} Hex string
+      * @see {@link md5.hex}
+      * @example
+      * hash.toString();
+      */
+  Md5.prototype.toString = Md5.prototype.hex;
+
+  /**
+                                               * @method digest
+                                               * @memberof Md5
+                                               * @instance
+                                               * @description Output hash as bytes array
+                                               * @returns {Array} Bytes array
+                                               * @see {@link md5.digest}
+                                               * @example
+                                               * hash.digest();
+                                               */
+  Md5.prototype.digest = function () {
+    this.finalize();
+
+    var h0 = this.h0,h1 = this.h1,h2 = this.h2,h3 = this.h3;
+    return [
+    h0 & 0xFF, h0 >> 8 & 0xFF, h0 >> 16 & 0xFF, h0 >> 24 & 0xFF,
+    h1 & 0xFF, h1 >> 8 & 0xFF, h1 >> 16 & 0xFF, h1 >> 24 & 0xFF,
+    h2 & 0xFF, h2 >> 8 & 0xFF, h2 >> 16 & 0xFF, h2 >> 24 & 0xFF,
+    h3 & 0xFF, h3 >> 8 & 0xFF, h3 >> 16 & 0xFF, h3 >> 24 & 0xFF];
+
+  };
+
+  /**
+      * @method array
+      * @memberof Md5
+      * @instance
+      * @description Output hash as bytes array
+      * @returns {Array} Bytes array
+      * @see {@link md5.array}
+      * @example
+      * hash.array();
+      */
+  Md5.prototype.array = Md5.prototype.digest;
+
+  /**
+                                               * @method arrayBuffer
+                                               * @memberof Md5
+                                               * @instance
+                                               * @description Output hash as ArrayBuffer
+                                               * @returns {ArrayBuffer} ArrayBuffer
+                                               * @see {@link md5.arrayBuffer}
+                                               * @example
+                                               * hash.arrayBuffer();
+                                               */
+  Md5.prototype.arrayBuffer = function () {
+    this.finalize();
+
+    var buffer = new ArrayBuffer(16);
+    var blocks = new Uint32Array(buffer);
+    blocks[0] = this.h0;
+    blocks[1] = this.h1;
+    blocks[2] = this.h2;
+    blocks[3] = this.h3;
+    return buffer;
+  };
+
+  /**
+      * @method buffer
+      * @deprecated This maybe confuse with Buffer in node.js. Please use arrayBuffer instead.
+      * @memberof Md5
+      * @instance
+      * @description Output hash as ArrayBuffer
+      * @returns {ArrayBuffer} ArrayBuffer
+      * @see {@link md5.buffer}
+      * @example
+      * hash.buffer();
+      */
+  Md5.prototype.buffer = Md5.prototype.arrayBuffer;
+
+  /**
+                                                     * @method base64
+                                                     * @memberof Md5
+                                                     * @instance
+                                                     * @description Output hash as base64 string
+                                                     * @returns {String} base64 string
+                                                     * @see {@link md5.base64}
+                                                     * @example
+                                                     * hash.base64();
+                                                     */
+  Md5.prototype.base64 = function () {
+    var v1,v2,v3,base64Str = '',bytes = this.array();
+    for (var i = 0; i < 15;) {
+      v1 = bytes[i++];
+      v2 = bytes[i++];
+      v3 = bytes[i++];
+      base64Str += BASE64_ENCODE_CHAR[v1 >>> 2] +
+      BASE64_ENCODE_CHAR[(v1 << 4 | v2 >>> 4) & 63] +
+      BASE64_ENCODE_CHAR[(v2 << 2 | v3 >>> 6) & 63] +
+      BASE64_ENCODE_CHAR[v3 & 63];
+    }
+    v1 = bytes[i];
+    base64Str += BASE64_ENCODE_CHAR[v1 >>> 2] +
+    BASE64_ENCODE_CHAR[v1 << 4 & 63] +
+    '==';
+    return base64Str;
+  };
+
+  var exports = createMethod();
+
+  if (COMMON_JS) {
+    module.exports = exports;
+  } else {
+    /**
+           * @method md5
+           * @description Md5 hash function, export to global in browsers.
+           * @param {String|Array|Uint8Array|ArrayBuffer} message message to hash
+           * @returns {String} md5 hashes
+           * @example
+           * md5(''); // d41d8cd98f00b204e9800998ecf8427e
+           * md5('The quick brown fox jumps over the lazy dog'); // 9e107d9d372bb6826bd81d3542a419d6
+           * md5('The quick brown fox jumps over the lazy dog.'); // e4d909c290d0fb1ca068ffaddf22cbd0
+           *
+           * // It also supports UTF-8 encoding
+           * md5('中文'); // a7bac2239fcdcb3a067903d8077c4a07
+           *
+           * // It also supports byte `Array`, `Uint8Array`, `ArrayBuffer`
+           * md5([]); // d41d8cd98f00b204e9800998ecf8427e
+           * md5(new Uint8Array([])); // d41d8cd98f00b204e9800998ecf8427e
+           */
+    root.md5 = exports;
+    if (AMD) {
+      !(__WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+        return exports;
+      }).call(exports, __webpack_require__, exports, module),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    }
+  }
+})();
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/node-libs-browser/mock/process.js */ "./node_modules/node-libs-browser/mock/process.js"), __webpack_require__(/*! (webpack)/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
 /***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js":
 /*!********************************************!*\
   !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js ***!
@@ -7680,7 +9028,12 @@ var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "D:\\上海�
 
 
 var _index = _interopRequireDefault(__webpack_require__(/*! ./stroe/index.js */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\stroe\\index.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+
 _vue.default.prototype.$store = _index.default;
+
+
+
+
 
 
 
@@ -7712,23 +9065,6 @@ createPage(_Home.default);
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2Fasd%2Fasd%2Fasd\"}":
-/*!*******************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2Fasd%2Fasd%2Fasd"} ***!
-  \*******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _asd = _interopRequireDefault(__webpack_require__(/*! ./pages/asd/asd/asd.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\asd\\asd\\asd.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_asd.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
 /***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2Fgood%2Fgood%2Fgood\"}":
 /*!**********************************************************************************!*\
   !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2Fgood%2Fgood%2Fgood"} ***!
@@ -7746,9 +9082,9 @@ createPage(_good.default);
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2Findex%2Findex\"}":
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2Flogin%2Flogin\"}":
 /*!*****************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2Findex%2Findex"} ***!
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2Flogin%2Flogin"} ***!
   \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -7757,8 +9093,25 @@ createPage(_good.default);
 /* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./pages/index/index.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\index\\index.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_index.default);
+var _login = _interopRequireDefault(__webpack_require__(/*! ./pages/login/login.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\login\\login.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_login.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FmyPage%2FmyPage\"}":
+/*!****************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FmyPage%2FmyPage"} ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _myPage = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/myPage/myPage.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\myPage\\myPage.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_myPage.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
