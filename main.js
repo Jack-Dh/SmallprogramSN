@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App'
+import http from './common/http/index.js'
 
 
 /**
@@ -11,7 +12,12 @@ import store from './stroe/index.js'
 Vue.prototype.$store = store;
 
 
-
+http.interceptor.request = (config) => {
+    //添加通用参数
+    config.header = {
+        "token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    }
+}
 
 
 

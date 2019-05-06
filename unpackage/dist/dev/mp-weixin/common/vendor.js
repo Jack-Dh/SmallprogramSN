@@ -8312,6 +8312,111 @@ module.exports = g;
 
 /***/ }),
 
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\common\\http\\index.js":
+/*!*********************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/common/http/index.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  config: {
+    baseUrl: "",
+    headers: {},
+    dataType: "json",
+    responseType: "text" },
+
+  interceptor: {
+    request: null,
+    response: null },
+
+  request: function request(options) {var _this = this;
+    return new Promise(function (resolve, reject) {
+      var _config = null;
+      options.url = _this.config.baseUrl + options.url;
+      options.complete = function (response) {
+        var statusCode = response.statusCode;
+
+        response.config = _config;
+
+        if (true) {
+          if (statusCode === 200) {
+            console.log("【" + _config.requestId + "】 结果：" + JSON.stringify(response.data));
+          }
+        }
+
+        if (_this.interceptor.response) {
+          var newResponse = _this.interceptor.response(response);
+          if (newResponse) {
+            response = newResponse;
+          }
+        }
+
+        if (statusCode === 200) {//成功
+          resolve(response);
+        } else {
+          reject(response);
+        }
+      };
+
+      _config = Object.assign({}, _this.config, options);
+      _config.requestId = new Date().getTime();
+
+      if (_this.interceptor.request) {
+        _this.interceptor.request(_config);
+      }
+
+      if (true) {
+        console.log("【" + _config.requestId + "】 地址：" + _config.url);
+        if (_config.data) {
+          console.log("【" + _config.requestId + "】 参数：" + JSON.stringify(_config.data));
+        }
+      }
+
+      uni.request(_config);
+    });
+  },
+  get: function get(url, data, options) {
+    if (!options) {
+      options = {};
+    }
+    options.url = url;
+    options.data = data;
+    options.method = 'GET';
+    return this.request(options);
+  },
+  post: function post(url, data, options) {
+    if (!options) {
+      options = {};
+    }
+    options.url = url;
+    options.data = data;
+    options.method = 'POST';
+    return this.request(options);
+  },
+  put: function put(url, data, options) {
+    if (!options) {
+      options = {};
+    }
+    options.url = url;
+    options.data = data;
+    options.method = 'PUT';
+    return this.request(options);
+  },
+  delete: function _delete(url, data, options) {
+    if (!options) {
+      options = {};
+    }
+    options.url = url;
+    options.data = data;
+    options.method = 'DELETE';
+    return this.request(options);
+  } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
+
+/***/ }),
+
 /***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\common\\md5.js":
 /*!**************************************************!*\
   !*** D:/上海悦为/首诺供应链/SmallprogramSN/common/md5.js ***!
@@ -9021,18 +9126,24 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(createApp) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
 var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\App.vue"));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./common/http/index.js */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\common\\http\\index.js"));
 
 
 
 
 
 
-var _index = _interopRequireDefault(__webpack_require__(/*! ./stroe/index.js */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\stroe\\index.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+var _index2 = _interopRequireDefault(__webpack_require__(/*! ./stroe/index.js */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\stroe\\index.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 
-_vue.default.prototype.$store = _index.default;
+_vue.default.prototype.$store = _index2.default;
 
 
+_index.default.interceptor.request = function (config) {
+  //添加通用参数
+  config.header = {
+    "token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" };
 
+};
 
 
 
