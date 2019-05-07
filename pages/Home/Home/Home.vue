@@ -7,6 +7,7 @@
 		</van-tabbar> -->
 
 		</tabBar>
+
 	</view>
 
 </template>
@@ -25,16 +26,15 @@
 						title: "刷新成功"
 					})
 				}
+
 			}); //下拉刷新
-
-
-								uni.request({
-									url: 'http://192.168.2.241:8099/supplychain/api/operator/select',
-									data:{uuid:'bbe26852f9dc4030b01637ac7b538e7f'},
-									success(res) {
-										console.log(res)
-									}
-								})
+			/***
+			 * 默认给定未处理数量
+			 * */
+			uni.setTabBarBadge({
+				index: 0,
+				text: '31'
+			});
 
 
 		},

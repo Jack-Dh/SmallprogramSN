@@ -1,9 +1,10 @@
 {
   "pages": [
     "pages/login/login",
+    "pages/myPage/myPage/myPage",
+    "pages/Distributeleaflets/Distributeleaflets",
     "pages/Home/Home/Home",
-    "pages/good/good/good",
-    "pages/myPage/myPage/myPage"
+    "pages/good/good/good"
   ],
   "subPackages": [],
   "window": {

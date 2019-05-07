@@ -1,20 +1,51 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			//登录页
 			"path": "pages/login/login",
 			"style": {
-				"navigationBarTitleText": "首诺供应链",//项目标题
+				"navigationBarTitleText": "首诺供应链", //项目标题
+				"usingComponents": {
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
+				}
+		
+			}
+		},{
+			//我的
+			"path": "pages/myPage/myPage/myPage",
+			"style": {
+				"navigationBarTitleText": "首诺供应链", //设置页面头部名字
+				"usingComponents": {
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
+					"van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
+					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index"
+				}
+			}
+		},
+		
+		{
+			//我的派单
+			"path": "pages/Distributeleaflets/Distributeleaflets",
+			"style": {
+				"navigationBarTitleText": "首诺供应链", //项目标题
 				"usingComponents": {
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
 				}
 
 			}
-		}, {
+
+		},
+		{
+			//首页
 			"path": "pages/Home/Home/Home",
 			"style": {
-				"enablePullDownRefresh": true,//下拉刷新
-				"navigationBarTitleText": "首诺供应链" , //设置页面头部名字
+				"enablePullDownRefresh": true, //下拉刷新
+				"navigationBarTitleText": "首诺供应链", //设置页面头部名字
 				"usingComponents": {
 					"van-button": "/wxcomponents/vant/dist/button/index",
 					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
@@ -22,19 +53,13 @@
 					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
 					"van-icon": "/wxcomponents/vant/dist/icon/index"
 				}
-			
+
 
 			}
-		}
-
-		, {
+		},
+		{
 			"path": "pages/good/good/good",
 			"style": {}
-		}, {
-			"path": "pages/myPage/myPage/myPage",
-			"style": {
-				"navigationBarTitleText": "首诺供应链"  //设置页面头部名字
-			}
 		}
 	],
 	"tabBar": {
@@ -53,12 +78,12 @@
 				"iconPath": "static/logoImg/Home/Home.png",
 				"selectedIconPath": "static/logoImg/Home/Homes.png"
 			},
-// 			{
-// 				"pagePath": "pages/good/good/good",
-// 				"text": "good",
-// 				"iconPath": "static/logoImg/2.png",
-// 				"selectedIconPath": "static/logoImg/1.png"
-// 				},
+			// 			{
+			// 				"pagePath": "pages/good/good/good",
+			// 				"text": "good",
+			// 				"iconPath": "static/logoImg/2.png",
+			// 				"selectedIconPath": "static/logoImg/1.png"
+			// 				},
 			{
 				"pagePath": "pages/myPage/myPage/myPage",
 				"text": "我的",
