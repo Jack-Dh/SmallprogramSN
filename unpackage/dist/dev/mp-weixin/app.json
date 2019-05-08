@@ -2,6 +2,7 @@
   "pages": [
     "pages/login/login",
     "pages/myPage/myPage/myPage",
+    "pages/Distributeleaflets/dispatchDetails",
     "pages/Distributeleaflets/Distributeleaflets",
     "pages/Home/Home/Home",
     "pages/good/good/good"
@@ -33,6 +34,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

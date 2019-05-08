@@ -22,7 +22,27 @@
 					"van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
 					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
 					"van-cell": "/wxcomponents/vant/dist/cell/index",
-					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index"
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-card": "/wxcomponents/vant/dist/card/index",
+					"van-tag": "/wxcomponents/vant/dist/tag/index"
+				}
+			}
+		},
+		{
+			//派单详情
+			"path": "pages/Distributeleaflets/dispatchDetails",
+			"style": {
+				"navigationBarTitleText": "首诺供应链", //设置页面头部名字
+				"usingComponents": {
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
+					"van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
+					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-card": "/wxcomponents/vant/dist/card/index",
+					"van-tag": "/wxcomponents/vant/dist/tag/index",
+					"van-panel": "/wxcomponents/vant/dist/panel/index"
 				}
 			}
 		},
@@ -32,14 +52,24 @@
 			"path": "pages/Distributeleaflets/Distributeleaflets",
 			"style": {
 				"navigationBarTitleText": "首诺供应链", //项目标题
+				"enablePullDownRefresh": true, //下拉刷新
 				"usingComponents": {
 					"van-button": "/wxcomponents/vant/dist/button/index",
-					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
+					"van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
+					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-card": "/wxcomponents/vant/dist/card/index",
+					"van-tag": "/wxcomponents/vant/dist/tag/index",
+					"van-search": "/wxcomponents/vant/dist/search/index",
+					"van-panel": "/wxcomponents/vant/dist/panel/index"
 				}
-
 			}
 
 		},
+
+
 		{
 			//首页
 			"path": "pages/Home/Home/Home",
