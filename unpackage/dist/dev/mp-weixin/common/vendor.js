@@ -395,7 +395,7 @@ function getData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -6492,7 +6492,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$mp[vm.mpType];
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -6513,14 +6513,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$mp[vm.mpType];
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$mp[vm.mpType];
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -6589,7 +6589,7 @@ var patch = function(oldVnode, vnode) {
         });
         var diffData = diff(data, mpData);
         if (Object.keys(diffData).length) {
-            if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+            if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
                 console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
                     ']差量更新',
                     JSON.stringify(diffData));
@@ -9115,6 +9115,184 @@ module.exports = g;
 
 /***/ }),
 
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\rattenking-dtpicker\\GetDate.js":
+/*!******************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/components/rattenking-dtpicker/GetDate.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance");}function _iterableToArray(iter) {if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) {for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {arr2[i] = arr[i];}return arr2;}}var GetDate = {
+  withData: function withData(num) {
+    var param = parseInt(num);
+    return param < 10 ? '0' + param : '' + param;
+  },
+  getTimes: function getTimes(str) {
+    return new Date(str.replace(/-/g, '/')).getTime();
+  },
+  getCurrentTimes: function getCurrentTimes() {
+    var date = new Date();
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var day = date.getDate();
+    var hour = date.getHours();
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    return {
+      detail: {
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: minute,
+        second: second } };
+
+
+  },
+  format: function format(arr) {
+    var curarr = [];
+    var curarr0 = [];
+    var str = '';
+    arr.forEach(function (cur, index) {
+      var o = GetDate.withData(cur);
+      if (index > 2) {
+        curarr.push(o);
+      } else {
+        curarr0.push(o);
+      }
+    });
+    if (arr.length < 4) {
+      str = curarr0.join('-');
+    } else {
+      str = curarr0.join('-') + ' ' + curarr.join(':');
+    }
+    return str;
+  },
+  getCurrentStringValue: function getCurrentStringValue(str) {
+    var newstr = str.split(' ');
+    if (newstr && newstr[1]) {
+      var arr = [].concat(_toConsumableArray(newstr[0].split('-')), _toConsumableArray(newstr[1].split(':')));
+      return arr;
+    }
+    return newstr[0].split('-');
+  },
+  getCompare: function getCompare(curp, startp, endp, timesp) {
+    var cur = GetDate.getTimes(curp);
+    var start = GetDate.getTimes(startp);
+    var end = GetDate.getTimes(endp);
+    if (cur < start) {
+      return GetDate.getTimeIndex(timesp, GetDate.getCurrentStringValue(startp));
+    } else if (cur > end) {
+      return GetDate.getTimeIndex(timesp, GetDate.getCurrentStringValue(endp));
+    } else {
+      return GetDate.getTimeIndex(timesp, GetDate.getCurrentStringValue(curp));
+    }
+  },
+  getChooseArr: function getChooseArr(times, indexs) {
+    var arr = [];
+    times.forEach(function (cur, index) {return arr.push(cur[indexs[index]]);});
+    return arr;
+  },
+  getNewArray: function getNewArray(arr) {
+    var newarr = [];
+    arr.forEach(function (cur) {return newarr.push(cur);});
+    return newarr;
+  },
+  getLoopArray: function getLoopArray(start, end) {
+    var start = start || 0;
+    var end = end || 1;
+    var array = [];
+    for (var i = start; i <= end; i++) {
+      array.push(GetDate.withData(i));
+    }
+    return array;
+  },
+  getMonthDay: function getMonthDay(year, month) {
+    var flag = year % 400 == 0 || year % 4 == 0 && year % 100 != 0,array = null;
+
+    switch (month) {
+      case '01':
+      case '03':
+      case '05':
+      case '07':
+      case '08':
+      case '10':
+      case '12':
+        array = GetDate.getLoopArray(1, 31);
+        break;
+      case '04':
+      case '06':
+      case '09':
+      case '11':
+        array = GetDate.getLoopArray(1, 30);
+        break;
+      case '02':
+        array = flag ? GetDate.getLoopArray(1, 29) : GetDate.getLoopArray(1, 28);
+        break;
+      default:
+        array = '月份格式不正确，请重新输入！';}
+
+    return array;
+  },
+  getDateTimes: function getDateTimes(opts) {
+    var years = GetDate.getLoopArray(opts.start, opts.end);
+    var months = GetDate.getLoopArray(1, 12);
+    var days = GetDate.getMonthDay(opts.curyear, opts.curmonth);
+    var hours = GetDate.getLoopArray(0, 23);
+    var minutes = GetDate.getLoopArray(0, 59);
+    var seconds = GetDate.getLoopArray(0, 59);
+    var times = null;
+
+    switch (opts.fields) {
+      case 'year':
+        times = [years];
+        break;
+      case 'month':
+        times = [years, months];
+        break;
+      case 'day':
+        times = [years, months, days];
+        break;
+      case 'hour':
+        times = [years, months, days, hours];
+        break;
+      case 'minute':
+        times = [years, months, days, hours, minutes];
+        break;
+      case 'second':
+        times = [years, months, days, hours, minutes, seconds];
+        break;
+      default:
+        times = [years, months, days, hours, minutes, seconds];}
+
+    return times;
+  },
+  getIndex: function getIndex(arr, target) {
+    var len = arr.length;
+    for (var i = 0; i < len; i++) {
+      if (arr[i] == target) {
+        return i;
+      }
+    }
+  },
+  getTimeIndex: function getTimeIndex(arrs, targets) {
+    var len = arrs.length;
+    var arr = [];
+    for (var i = 0; i < len; i++) {
+      arr.push(GetDate.getIndex(arrs[i], targets[i]));
+    }
+    return arr;
+  },
+  error: function error(str) {
+    console.error(str);
+  } };
+
+
+module.exports = GetDate;
+
+/***/ }),
+
 /***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js":
 /*!********************************************!*\
   !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js ***!
@@ -9212,40 +9390,6 @@ createApp(app).$mount();
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FDistributeleaflets%2FDistributeleaflets\"}":
-/*!*******************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FDistributeleaflets%2FDistributeleaflets"} ***!
-  \*******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _Distributeleaflets = _interopRequireDefault(__webpack_require__(/*! ./pages/Distributeleaflets/Distributeleaflets.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\Distributeleaflets\\Distributeleaflets.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_Distributeleaflets.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FDistributeleaflets%2FdispatchDetails\"}":
-/*!****************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FDistributeleaflets%2FdispatchDetails"} ***!
-  \****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _dispatchDetails = _interopRequireDefault(__webpack_require__(/*! ./pages/Distributeleaflets/dispatchDetails.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\Distributeleaflets\\dispatchDetails.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_dispatchDetails.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
 /***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FHome%2FHome%2FHome\"}":
 /*!**********************************************************************************!*\
   !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FHome%2FHome%2FHome"} ***!
@@ -9297,6 +9441,57 @@ createPage(_login.default);
 
 /***/ }),
 
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FDistributeleaflets%2FDistributeleaflets\"}":
+/*!****************************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FDistributeleaflets%2FDistributeleaflets"} ***!
+  \****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _Distributeleaflets = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/Distributeleaflets/Distributeleaflets.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\Distributeleaflets\\Distributeleaflets.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_Distributeleaflets.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FDistributeleaflets%2FdispatchDetails\"}":
+/*!*************************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FDistributeleaflets%2FdispatchDetails"} ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _dispatchDetails = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/Distributeleaflets/dispatchDetails.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\Distributeleaflets\\dispatchDetails.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_dispatchDetails.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FfactoryInformation%2FfactoryInformation\"}":
+/*!****************************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FfactoryInformation%2FfactoryInformation"} ***!
+  \****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _factoryInformation = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/factoryInformation/factoryInformation.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\factoryInformation\\factoryInformation.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_factoryInformation.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
 /***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FmyPage%2FmyPage\"}":
 /*!****************************************************************************************!*\
   !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FmyPage%2FmyPage"} ***!
@@ -9310,6 +9505,40 @@ createPage(_login.default);
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
 var _myPage = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/myPage/myPage.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\myPage\\myPage.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_myPage.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FproductionManagement%2FproductionLog\"}":
+/*!*************************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FproductionManagement%2FproductionLog"} ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _productionLog = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/productionManagement/productionLog.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\productionManagement\\productionLog.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_productionLog.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FproductionManagement%2FproductionManagement\"}":
+/*!********************************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FproductionManagement%2FproductionManagement"} ***!
+  \********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _productionManagement = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/productionManagement/productionManagement.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\productionManagement\\productionManagement.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_productionManagement.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
@@ -9342,7 +9571,9 @@ var store = new _vuex.default.Store({
     nickname: "未设置",
     loginApi: 'http://192.168.2.241:8099/supplychain/api/operator/login', //登录
     dispatchlist: 'http://192.168.2.241:8099/supplychain/api/dispatch/list', //我的派单信息分页查询
-    dispatchDetailsbyID: 'http://192.168.2.241:8099/supplychain/api/dispatch/select' //根据UUID查询派工单详情
+    dispatchDetailsbyID: 'http://192.168.2.241:8099/supplychain/api/dispatch/select', //根据UUID查询派工单详情
+    factoryqueryPage: 'http://192.168.2.241:8099/supplychain/api/factory/select', //查询当前用户所有工厂信息
+    saveProducelog: 'http://192.168.2.241:8099/supplychain/api/producelog/save' //保存生产日志
   } });var _default =
 
 
