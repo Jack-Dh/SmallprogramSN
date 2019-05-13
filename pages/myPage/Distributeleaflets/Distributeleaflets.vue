@@ -7,11 +7,18 @@
 
 		<view v-for="item in newsList" class="newslist">
 			<view @click="Jump(item.uuid)">
-				<van-card :desc="'派工单号：'+item.dispatchCode" :title="item.factoryName">
-					<view slot="footer" class="vanTag">
+				<van-card :title="item.factoryName" :tag="item.receiveState==0?'待处理':item.receiveState==1?'已接单':'已拒绝'">
+
+					<view slot="desc">
+						<view>派工单号:{{item.dispatchCode}}</view>
+						<view>款式编号:{{item.styleCode}}</view>
+					</view>
+					<view slot="tags">
 						<van-tag plain type="danger" v-for="j in item.processNodeList">
 							{{j=='weave'?'织造':j=='seamHead'?'缝头':j=='stereoType'?'定型':'包装'}}</van-tag>
+
 					</view>
+
 				</van-card>
 			</view>
 
@@ -85,7 +92,7 @@
 				//点击查看详情
 				console.log(uuid)
 				uni.navigateTo({
-					url:`dispatchDetails?id=${uuid}`
+					url: `dispatchDetails?id=${uuid}`
 				})
 			},
 			doSearch(key) {

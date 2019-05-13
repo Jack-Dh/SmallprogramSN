@@ -1,0 +1,18 @@
+{
+  "navigationBarTitleText": "首诺供应链",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "van-button": "/wxcomponents/vant/dist/button/index",
+    "van-dialog": "/wxcomponents/vant/dist/dialog/index",
+    "van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
+    "van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
+    "van-cell": "/wxcomponents/vant/dist/cell/index",
+    "van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+    "van-card": "/wxcomponents/vant/dist/card/index",
+    "van-tag": "/wxcomponents/vant/dist/tag/index",
+    "van-search": "/wxcomponents/vant/dist/search/index",
+    "van-panel": "/wxcomponents/vant/dist/panel/index",
+    "uni-load-more": "/components/uni-load-more",
+    "m-search": "/components/mehaotian-search-revision/mehaotian-search-revision"
+  }
+}

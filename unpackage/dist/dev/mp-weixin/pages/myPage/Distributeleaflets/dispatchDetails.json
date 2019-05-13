@@ -9,6 +9,8 @@
     "van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
     "van-card": "/wxcomponents/vant/dist/card/index",
     "van-tag": "/wxcomponents/vant/dist/tag/index",
-    "van-panel": "/wxcomponents/vant/dist/panel/index"
+    "van-panel": "/wxcomponents/vant/dist/panel/index",
+    "van-popup": "/wxcomponents/vant/dist/popup/index",
+    "prompt": "/components/zz-prompt/index"
   }
 }

@@ -1,0 +1,11 @@
+{
+  "enablePullDownRefresh": true,
+  "navigationBarTitleText": "首诺供应链",
+  "usingComponents": {
+    "van-button": "/wxcomponents/vant/dist/button/index",
+    "van-dialog": "/wxcomponents/vant/dist/dialog/index",
+    "van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
+    "van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
+    "van-icon": "/wxcomponents/vant/dist/icon/index"
+  }
+}

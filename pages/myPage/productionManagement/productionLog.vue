@@ -7,14 +7,14 @@
 				 size="large" />
 				<van-cell title="预加工时间" :value="disData.expectProcessTime" size="large" />
 				<van-cell title="预完工时间" :value="disData.expectCompleteTime" size="large" />
+				<van-cell title="预计生产总量" :value="disData.expectCompleteTime" size="large" />
 			</view>
 		</van-panel>
 
 
 		<view class="timebox">
-			<van-field label="预计生产数量" type="number" :value="expectProduceQuantity" @change="expectOnChange" />
+			
 			<van-field label="实际生产数量" type="number" :value="actualProduceQuantity" @change="actualOnChange" />
-
 		</view>
 
 
@@ -26,7 +26,9 @@
 			</van-cell-group>
 		</view>
 		<view class="btnstyle">
-			<van-button type="primary" @click="saveProLog" size="normal">保存</van-button>
+
+			<van-button type="primary" @click="saveProLog" size="normal">新建</van-button>
+			<van-button type="primary" @click="history" size="normal">历史</van-button>
 		</view>
 	</view>
 </template>
@@ -45,7 +47,7 @@
 				disData: [], //派单详情数据
 				value: '', //实际加工时间
 				actualProduceTime: '', //实际生产时间
-				expectProduceQuantity: '', //预计生产总量
+				
 				actualProduceQuantity: '', //实际生产数量
 
 			}
@@ -55,16 +57,22 @@
 			this.dispatchDetailsQuery()
 		},
 		methods: {
+			history() {
+				//历史按钮
+				//点击查看详情
+					
+					// console.log(this.disData)
+				uni.navigateTo({
+					url: `historyLog?id=${this.disData.uuid}`
+				})
+
+			},
 			actualOnChange(event) {
 				// event.detail 为当前输入实际生产总量的值
 				this.actualProduceQuantity = event.detail
 				console.log(event.detail);
 			},
-			expectOnChange(event) {
-				// event.detail 为当前输入预计生产总量的值
-				this.expectProduceQuantity = event.detail
-				console.log(event.detail);
-			},
+		
 			saveTime(picker) {
 				//保存时间数据
 				this.actualProduceTime = picker
@@ -81,7 +89,8 @@
 					console.log(res)
 					if (res.data.code == 200) {
 						uni.showModal({
-							title: '填写成功',
+							title: '提示',
+							content: '新建成功',
 							showCancel: false
 						});
 					} else {
@@ -132,7 +141,11 @@
 	.btnstyle {
 		text-align: center;
 		margin-top: 20upx;
+		display: flex;
+		justify-content: space-around;
 	}
 
-	.van-button {width: 300upx;}
+	.van-button {
+		width: 300upx;
+	}
 </style>

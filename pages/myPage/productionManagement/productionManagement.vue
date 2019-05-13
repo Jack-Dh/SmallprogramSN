@@ -102,7 +102,8 @@
 				//我的派工单信息分页查询
 				this.$http.get(this.$store.state.dispatchlist, {
 					pageNum: page,
-					pageSize: 10
+					pageSize: 10,
+					receiveState:1,
 				}).then(res => {
 
 					page++; //得到数据之后page+1
@@ -135,6 +136,7 @@
 				this.$http.get(this.$store.state.dispatchlist, {
 					pageNum: page,
 					pageSize: 10,
+					receiveState:1,
 					dispatchCode: this.dispatchCode
 				}).then(res => {
 					page++; //得到数据之后page+1
@@ -154,27 +156,6 @@
 				})
 			},
 
-
-
-
-
-
-			// dispatchlistQuery() {
-			// 	page = 1;
-			// 	this.loadingType = 0;
-			// 	uni.showNavigationBarLoading();
-			// 	//我的派工单信息分页查询
-			// 	this.$http.get(this.$store.state.dispatchlist, {
-			// 		pageNum: page,
-			// 		pageSize: 10
-			// 	}).then(res => {
-			// 		page++; //得到数据之后page+1
-			// 		_self.newsList = res.data.list;
-			// 		uni.hideNavigationBarLoading();
-			// 		uni.stopPullDownRefresh(); //得到数据
-			// 		console.log(res)
-			// 	})
-			// }
 		},
 		created: function() {
 			// this.dispatchlistQuery()

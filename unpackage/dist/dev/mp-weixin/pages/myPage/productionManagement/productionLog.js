@@ -44,6 +44,8 @@
 
 
 
+
+
 {
   components: {
     ruiDatePicker: ruiDatePicker,
@@ -55,7 +57,7 @@
       disData: [], //派单详情数据
       value: '', //实际加工时间
       actualProduceTime: '', //实际生产时间
-      expectProduceQuantity: '', //预计生产总量
+
       actualProduceQuantity: '' //实际生产数量
     };
 
@@ -65,16 +67,22 @@
     this.dispatchDetailsQuery();
   },
   methods: {
+    history: function history() {
+      //历史按钮
+      //点击查看详情
+
+      // console.log(this.disData)
+      uni.navigateTo({
+        url: "historyLog?id=".concat(this.disData.uuid) });
+
+
+    },
     actualOnChange: function actualOnChange(event) {
       // event.detail 为当前输入实际生产总量的值
       this.actualProduceQuantity = event.detail;
       console.log(event.detail);
     },
-    expectOnChange: function expectOnChange(event) {
-      // event.detail 为当前输入预计生产总量的值
-      this.expectProduceQuantity = event.detail;
-      console.log(event.detail);
-    },
+
     saveTime: function saveTime(picker) {
       //保存时间数据
       this.actualProduceTime = picker;
@@ -91,7 +99,8 @@
         console.log(res);
         if (res.data.code == 200) {
           uni.showModal({
-            title: '填写成功',
+            title: '提示',
+            content: '新建成功',
             showCancel: false });
 
         } else {

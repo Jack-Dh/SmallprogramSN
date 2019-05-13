@@ -61,7 +61,8 @@ http.interceptor.response = (response) => {
 			}
 			if (response.statusCode !== 200) {
 				uni.showModal({
-					title: '服务器连接异常，请联系管理员',
+					title: '错误',
+					content: '服务器连接异常，请联系管理员',
 					showCancel: false
 				});
 			}

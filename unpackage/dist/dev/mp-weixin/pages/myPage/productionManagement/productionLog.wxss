@@ -20,6 +20,15 @@
 .btnstyle {
 	text-align: center;
 	margin-top: 20rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-justify-content: space-around;
+	    -ms-flex-pack: distribute;
+	        justify-content: space-around;
 }
-.van-button {width: 300rpx;}
+.van-button {
+	width: 300rpx;
+}
 

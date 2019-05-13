@@ -1,0 +1,25 @@
+
+.timebox {
+	margin-top: 20rpx;
+	background-color: #FFFFFF;
+}
+.productionLog {
+	background-color: #f2f3f5;
+	height: 100%;
+}
+.van-card {
+	margin-bottom: 20rpx;
+	background: #FFFFFF;
+}
+.vanTag {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.btnstyle {
+	text-align: center;
+	margin-top: 20rpx;
+}
+.van-button {width: 300rpx;}
+

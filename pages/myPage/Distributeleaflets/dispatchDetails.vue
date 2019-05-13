@@ -7,23 +7,50 @@
 				<van-cell title="派单工厂" :value="disData.factoryName" size="large" />
 				<van-cell title="预加工时间" :value="disData.expectProcessTime" size="large" />
 				<van-cell title="预完工时间" :value="disData.expectCompleteTime" size="large" />
-				<van-cell title="派工工艺" :value="disData.processNode=='weave'?'织造':disData.processNode=='seamHead'?'缝头':disData.processNode=='stereoType'?'定型':'包装'" size="large" />
-				<van-cell title="创建时间" :value="disData.createTime" size="large" />
-			
+				<van-cell title="款式编号" :value="disData.styleCode" size="large" />
+				<van-cell title="派工工艺" :value="disData.processNode=='weave'?'织造':disData.processNode=='seamHead'?'缝头':disData.processNode=='stereoType'?'定型':'包装'"
+				 size="large" />
+				<van-cell title="加工数量" :value="disData.totalNumber" size="large" />
+				<van-cell title="接受状态" :value="disData.receiveState==0?'待处理':disData.receiveState==1?'已接单':'已拒绝'" size="large" />
+				<van-cell title="派工人员" :value="disData.dispatchWorker" size="large" />
+				<van-cell title="派工时间" :value="disData.createTime" size="large" />
 			</view>
 			<view slot="footer">
-
 			</view>
 		</van-panel>
+		<view class="boxButon">
+			<van-button type="danger" :disabled="butState" @click="Refused">拒绝</van-button>
+			<van-button type="primary" :disabled="butState" @click="accept">接受</van-button>
+		</view>
+
+
+
+
+		<prompt :visible.sync="promptVisible" title="拒绝原因" @confirm="clickPromptConfirm" @confirms="cancel">
+
+		</prompt>
+
 	</view>
+
+
+
+
 </template>
 
 <script>
+	import Prompt from '../../../components/zz-prompt/index.vue'
+
 	export default {
+		components: {
+			Prompt
+		},
 		data() {
 			return {
 				uuid: '', //UUID
 				disData: [], //派单详情数据
+				refuseReason: '', //拒绝原因
+				promptVisible: true, //弹出层
+				butState: false, //操作按钮
 			}
 		},
 		onLoad: function(option) {
@@ -31,14 +58,85 @@
 			this.dispatchDetailsQuery()
 		},
 		methods: {
+			cancel() {
+				//弹出框取消按钮
+				this.promptVisible = true
+			},
+			clickPromptConfirm(val) {
+				//拒绝派工单
+				let data = {
+					dispatchDetailBeanList: [this.disData],
+					receiveState: 2,
+					refuseReason: val
+				}
+				let that = this
+				if (val != '') {
+					this.$http.post(this.$store.state.saveState, data).then(res => {
+						if (res.data.code == 200) {
+							uni.showModal({
+								title: '操作成功！',
+								showCancel: false,
+								success() {
+									that.promptVisible = true
+								}
+							});
+							this.butState = true
+						}
+					})
+				} else {
+					uni.showModal({
+						title: '请输入拒绝原因！',
+						showCancel: false
+					});
+				}
+
+
+				console.log(data)
+			},
+			Refused() {
+				//拒绝按钮
+				this.promptVisible = false
+
+			},
+			accept() {
+				let that = this
+				//接受按钮
+				let data = {
+					dispatchDetailBeanList: [this.disData],
+					receiveState: 1,
+
+				}
+
+				uni.showModal({
+					title: '操作',
+					content: '确认接受该条派工单？',
+					showCancel: true,
+					success(res) {
+						if (res.confirm) {
+							that.$http.post(that.$store.state.saveState, data).then(res => {
+								if (res.data.code == 200) {
+									that.butState = true
+								}
+							})
+						}
+					}
+
+				});
+
+
+
+			},
+
 			dispatchDetailsQuery() {
 				//查询派工单详情
-
 				this.$http.get(this.$store.state.dispatchDetailsbyID, {
 					uuid: this.uuid
 				}).then(res => {
 					console.log(res)
 					this.disData = res.data.data
+					if (res.data.data.receiveState !== 0) {
+						this.butState = true
+					}
 				})
 			}
 		},
@@ -47,4 +145,14 @@
 </script>
 
 <style>
+	.boxButon {
+		display: flex;
+		justify-content: space-around;
+		margin-top: 20upx;
+
+	}
+
+	.boxButon .van-button {
+		width: 200upx;
+	}
 </style>
