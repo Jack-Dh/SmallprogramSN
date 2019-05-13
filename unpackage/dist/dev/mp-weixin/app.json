@@ -1,6 +1,8 @@
 {
   "pages": [
+    "pages/Home/Home/Home",
     "pages/login/login",
+    "pages/Home/Home/logAudit",
     "pages/myPage/myPage/myPage",
     "pages/myPage/productionManagement/historyLog",
     "pages/myPage/factoryInformation/factoryInformation",
@@ -8,7 +10,6 @@
     "pages/myPage/productionManagement/productionManagement",
     "pages/myPage/Distributeleaflets/dispatchDetails",
     "pages/myPage/Distributeleaflets/Distributeleaflets",
-    "pages/Home/Home/Home",
     "pages/good/good/good"
   ],
   "subPackages": [],

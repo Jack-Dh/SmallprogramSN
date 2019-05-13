@@ -11,6 +11,7 @@ const store = new Vuex.Store({
 		saveProducelog: 'http://192.168.2.241:8099/supplychain/api/producelog/save', //保存生产日志
 		saveState: 'http://192.168.2.241:8099/supplychain/api/dispatch/saveState', //根据状态接受拒绝派工单
 		producelogQuery:'http://192.168.2.241:8099/supplychain/api/producelog/list',//生产日志明细分页查询
+		producelogdetail:'http://192.168.2.241:8099/supplychain/api/producelog/select'//生产日志明细查询
 	}
 });
 export default store

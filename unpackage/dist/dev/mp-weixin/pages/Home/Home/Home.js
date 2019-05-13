@@ -8,39 +8,141 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var uniLoadMore = function uniLoadMore() {return __webpack_require__.e(/*! import() | components/uni-load-more */ "components/uni-load-more").then(__webpack_require__.bind(null, /*! ../../../components/uni-load-more.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\uni-load-more.vue"));};var mSearch = function mSearch() {return __webpack_require__.e(/*! import() | components/mehaotian-search-revision/mehaotian-search-revision */ "components/mehaotian-search-revision/mehaotian-search-revision").then(__webpack_require__.bind(null, /*! @/components/mehaotian-search-revision/mehaotian-search-revision.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\mehaotian-search-revision\\mehaotian-search-revision.vue"));};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _self,
+page = 1,
+timer = null;
+//定义全局参数,控制数据加载
 var _default =
+
 {
+  components: { //2注册组件
+    uniLoadMore: uniLoadMore,
+    mSearch: mSearch },
+
   data: function data() {
     return {
-      active: 0 };
+
+      active: 0,
+      newsList: [],
+      newsListLog: [],
+      loadingText: '加载中...',
+      loadingType: 0, //定义加载方式 0---contentdown  1---contentrefresh 2---contentnomore
+      contentText: {
+        contentdown: '上拉显示更多',
+        contentrefresh: '正在加载...',
+        contentnomore: '没有更多数据了' } };
+
 
   },
   onLoad: function onLoad() {
-    uni.startPullDownRefresh({
-      success: function success() {
-        uni.showToast({
-          title: "刷新成功" });
-
-      } });
-
-    //下拉刷新
+    _self = this;
+    //页面一加载时请求一次数据
+    _self.getnewsList();
+    _self.getnewsListLog();
     /***
-     * 默认给定未处理数量
-     * */
+                             * 默认给定未处理数量
+                             * */
     uni.setTabBarBadge({
       index: 0,
       text: '31' });
@@ -49,12 +151,168 @@ var _default =
 
   },
   onPullDownRefresh: function onPullDownRefresh() {
-    console.log('refresh');
-    setTimeout(function () {//一秒后自动关闭
-      uni.stopPullDownRefresh();
-    }, 1000);
+    //下拉刷新的时候请求一次数据
+    _self.getnewsList();
+    _self.getnewsListLog();
   },
+  onReachBottom: function onReachBottom() {
+    //触底的时候请求数据，即为上拉加载更多
+    //为了更加清楚的看到效果，添加了定时器
+    if (timer != null) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(function () {
+      _self.getmorenews();
+      _self.getmorenewsLog();
+    }, 1000);
+
+    // 正常应为:
+    // _self.getmorenews();
+  },
+
   methods: {
+    Jump: function Jump(uuid) {
+      //点击查看详情
+      console.log(uuid);
+      uni.navigateTo({
+        url: "../../myPage/Distributeleaflets/dispatchDetails?id=".concat(uuid) });
+
+    },
+    Jumplog: function Jumplog(uuid) {
+      //点击跳转生产日志审核
+      console.log(uuid);
+      uni.navigateTo({
+        url: "logAudit?id=".concat(uuid) });
+
+    },
+    getmorenews: function getmorenews() {
+      if (_self.loadingType !== 0) {//loadingType!=0;直接返回
+        return false;
+      }
+      _self.loadingType = 1;
+      uni.showNavigationBarLoading(); //显示加载动画
+      //我的派工单信息分页查询
+      this.$http.get(this.$store.state.dispatchlist, {
+        pageNum: page,
+        pageSize: 10,
+        receiveState: 0 }).
+      then(function (res) {
+
+        page++; //得到数据之后page+1
+
+        var num = _self.newsList.length; //判断数据数组长度是否超过数据的总条目数
+        if (num < res.data.totalRecord) {
+          res.data.list.forEach(function (item) {
+            _self.newsList.push(item);
+          });
+          _self.loadingType = 0; //将loadingType归0重置
+        } else {
+          _self.loadingType = 2; //没有数据
+          uni.hideNavigationBarLoading(); //关闭加载动画
+        }
+
+
+        uni.hideNavigationBarLoading(); //关闭加载动画
+        console.log(res);
+      });
+
+    },
+    getmorenewsLog: function getmorenewsLog() {
+      //生产日志
+      if (_self.loadingType !== 0) {//loadingType!=0;直接返回
+        return false;
+      }
+      _self.loadingType = 1;
+      uni.showNavigationBarLoading(); //显示加载动画
+      //我的派工单信息分页查询
+      this.$http.get(this.$store.state.producelogQuery, {
+        pageNum: page,
+        pageSize: 10,
+        submitState: 'tj01',
+        auditState: 'sh02' }).
+      then(function (res) {
+
+        page++; //得到数据之后page+1
+
+        var num = _self.newsListLog.length; //判断数据数组长度是否超过数据的总条目数
+        if (num < res.data.totalRecord) {
+          res.data.list.forEach(function (item) {
+            _self.newsListLog.push(item);
+          });
+          _self.loadingType = 0; //将loadingType归0重置
+        } else {
+          _self.loadingType = 2; //没有数据
+          uni.hideNavigationBarLoading(); //关闭加载动画
+        }
+
+
+        uni.hideNavigationBarLoading(); //关闭加载动画
+        console.log(res);
+      });
+
+    },
+
+    getnewsList: function getnewsList() {
+      page = 1;
+      this.loadingType = 0;
+      uni.showNavigationBarLoading();
+      this.loadingType = 0;
+      uni.showNavigationBarLoading();
+      //我的派工单信息分页查询
+      this.$http.get(this.$store.state.dispatchlist, {
+        pageNum: page,
+        pageSize: 10,
+        receiveState: 0 }).
+      then(function (res) {
+        page++; //得到数据之后page+1
+        _self.newsList = res.data.list;
+        uni.hideNavigationBarLoading();
+        uni.stopPullDownRefresh(); //得到数据
+        console.log(res);
+
+        var num = _self.newsList.length; //判断数据数组长度是否超过数据的总条目数
+        if (num == res.data.totalRecord) {
+          _self.loadingType = 2; //没有数据
+          uni.hideNavigationBarLoading(); //关闭加载动画
+        }
+
+
+
+      });
+    },
+
+
+    getnewsListLog: function getnewsListLog() {
+      //生产日志
+      page = 1;
+      this.loadingType = 0;
+      uni.showNavigationBarLoading();
+      this.loadingType = 0;
+      uni.showNavigationBarLoading();
+      //我的派工单信息分页查询
+      this.$http.get(this.$store.state.producelogQuery, {
+        pageNum: page,
+        pageSize: 10,
+        submitState: 'tj01',
+        auditState: 'sh02' }).
+      then(function (res) {
+        page++; //得到数据之后page+1
+        _self.newsListLog = res.data.list;
+        uni.hideNavigationBarLoading();
+        uni.stopPullDownRefresh(); //得到数据
+        console.log(res);
+
+        var num = _self.newsListLog.length; //判断数据数组长度是否超过数据的总条目数
+        if (num == res.data.totalRecord) {
+          _self.loadingType = 2; //没有数据
+          uni.hideNavigationBarLoading(); //关闭加载动画
+        }
+
+
+
+      });
+    },
+
     onChange: function onChange(event) {
       console.log(event);
       console.log(event.detail);

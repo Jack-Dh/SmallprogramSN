@@ -14,7 +14,6 @@
     "van-popup": "/wxcomponents/vant/dist/popup/index",
     "van-tab": "/wxcomponents/vant/dist/tab/index",
     "van-tabs": "/wxcomponents/vant/dist/tabs/index",
-    "uni-load-more": "/components/uni-load-more",
-    "m-search": "/components/mehaotian-search-revision/mehaotian-search-revision"
+    "prompt": "/components/zz-prompt/index"
   }
 }

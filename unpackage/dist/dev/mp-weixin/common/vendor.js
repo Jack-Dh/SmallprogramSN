@@ -395,7 +395,7 @@ function getData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -6492,7 +6492,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$mp[vm.mpType];
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -6513,14 +6513,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$mp[vm.mpType];
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$mp[vm.mpType];
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -6589,7 +6589,7 @@ var patch = function(oldVnode, vnode) {
         });
         var diffData = diff(data, mpData);
         if (Object.keys(diffData).length) {
-            if (Object({"NODE_ENV":"development","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+            if (Object({"VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
                 console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
                     ']差量更新',
                     JSON.stringify(diffData));
@@ -9408,6 +9408,23 @@ createPage(_Home.default);
 
 /***/ }),
 
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FHome%2FHome%2FlogAudit\"}":
+/*!**************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FHome%2FHome%2FlogAudit"} ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _logAudit = _interopRequireDefault(__webpack_require__(/*! ./pages/Home/Home/logAudit.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\Home\\Home\\logAudit.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_logAudit.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
 /***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2Fgood%2Fgood%2Fgood\"}":
 /*!**********************************************************************************!*\
   !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2Fgood%2Fgood%2Fgood"} ***!
@@ -9593,7 +9610,8 @@ var store = new _vuex.default.Store({
     factoryqueryPage: 'http://192.168.2.241:8099/supplychain/api/factory/select', //查询当前用户所有工厂信息
     saveProducelog: 'http://192.168.2.241:8099/supplychain/api/producelog/save', //保存生产日志
     saveState: 'http://192.168.2.241:8099/supplychain/api/dispatch/saveState', //根据状态接受拒绝派工单
-    producelogQuery: 'http://192.168.2.241:8099/supplychain/api/producelog/list' //生产日志明细分页查询
+    producelogQuery: 'http://192.168.2.241:8099/supplychain/api/producelog/list', //生产日志明细分页查询
+    producelogdetail: 'http://192.168.2.241:8099/supplychain/api/producelog/select' //生产日志明细查询
   } });var _default =
 
 store;exports.default = _default;
