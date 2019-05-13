@@ -1,0 +1,34 @@
+
+.userNamesty {
+	font-size: 26rpx;
+	color: #717171;
+}
+.mypage {
+	background-color: #f2f3f5;
+	height: 100%;
+}
+.people {
+	margin-bottom: 45rpx;
+	background-color: #FFFFFF;
+	height: 200rpx;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	-webkit-flex-wrap: nowrap;
+	    -ms-flex-wrap: nowrap;
+	        flex-wrap: nowrap;
+}
+.people image {
+	width: 130rpx;
+	height: 130rpx;
+	margin-left: 35rpx;
+}
+.name {
+	margin-left: 35rpx;
+}
+

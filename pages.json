@@ -1,6 +1,17 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 			{
+				//登录页
+				"path": "pages/login/login",
+				"style": {
+					"navigationBarTitleText": "首诺供应链", //项目标题
+					"usingComponents": {
+						"van-button": "/wxcomponents/vant/dist/button/index",
+						"van-dialog": "/wxcomponents/vant/dist/dialog/index"
+					}
+			
+				}
+			},{
 				//我的
 				"path": "pages/myPage/myPage/myPage",
 				"style": {
@@ -15,17 +26,6 @@
 						"van-card": "/wxcomponents/vant/dist/card/index",
 						"van-tag": "/wxcomponents/vant/dist/tag/index"
 					}
-				}
-			},{
-				//登录页
-				"path": "pages/login/login",
-				"style": {
-					"navigationBarTitleText": "首诺供应链", //项目标题
-					"usingComponents": {
-						"van-button": "/wxcomponents/vant/dist/button/index",
-						"van-dialog": "/wxcomponents/vant/dist/dialog/index"
-					}
-			
 				}
 			},
 		{
