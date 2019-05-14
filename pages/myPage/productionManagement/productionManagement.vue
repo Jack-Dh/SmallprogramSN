@@ -7,7 +7,11 @@
 
 		<view v-for="item in newsList" class="newslist">
 			<view @click="Jump(item.uuid)">
-				<van-card :desc="'派工单号：'+item.dispatchCode" :title="item.factoryName">
+				<van-card  :title="item.factoryName">
+					<view slot="desc">
+						<view>派工单号：{{item.dispatchCode}}</view>
+						<view>款式编号：{{item.styleCode}}</view>
+					</view>
 					<view slot="footer" class="vanTag">
 						<van-tag plain type="danger" v-for="j in item.processNodeList">
 							{{j=='weave'?'织造':j=='seamHead'?'缝头':j=='stereoType'?'定型':'包装'}}</van-tag>

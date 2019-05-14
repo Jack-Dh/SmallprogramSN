@@ -1,18 +1,17 @@
 <template>
-	<view>
+	<view class="Home">
 		<van-tabs :active="active">
 			<van-tab title="派单">
 				<view>
 					<view style="flex: 1;" class="Distributeleaflets">
 
-						<mSearch :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch(false)" @confirm="doSearch(false)"
-						 v-model="dispatchCode"></mSearch>
-
-
-
-
+						<!-- 	<mSearch :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch(false)" @confirm="doSearch(false)"
+						 v-model="dispatchCode"></mSearch> -->
+						<van-search :value="dispatchCode" use-action-slot :search="getnewsList" @change="valCopy">
+							<view slot="action" @click="getnewsList()">搜索</view>
+						</van-search>
 						<view v-for="item in newsList" class="newslist">
-							<view @click="Jump(item.uuid)">
+							<view @click="Jump(item.uuid)" class="box">
 								<van-card :title="item.factoryName" :tag="item.receiveState==0?'待处理':item.receiveState==1?'已接单':'已拒绝'">
 
 									<view slot="desc">
@@ -43,49 +42,37 @@
 
 			</van-tab>
 			<van-tab title="生产日志">
-
-
-				<mSearch :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch(false)" @confirm="doSearch(false)"
-				 v-model="dispatchCode"></mSearch>
-				<view v-for="item in newsListLog" class="newslist">
-					<view @click="Jumplog(item.uuid)">
-						<van-card :title="'生产日志编号:'+item.logCode">
-							<view slot="desc">
-
-								<view>预计生产总量:{{item.expectProduceQuantity}}</view>
-								<view>实际生产数量:{{item.actualProduceQuantity}}</view>
-								<view>实际生产时间:{{item.actualCompleteTime}}</view>
-								<view>填报时间时间:{{item.createTime}}</view>
-								<view>商家编号:{{item.merchantCode}}</view>
-								<view>货品编号:{{item.itemCode}}</view>
-								<view>商品名称:{{item.goodsName}}</view>
-								<view>填报人:{{item.createName}}</view>
-							</view>
-							<view slot="tags">
-
-								<van-tag :type="item.submitStatus=='tj02'?'':item.auditStatus=='sh02'?'primary':item.auditStatus=='sh01'?'success':'danger'">
-									{{item.submitStatus=='tj02'?'未提交':item.auditStatus=='sh02'?'审核中':item.auditStatus=='sh01'?'审核通过':'审核驳回'}}
-								</van-tag>
-
-							</view>
-
-
-
-
-
-						</van-card>
+				<view>
+					<!-- logCode:this.logCode -->
+					<view style="flex: 1;" class="Distributeleaflets">
+						<!-- 	<mSearch :mode="2" button="inside" :placeholder="defaultKeyword" @search="doSearch(false)" @confirm="doSearch(false)"
+						 v-model="dispatchCode"></mSearch> -->
+						<van-search :value="logCode" use-action-slot :search="getnewsListLog">
+							<view slot="action" @click="getnewsListLog()">搜索</view>
+						</van-search>
 					</view>
+					<view v-for="item in newsListLog" class="newslist">
+						<view @click="Jumplog(item.uuid)" class="box">
+							<van-card :title="'生产日志编号:'+item.logCode">
+								<view slot="desc">
+									<view>实际生产数量:{{item.actualProduceQuantity}}</view>
+									<view>填报时间:{{item.createTime}}</view>
+									<view>货品编号:{{item.itemCode}}</view>
+									<view>填报人:{{item.createName}}</view>
+								</view>
+								<view slot="tags">
+
+									<van-tag :type="item.submitStatus=='tj02'?'':item.auditStatus=='sh02'?'primary':item.auditStatus=='sh01'?'success':'danger'">
+										{{item.submitStatus=='tj02'?'未提交':item.auditStatus=='sh02'?'审核中':item.auditStatus=='sh01'?'审核通过':'审核驳回'}}
+									</van-tag>
+
+								</view>
+							</van-card>
+						</view>
+					</view>
+					<!--3使用组件 -->
+					<uni-load-more :loadingType="loadingType" :contentText="contentText"></uni-load-more>
 				</view>
-
-
-
-
-				<!--3使用组件 -->
-				<uni-load-more :loadingType="loadingType" :contentText="contentText"></uni-load-more>
-
-
-
-
 
 			</van-tab>
 		</van-tabs>
@@ -122,7 +109,9 @@
 					contentdown: '上拉显示更多',
 					contentrefresh: '正在加载...',
 					contentnomore: '没有更多数据了'
-				}
+				},
+				logCode: '', //生产日志编号查询
+				dispatchCode:'',//派工单单号查询
 			};
 		},
 		onLoad: function() {
@@ -161,6 +150,16 @@
 		},
 
 		methods: {
+			valCopy(val) {
+				//派单信息查询数据赋值
+				console.log(val)
+				this.dispatchCode=val
+			},
+			valCopyLog(val) {
+				//生产日志信息查询数据赋值
+				console.log(val)
+				this.logCode = val//生产日志编号查询
+			},
 			Jump(uuid) {
 				//点击查看详情
 				console.log(uuid)
@@ -219,7 +218,8 @@
 					pageNum: page,
 					pageSize: 10,
 					submitState: 'tj01',
-					auditState: 'sh02'
+					auditState: 'sh02',
+
 				}).then(res => {
 
 					page++; //得到数据之后page+1
@@ -252,7 +252,8 @@
 				this.$http.get(this.$store.state.dispatchlist, {
 					pageNum: page,
 					pageSize: 10,
-					receiveState: 0
+					receiveState: 0,
+					dispatchCode:this.dispatchCode
 				}).then(res => {
 					page++; //得到数据之后page+1
 					_self.newsList = res.data.list;
@@ -284,7 +285,8 @@
 					pageNum: page,
 					pageSize: 10,
 					submitState: 'tj01',
-					auditState: 'sh02'
+					auditState: 'sh02',
+					logCode: this.logCode
 				}).then(res => {
 					page++; //得到数据之后page+1
 					_self.newsListLog = res.data.list;
@@ -313,5 +315,12 @@
 </script>
 
 <style>
+	.box {
+		background: #FFFFFF;
+		margin-bottom: 10upx;
+	}
 
+	.Home {
+		background-color: #f2f3f5;
+	}
 </style>

@@ -8,7 +8,15 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var ruiDatePicker = function ruiDatePicker() {return Promise.all(/*! import() | components/rattenking-dtpicker/rattenking-dtpicker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rattenking-dtpicker/rattenking-dtpicker")]).then(__webpack_require__.bind(null, /*! @/components/rattenking-dtpicker/rattenking-dtpicker.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\rattenking-dtpicker\\rattenking-dtpicker.vue"));};var cmdInput = function cmdInput() {return __webpack_require__.e(/*! import() | components/cmd-input/cmd-input */ "components/cmd-input/cmd-input").then(__webpack_require__.bind(null, /*! @/components/cmd-input/cmd-input.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\cmd-input\\cmd-input.vue"));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var ruiDatePicker = function ruiDatePicker() {return Promise.all(/*! import() | components/rattenking-dtpicker/rattenking-dtpicker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rattenking-dtpicker/rattenking-dtpicker")]).then(__webpack_require__.bind(null, /*! @/components/rattenking-dtpicker/rattenking-dtpicker.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\rattenking-dtpicker\\rattenking-dtpicker.vue"));};var cmdInput = function cmdInput() {return __webpack_require__.e(/*! import() | components/cmd-input/cmd-input */ "components/cmd-input/cmd-input").then(__webpack_require__.bind(null, /*! @/components/cmd-input/cmd-input.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\cmd-input\\cmd-input.vue"));};var wPicker = function wPicker() {return Promise.all(/*! import() | components/w-picker/w-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/w-picker/w-picker")]).then(__webpack_require__.bind(null, /*! @/components/w-picker/w-picker.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\w-picker\\w-picker.vue"));};var _default =
+
+
+
+
+
+
+
+
 
 
 
@@ -49,29 +57,64 @@
 {
   components: {
     ruiDatePicker: ruiDatePicker,
-    cmdInput: cmdInput },
+    cmdInput: cmdInput,
+    wPicker: wPicker },
 
   data: function data() {
     return {
+      currentDate: new Date().getTime(),
+      minDate: new Date().getTime(),
+
+
+
+
+      errorMessage: '',
       uuid: '', //UUID
       disData: [], //派单详情数据
       value: '', //实际加工时间
       actualProduceTime: '', //实际生产时间
 
-      actualProduceQuantity: '' //实际生产数量
-    };
+      actualProduceQuantity: '', //实际生产数量
+
+
+
+      title: 'Hello',
+      tabList: [{
+        mode: "date",
+        name: "日期选择",
+        value: [0, 1, 0] }],
+
+      tabIndex: 0 };
 
   },
+  computed: {
+    mode: function mode() {
+      return this.tabList[this.tabIndex].mode;
+    },
+    defaultVal: function defaultVal() {
+      return this.tabList[this.tabIndex].value;
+    } },
+
   onLoad: function onLoad(option) {
     this.uuid = option.id;
     this.dispatchDetailsQuery();
   },
   methods: {
+
+    onConfirm: function onConfirm(event) {
+      //选择时间确认按钮
+      this.actualProduceTime = event.result;
+      console.log(event.result);
+
+    },
+
+
+
+
     history: function history() {
       //历史按钮
       //点击查看详情
 
-      // console.log(this.disData)
       uni.navigateTo({
         url: "historyLog?id=".concat(this.disData.uuid) });
 
@@ -91,16 +134,16 @@
       //保存生产日志
       var data = {
         dispatchSheetList: [this.disData],
-        actualProduceTime: this.actualProduceTime,
+        // actualProduceTime: this.actualProduceTime,
         expectProduceQuantity: this.expectProduceQuantity,
-        actualProduceQuantity: this.actualProduceQuantity };
+        actualProduceQuantity: parseInt(this.actualProduceQuantity) };
 
       this.$http.post(this.$store.state.saveProducelog, data).then(function (res) {
         console.log(res);
         if (res.data.code == 200) {
           uni.showModal({
             title: '提示',
-            content: '新建成功',
+            content: '提交成功',
             showCancel: false });
 
         } else {
@@ -110,6 +153,7 @@
 
         }
       });
+
       console.log(data);
     },
     dispatchDetailsQuery: function dispatchDetailsQuery() {var _this = this;
@@ -152,6 +196,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = _vm.$refs.picker.show
+  }
 }
 var staticRenderFns = []
 render._withStripped = true

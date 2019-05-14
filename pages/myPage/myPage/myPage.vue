@@ -37,7 +37,7 @@
 			InformationQuery() {
 				//个人信息查询
 				let userUUID = uni.getStorageSync('wx_uuid')
-				this.$http.get('http://192.168.2.241:8099/supplychain/api/operator/select', {
+				this.$http.get(this.$store.state.operatorSelect, {
 					uuid: userUUID
 				}).then(res => {
 					console.log(res)

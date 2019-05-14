@@ -18,13 +18,17 @@
 			<view slot="footer">
 			</view>
 		</van-panel>
-		<view class="boxButon">
+		<!-- 	<view class="boxButon">
 			<van-button type="danger" :disabled="butState" @click="Refused">拒绝</van-button>
 			<van-button type="primary" :disabled="butState" @click="accept">接受</van-button>
-		</view>
+		</view> -->
 
 
+		<van-tabbar active-color="#7d7e80">
+			<van-tabbar-item icon="cross" @click="Refused">拒绝</van-tabbar-item>
+			<van-tabbar-item icon="success" @click="accept">接受</van-tabbar-item>
 
+		</van-tabbar>
 
 		<prompt :visible.sync="promptVisible" title="拒绝原因" @confirm="clickPromptConfirm" @confirms="cancel">
 
@@ -78,6 +82,7 @@
 								showCancel: false,
 								success() {
 									that.promptVisible = true
+									that.dispatchDetailsQuery()
 								}
 							});
 							this.butState = true
@@ -95,33 +100,56 @@
 			},
 			Refused() {
 				//拒绝按钮
-				this.promptVisible = false
+
+				if (this.disData.receiveState !== 0) {
+					uni.showModal({
+						title: '提示',
+						content: '已经操作过的订单，无法再次操作！',
+						showCancel: false
+					});
+
+				} else {
+					this.promptVisible = false
+				}
+
+
 
 			},
 			accept() {
-				let that = this
-				//接受按钮
-				let data = {
-					dispatchDetailBeanList: [this.disData],
-					receiveState: 1,
+				if (this.disData.receiveState !== 0) {
+					uni.showModal({
+						title: '提示',
+						content: '已经操作过的订单，无法再次操作！',
+						showCancel: false
+					});
 
-				}
+				} else {
+					let that = this
+					//接受按钮
+					let data = {
+						dispatchDetailBeanList: [this.disData],
+						receiveState: 1,
 
-				uni.showModal({
-					title: '操作',
-					content: '确认接受该条派工单？',
-					showCancel: true,
-					success(res) {
-						if (res.confirm) {
-							that.$http.post(that.$store.state.saveState, data).then(res => {
-								if (res.data.code == 200) {
-									that.butState = true
-								}
-							})
-						}
 					}
 
-				});
+					uni.showModal({
+						title: '操作',
+						content: '确认接受该条派工单？',
+						showCancel: true,
+						success(res) {
+							if (res.confirm) {
+								that.$http.post(that.$store.state.saveState, data).then(res => {
+									if (res.data.code == 200) {
+										that.butState = true
+										that.dispatchDetailsQuery()
+									}
+								})
+							}
+						}
+
+					});
+				}
+
 
 
 
@@ -154,5 +182,9 @@
 
 	.boxButon .van-button {
 		width: 200upx;
+	}
+
+	.dispatchDetails {
+		background-color: #f2f3f5;
 	}
 </style>

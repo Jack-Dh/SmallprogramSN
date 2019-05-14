@@ -83,7 +83,9 @@
 
 	.contents {
 		text-align: center;
-		height: 400upx;
+		height: 100%;
+		background: #FFFFFF;
+		
 	}
 
 	.logos {

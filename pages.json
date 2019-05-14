@@ -1,6 +1,39 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
+			//登录页
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "首诺供应链", //项目标题
+				"usingComponents": {
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
+				}
+		
+			}
+		},{
+			//生产日志
+			"path": "pages/myPage/productionManagement/productionLog",
+			"style": {
+				"navigationBarTitleText": "首诺供应链", //设置页面头部名字
+				"usingComponents": {
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
+					"van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
+					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-card": "/wxcomponents/vant/dist/card/index",
+					"van-tag": "/wxcomponents/vant/dist/tag/index",
+					"van-panel": "/wxcomponents/vant/dist/panel/index",
+					"van-field": "/wxcomponents/vant/dist/field/index",
+					"van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index",
+					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index"
+		
+		
+				}
+			}
+		}, {
 			//首页
 			"path": "pages/Home/Home/Home",
 			"style": {
@@ -18,25 +51,15 @@
 					"van-panel": "/wxcomponents/vant/dist/panel/index",
 					"van-popup": "/wxcomponents/vant/dist/popup/index",
 					"van-tab": "/wxcomponents/vant/dist/tab/index",
-					"van-tabs": "/wxcomponents/vant/dist/tabs/index"
+					"van-tabs": "/wxcomponents/vant/dist/tabs/index",
+					"van-search": "/wxcomponents/vant/dist/search/index"
 				}
-		
-		
+
+
 			}
 		}, {
-			//登录页
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "首诺供应链", //项目标题
-				"usingComponents": {
-					"van-button": "/wxcomponents/vant/dist/button/index",
-					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
-				}
-		
-			}
-		},{
 			//生产日志审核
-			"path":"pages/Home/Home/logAudit",
+			"path": "pages/Home/Home/logAudit",
 			"style": {
 				"enablePullDownRefresh": true, //下拉刷新
 				"navigationBarTitleText": "首诺供应链", //设置页面头部名字
@@ -54,10 +77,10 @@
 					"van-tab": "/wxcomponents/vant/dist/tab/index",
 					"van-tabs": "/wxcomponents/vant/dist/tabs/index"
 				}
-			
-			
+
+
 			}
-			
+
 		}, {
 			//我的
 			"path": "pages/myPage/myPage/myPage",
@@ -115,27 +138,7 @@
 			}
 		},
 
-		{
-			//生产日志
-			"path": "pages/myPage/productionManagement/productionLog",
-			"style": {
-				"navigationBarTitleText": "首诺供应链", //设置页面头部名字
-				"usingComponents": {
-					"van-button": "/wxcomponents/vant/dist/button/index",
-					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
-					"van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
-					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
-					"van-cell": "/wxcomponents/vant/dist/cell/index",
-					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
-					"van-card": "/wxcomponents/vant/dist/card/index",
-					"van-tag": "/wxcomponents/vant/dist/tag/index",
-					"van-panel": "/wxcomponents/vant/dist/panel/index",
-					"van-field": "/wxcomponents/vant/dist/field/index"
-
-
-				}
-			}
-		},
+		
 		{
 			//我的派单列表详情
 			"path": "pages/myPage/productionManagement/productionManagement",
@@ -173,6 +176,7 @@
 					"van-tag": "/wxcomponents/vant/dist/tag/index",
 					"van-panel": "/wxcomponents/vant/dist/panel/index",
 					"van-popup": "/wxcomponents/vant/dist/popup/index"
+
 				}
 			}
 		},

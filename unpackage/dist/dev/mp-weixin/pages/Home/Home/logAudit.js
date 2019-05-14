@@ -36,6 +36,13 @@
 
 
 
+
+
+
+
+
+
+
 {
   components: {
     Prompt: Prompt },
@@ -57,15 +64,15 @@
   },
   methods: {
     dispatchDetailsQuery: function dispatchDetailsQuery() {var _this = this;
-      //查询派工单详情
+      //查询生产日志单详情
       this.$http.get(this.$store.state.producelogdetail, {
         uuid: this.uuid }).
       then(function (res) {
         console.log(res);
         _this.disData = res.data.data;
-        console.log(res);
-        if (res.data.data.receiveState !== 0) {
-          _this.butState = true;
+
+        if (res.data.data.auditStatus !== 'sh02') {
+          that.butState = true;
         }
       });
     },
@@ -75,19 +82,23 @@
     },
     clickPromptConfirm: function clickPromptConfirm(val) {var _this2 = this;
       //审核驳回
+
       var data = {
         produceLogBeanList: [this.disData],
-        auditStatus: 'sh03' };
+        auditStatus: 'sh03',
+        refuseReason: val };
 
       var that = this;
       if (val != '') {
-        this.$http.post(this.$store.state.saveState, data).then(function (res) {
+        this.$http.post(this.$store.state.saveStateProducelog, data).then(function (res) {
           if (res.data.code == 200) {
             uni.showModal({
-              title: '操作成功！',
+              title: '提示',
+              content: '操作成功',
               showCancel: false,
               success: function success() {
                 that.promptVisible = true;
+                that.dispatchDetailsQuery();
               } });
 
             _this2.butState = true;
@@ -122,9 +133,10 @@
         showCancel: true,
         success: function success(res) {
           if (res.confirm) {
-            that.$http.post(that.$store.state.saveState, data).then(function (res) {
+            that.$http.post(that.$store.state.saveStateProducelog, data).then(function (res) {
               if (res.data.code == 200) {
                 that.butState = true;
+                that.dispatchDetailsQuery();
               }
             });
           }

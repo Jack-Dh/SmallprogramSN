@@ -11,7 +11,10 @@
     "van-tag": "/wxcomponents/vant/dist/tag/index",
     "van-panel": "/wxcomponents/vant/dist/panel/index",
     "van-field": "/wxcomponents/vant/dist/field/index",
+    "van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index",
+    "van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
     "rui-date-picker": "/components/rattenking-dtpicker/rattenking-dtpicker",
-    "cmd-input": "/components/cmd-input/cmd-input"
+    "cmd-input": "/components/cmd-input/cmd-input",
+    "w-picker": "/components/w-picker/w-picker"
   }
 }

@@ -12,4 +12,7 @@
 .boxButon .van-button {
 	width: 200rpx;
 }
+.dispatchDetails {
+	background-color: #f2f3f5;
+}
 

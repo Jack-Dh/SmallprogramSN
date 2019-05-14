@@ -50,6 +50,10 @@
 
 
 
+
+
+
+
 {
   components: {
     Prompt: Prompt },
@@ -88,6 +92,7 @@
               showCancel: false,
               success: function success() {
                 that.promptVisible = true;
+                that.dispatchDetailsQuery();
               } });
 
             _this.butState = true;
@@ -105,32 +110,55 @@
     },
     Refused: function Refused() {
       //拒绝按钮
-      this.promptVisible = false;
+
+      if (this.disData.receiveState !== 0) {
+        uni.showModal({
+          title: '提示',
+          content: '已经操作过的订单，无法再次操作！',
+          showCancel: false });
+
+
+      } else {
+        this.promptVisible = false;
+      }
+
+
 
     },
     accept: function accept() {
-      var that = this;
-      //接受按钮
-      var data = {
-        dispatchDetailBeanList: [this.disData],
-        receiveState: 1 };
+      if (this.disData.receiveState !== 0) {
+        uni.showModal({
+          title: '提示',
+          content: '已经操作过的订单，无法再次操作！',
+          showCancel: false });
+
+
+      } else {
+        var that = this;
+        //接受按钮
+        var data = {
+          dispatchDetailBeanList: [this.disData],
+          receiveState: 1 };
 
 
 
-      uni.showModal({
-        title: '操作',
-        content: '确认接受该条派工单？',
-        showCancel: true,
-        success: function success(res) {
-          if (res.confirm) {
-            that.$http.post(that.$store.state.saveState, data).then(function (res) {
-              if (res.data.code == 200) {
-                that.butState = true;
-              }
-            });
-          }
-        } });
+        uni.showModal({
+          title: '操作',
+          content: '确认接受该条派工单？',
+          showCancel: true,
+          success: function success(res) {
+            if (res.confirm) {
+              that.$http.post(that.$store.state.saveState, data).then(function (res) {
+                if (res.data.code == 200) {
+                  that.butState = true;
+                  that.dispatchDetailsQuery();
+                }
+              });
+            }
+          } });
 
+
+      }
 
 
 

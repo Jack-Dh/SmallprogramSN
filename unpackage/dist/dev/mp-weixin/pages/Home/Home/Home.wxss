@@ -1,1 +1,9 @@
-/* pages/Home/Home/Home.wxss */
+
+.box {
+	background: #FFFFFF;
+	margin-bottom: 10rpx;
+}
+.Home {
+	background-color: #f2f3f5;
+}
+
