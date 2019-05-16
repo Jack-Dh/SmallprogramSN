@@ -17,6 +17,8 @@
 	"libVersion": "2.6.4",
 	"appid": "wx1cf721c808fd3246",
 	"projectname": "SmallprogramSN",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,

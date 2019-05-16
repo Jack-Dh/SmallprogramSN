@@ -132,10 +132,10 @@ var _default =
     /***
                              * 默认给定未处理数量
                              * */
-    uni.setTabBarBadge({
-      index: 0,
-      text: '31' });
-
+    // uni.setTabBarBadge({
+    // 	index: 0,
+    // 	text: '31'
+    // });
 
 
   },
