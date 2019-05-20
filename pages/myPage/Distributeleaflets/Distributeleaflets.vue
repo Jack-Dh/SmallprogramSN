@@ -7,7 +7,7 @@
 
 		<view v-for="item in newsList" class="newslist">
 			<view @click="Jump(item.uuid)">
-				<van-card :title="item.factoryName" :tag="item.receiveState==0?'待处理':item.receiveState==1?'已接单':'已拒绝'">
+				<van-card :title="item.factoryName" :tag="item.receiveState==0?'待处理':item.receiveState==1?'已接单':item.receiveState==2?'已拒绝':'已完结'">
 
 					<view slot="desc">
 						<view>派工单号:{{item.dispatchCode}}</view>

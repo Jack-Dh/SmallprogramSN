@@ -27,9 +27,6 @@
 								</van-card>
 							</view>
 
-
-
-
 						</view>
 
 

@@ -17,7 +17,7 @@
 			<view slot="footer">
 			</view>
 		</van-panel>
-	
+
 
 		<prompt :visible.sync="promptVisible" title="拒绝原因" @confirm="clickPromptConfirm" @confirms="cancel"></prompt>
 
@@ -54,6 +54,7 @@
 		},
 		methods: {
 			dispatchDetailsQuery() {
+				let that=this
 				//查询生产日志单详情
 				this.$http.get(this.$store.state.producelogdetail, {
 					uuid: this.uuid
@@ -86,17 +87,25 @@
 								title: '提示',
 								content: '操作成功',
 								showCancel: false,
-								success() {
+								success(res) {
 									that.promptVisible = true
-									that.dispatchDetailsQuery()
+									// that.dispatchDetailsQuery()
+									if (res.confirm) {
+										console.log('用户点击确定');
+										uni.reLaunch({
+											url: 'Home'
+										});
+									}
 								}
+
 							});
 							this.butState = true
 						}
 					})
 				} else {
 					uni.showModal({
-						title: '请输入拒绝原因！',
+						title: '提示',
+						content: '请输入拒绝原因',
 						showCancel: false
 					});
 				}
@@ -123,10 +132,26 @@
 					showCancel: true,
 					success(res) {
 						if (res.confirm) {
+							
 							that.$http.post(that.$store.state.saveStateProducelog, data).then(res => {
 								if (res.data.code == 200) {
 									that.butState = true
 									that.dispatchDetailsQuery()
+									uni.showModal({
+										title: '提示',
+										content: '操作成功',
+										showCancel: false,
+										success(res) {
+
+											if (res.confirm) {
+												console.log('用户点击确定');
+												uni.reLaunch({
+													url: 'Home'
+												});
+											}
+										}
+
+									});
 								}
 							})
 						}

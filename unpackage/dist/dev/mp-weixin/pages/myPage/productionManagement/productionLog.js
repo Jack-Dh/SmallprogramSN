@@ -54,6 +54,7 @@
 
 
 
+
 {
   components: {
     ruiDatePicker: ruiDatePicker,
@@ -61,51 +62,70 @@
     wPicker: wPicker },
 
   data: function data() {
+
     return {
       currentDate: new Date().getTime(),
       minDate: new Date().getTime(),
-
-
-
-
-      errorMessage: '',
+      errorMessage: '', //实际生产数量错误信息
+      errorMessageTime: '', //实际生产时间错误信息
       uuid: '', //UUID
       disData: [], //派单详情数据
       value: '', //实际加工时间
       actualProduceTime: '', //实际生产时间
 
       actualProduceQuantity: '', //实际生产数量
+      restNumber: '', //剩余生产总量
+      numberState: false, //根据剩余生产总量判断是否还能再提交
 
-
+      endYear: 2049,
 
       title: 'Hello',
       tabList: [{
         mode: "date",
         name: "日期选择",
-        value: [0, 1, 0] }],
+        value: [0, 2, 30] }],
 
       tabIndex: 0 };
 
   },
   computed: {
+
     mode: function mode() {
       return this.tabList[this.tabIndex].mode;
     },
     defaultVal: function defaultVal() {
       return this.tabList[this.tabIndex].value;
+    },
+    defaultVals: function defaultVals() {
+      // const date = new Date();
+
+      var date = new Date();
+      var yearXb = this.endYear - 2000;
+      var yearArr = [2000];
+      var year = date.getFullYear();
+      var month = date.getMonth();
+      var day = date.getDate() - 1;
+
+
+      return [yearXb, month, day];
+
     } },
 
   onLoad: function onLoad(option) {
+    var date = new Date();
+    console.log(date);
     this.uuid = option.id;
     this.dispatchDetailsQuery();
   },
   methods: {
 
+
     onConfirm: function onConfirm(event) {
       //选择时间确认按钮
       this.actualProduceTime = event.result;
+      this.errorMessageTime = '';
       console.log(event.result);
-
+      console.log(event);
     },
 
 
@@ -123,6 +143,12 @@
     actualOnChange: function actualOnChange(event) {
       // event.detail 为当前输入实际生产总量的值
       this.actualProduceQuantity = event.detail;
+      if (this.actualProduceQuantity > this.restNumber) {
+        this.errorMessage = '输入有误，实际生产数量无法大于剩余生产总量';
+        this.actualProduceQuantity = '';
+      } else {
+        this.errorMessage = '';
+      }
       console.log(event.detail);
     },
 
@@ -136,23 +162,50 @@
         dispatchSheetList: [this.disData],
         // actualProduceTime: this.actualProduceTime,
         expectProduceQuantity: this.expectProduceQuantity,
-        actualProduceQuantity: parseInt(this.actualProduceQuantity) };
+        actualProduceQuantity: parseInt(this.actualProduceQuantity)
 
-      this.$http.post(this.$store.state.saveProducelog, data).then(function (res) {
-        console.log(res);
-        if (res.data.code == 200) {
-          uni.showModal({
-            title: '提示',
-            content: '提交成功',
-            showCancel: false });
 
-        } else {
-          uni.showModal({
-            title: res.data.msg,
-            showCancel: false });
+        // 	errorMessage: '',//实际生产数量错误信息
+        // errorMessageTime:'',//实际生产时间错误信息
+      };
 
-        }
-      });
+
+
+
+      if (this.actualProduceQuantity !== '' && this.actualProduceTime !== '') {
+        this.$http.post(this.$store.state.saveProducelog, data).then(function (res) {
+          console.log(res);
+          if (res.data.code == 200) {
+            uni.showModal({
+              title: '提示',
+              content: '提交成功',
+              showCancel: false,
+              success: function success(res) {
+                if (res.confirm) {
+                  console.log('用户点击确定');
+                  uni.reLaunch({
+                    url: '../myPage/myPage' });
+
+                }
+              } });
+
+          } else {
+            uni.showModal({
+              title: res.data.msg,
+              showCancel: false });
+
+          }
+        });
+      } else if (this.actualProduceQuantity === '' && this.actualProduceTime === '') {
+        this.errorMessage = '实际生产数量不能为空';
+        this.errorMessageTime = '实际生产时间不能为空';
+      } else if (this.actualProduceQuantity === '') {
+        this.errorMessage = '实际生产数量不能为空';
+      } else if (this.actualProduceTime === '') {
+        this.errorMessageTime = '实际生产时间不能为空';
+      }
+
+
 
       console.log(data);
     },
@@ -164,6 +217,10 @@
       then(function (res) {
         console.log(res);
         _this.disData = res.data.data;
+        _this.restNumber = res.data.data.restNumber;
+        if (_this.restNumber == 0) {
+          _this.numberState = true;
+        }
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))

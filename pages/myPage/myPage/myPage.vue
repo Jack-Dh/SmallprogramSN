@@ -21,6 +21,8 @@
 		<van-cell title="工厂信息" is-link url="../factoryInformation/factoryInformation" />
 		<van-cell title="我的派单" is-link url="../Distributeleaflets/Distributeleaflets" />
 		<van-cell title="生产管理" is-link url="../productionManagement/productionManagement" />
+		<van-cell title="半成品发货" is-link url="../productionManagement/productionManagement" />
+		<van-cell title="库存管理" is-link url="../productionManagement/productionManagement" />
 	</view>
 
 </template>

@@ -73,16 +73,24 @@
 					receiveState: 2,
 					refuseReason: val
 				}
-				let that = this
+				
 				if (val != '') {
 					this.$http.post(this.$store.state.saveState, data).then(res => {
 						if (res.data.code == 200) {
 							uni.showModal({
 								title: '操作成功！',
 								showCancel: false,
-								success() {
+								success(res) {
 									that.promptVisible = true
 									that.dispatchDetailsQuery()
+									// that.dispatchDetailsQuery()
+										if (res.confirm) {
+											console.log('用户点击确定');
+											uni.reLaunch({
+												url: '../myPage/myPage'
+											});
+										}
+									
 								}
 							});
 							this.butState = true
@@ -139,9 +147,28 @@
 						success(res) {
 							if (res.confirm) {
 								that.$http.post(that.$store.state.saveState, data).then(res => {
-									if (res.data.code == 200) {
-										that.butState = true
-										that.dispatchDetailsQuery()
+									// if (res.data.code == 200) {
+									// 	that.butState = true
+									// 	that.dispatchDetailsQuery()
+									// }
+									
+										if (res.data.code == 200) {
+										uni.showModal({
+											title: '提示',
+											content: '操作成功！',
+											showCancel: false,
+											success(res) {
+												that.butState = true
+												that.dispatchDetailsQuery()
+													if (res.confirm) {
+														console.log('用户点击确定');
+														uni.reLaunch({
+															url: '../myPage/myPage'
+														});
+													}
+											}
+										});
+										// this.butState = true
 									}
 								})
 							}

@@ -83,16 +83,24 @@
         receiveState: 2,
         refuseReason: val };
 
-      var that = this;
+
       if (val != '') {
         this.$http.post(this.$store.state.saveState, data).then(function (res) {
           if (res.data.code == 200) {
             uni.showModal({
               title: '操作成功！',
               showCancel: false,
-              success: function success() {
+              success: function success(res) {
                 that.promptVisible = true;
                 that.dispatchDetailsQuery();
+                // that.dispatchDetailsQuery()
+                if (res.confirm) {
+                  console.log('用户点击确定');
+                  uni.reLaunch({
+                    url: '../myPage/myPage' });
+
+                }
+
               } });
 
             _this.butState = true;
@@ -134,7 +142,7 @@
 
 
       } else {
-        var that = this;
+        var _that = this;
         //接受按钮
         var data = {
           dispatchDetailBeanList: [this.disData],
@@ -148,10 +156,29 @@
           showCancel: true,
           success: function success(res) {
             if (res.confirm) {
-              that.$http.post(that.$store.state.saveState, data).then(function (res) {
+              _that.$http.post(_that.$store.state.saveState, data).then(function (res) {
+                // if (res.data.code == 200) {
+                // 	that.butState = true
+                // 	that.dispatchDetailsQuery()
+                // }
+
                 if (res.data.code == 200) {
-                  that.butState = true;
-                  that.dispatchDetailsQuery();
+                  uni.showModal({
+                    title: '提示',
+                    content: '操作成功！',
+                    showCancel: false,
+                    success: function success(res) {
+                      _that.butState = true;
+                      _that.dispatchDetailsQuery();
+                      if (res.confirm) {
+                        console.log('用户点击确定');
+                        uni.reLaunch({
+                          url: '../myPage/myPage' });
+
+                      }
+                    } });
+
+                  // this.butState = true
                 }
               });
             }

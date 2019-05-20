@@ -12,6 +12,22 @@
 		
 			}
 		},{
+			//我的
+			"path": "pages/myPage/myPage/myPage",
+			"style": {
+				"navigationBarTitleText": "首诺供应链", //设置页面头部名字
+				"usingComponents": {
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
+					"van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
+					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
+					"van-cell": "/wxcomponents/vant/dist/cell/index",
+					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+					"van-card": "/wxcomponents/vant/dist/card/index",
+					"van-tag": "/wxcomponents/vant/dist/tag/index"
+				}
+			}
+		},{
 			//生产日志
 			"path": "pages/myPage/productionManagement/productionLog",
 			"style": {
@@ -81,23 +97,7 @@
 
 			}
 
-		}, {
-			//我的
-			"path": "pages/myPage/myPage/myPage",
-			"style": {
-				"navigationBarTitleText": "首诺供应链", //设置页面头部名字
-				"usingComponents": {
-					"van-button": "/wxcomponents/vant/dist/button/index",
-					"van-dialog": "/wxcomponents/vant/dist/dialog/index",
-					"van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
-					"van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
-					"van-cell": "/wxcomponents/vant/dist/cell/index",
-					"van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
-					"van-card": "/wxcomponents/vant/dist/card/index",
-					"van-tag": "/wxcomponents/vant/dist/tag/index"
-				}
-			}
-		},
+		}, 
 		{
 			//生产日志历史
 			"path": "pages/myPage/productionManagement/historyLog",
