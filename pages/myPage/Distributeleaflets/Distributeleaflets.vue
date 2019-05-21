@@ -7,16 +7,17 @@
 
 		<view v-for="item in newsList" class="newslist">
 			<view @click="Jump(item.uuid)">
-				<van-card :title="item.factoryName" :tag="item.receiveState==0?'待处理':item.receiveState==1?'已接单':item.receiveState==2?'已拒绝':'已完结'">
+				<van-card :title="item.factoryName" >
 
 					<view slot="desc">
 						<view>派工单号:{{item.dispatchCode}}</view>
-						<view>款式编号:{{item.styleCode}}</view>
+						<view class="orderBox">款式编号:{{item.styleCode}}</view>
 					</view>
-					<view slot="tags">
+					<view slot="tags" class="orderBox">
 						<van-tag plain type="danger" v-for="j in item.processNodeList">
 							{{j=='weave'?'织造':j=='seamHead'?'缝头':j=='stereoType'?'定型':'包装'}}</van-tag>
-
+						<van-tag style="margin-left: 20upx;" plain type="danger" >
+							{{item.receiveState==0?'待处理':item.receiveState==1?'已接单':item.receiveState==2?'已拒绝':'已完结'}}</van-tag>
 					</view>
 
 				</van-card>
@@ -195,7 +196,7 @@
 		background-color: #f2f3f5;
 		height: 100%;
 	}
-
+.orderBox{margin-top: 20upx;}
 	.van-card {
 		margin-bottom: 20upx;
 		background: #FFFFFF;

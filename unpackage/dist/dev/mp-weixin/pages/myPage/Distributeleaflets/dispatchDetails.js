@@ -54,12 +54,28 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     Prompt: Prompt },
 
   data: function data() {
     return {
+      activeNames: '1',
       uuid: '', //UUID
       disData: [], //派单详情数据
       refuseReason: '', //拒绝原因
@@ -72,6 +88,10 @@
     this.dispatchDetailsQuery();
   },
   methods: {
+    onChange: function onChange(event) {
+      console.log(event);
+      this.activeNames = event.detail;
+    },
     cancel: function cancel() {
       //弹出框取消按钮
       this.promptVisible = true;

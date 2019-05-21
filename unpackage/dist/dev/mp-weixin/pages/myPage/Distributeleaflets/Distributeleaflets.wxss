@@ -1,16 +1,17 @@
 
 .Distributeleaflets {
-	background-color: #f2f3f5;
-	height: 100%;
+		background-color: #f2f3f5;
+		height: 100%;
 }
+.orderBox{margin-top: 20rpx;}
 .van-card {
-	margin-bottom: 20rpx;
-	background: #FFFFFF;
+		margin-bottom: 20rpx;
+		background: #FFFFFF;
 }
 .vanTag {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
 }
 

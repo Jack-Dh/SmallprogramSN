@@ -1,4 +1,18 @@
 
+.goodsdetails{
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	/* justify-content: space-between; */
+	/* justify-content: space-around; */
+	-webkit-flex-wrap: nowrap;
+	    -ms-flex-wrap: nowrap;
+	        flex-wrap: nowrap;
+}
+.box{
+	 margin-bottom: 150rpx;
+}
 .boxButon {
 	display: -webkit-box;
 	display: -webkit-flex;

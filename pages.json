@@ -1,17 +1,6 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			//登录页
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "首诺供应链", //项目标题
-				"usingComponents": {
-					"van-button": "/wxcomponents/vant/dist/button/index",
-					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
-				}
-		
-			}
-		},{
+		 {
 			//我的
 			"path": "pages/myPage/myPage/myPage",
 			"style": {
@@ -28,6 +17,17 @@
 				}
 			}
 		},{
+			//登录页
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "首诺供应链", //项目标题
+				"usingComponents": {
+					"van-button": "/wxcomponents/vant/dist/button/index",
+					"van-dialog": "/wxcomponents/vant/dist/dialog/index"
+				}
+		
+			}
+		}, {
 			//生产日志
 			"path": "pages/myPage/productionManagement/productionLog",
 			"style": {
@@ -45,8 +45,8 @@
 					"van-field": "/wxcomponents/vant/dist/field/index",
 					"van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index",
 					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index"
-		
-		
+
+
 				}
 			}
 		}, {
@@ -97,7 +97,7 @@
 
 			}
 
-		}, 
+		},
 		{
 			//生产日志历史
 			"path": "pages/myPage/productionManagement/historyLog",
@@ -138,7 +138,7 @@
 			}
 		},
 
-		
+
 		{
 			//我的派单列表详情
 			"path": "pages/myPage/productionManagement/productionManagement",
@@ -175,7 +175,9 @@
 					"van-card": "/wxcomponents/vant/dist/card/index",
 					"van-tag": "/wxcomponents/vant/dist/tag/index",
 					"van-panel": "/wxcomponents/vant/dist/panel/index",
-					"van-popup": "/wxcomponents/vant/dist/popup/index"
+					"van-popup": "/wxcomponents/vant/dist/popup/index",
+					"van-collapse": "/wxcomponents/vant/dist/collapse/index",
+					"van-collapse-item": "/wxcomponents/vant/dist/collapse-item/index"
 
 				}
 			}

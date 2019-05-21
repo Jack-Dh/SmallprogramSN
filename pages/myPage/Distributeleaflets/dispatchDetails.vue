@@ -1,38 +1,53 @@
 <template>
 	<view class="dispatchDetails">
-		<van-panel title="派单详情">
-			<view>
+		<view class="box">
+			<van-panel>
+				<view>
+					<van-cell title="派单编号" :value="disData.dispatchCode" size="large" />
+					<van-cell title="派单工厂" :value="disData.factoryName" size="large" />
+					<van-cell title="预加工时间" :value="disData.expectProcessTime" size="large" />
+					<van-cell title="预完工时间" :value="disData.expectCompleteTime" size="large" />
+					<van-cell title="款式编号" :value="disData.styleCode" size="large" />
+					<van-cell title="派工工艺" :value="disData.processNode=='weave'?'织造':disData.processNode=='seamHead'?'缝头':disData.processNode=='stereoType'?'定型':'包装'"
+					 size="large" />
+					<!-- <van-cell title="加工数量" :value="disData.totalNumber" size="large" /> -->
+					<van-cell title="接受状态" :value="disData.receiveState==0?'待处理':disData.receiveState==1?'已接单':'已拒绝'" size="large" />
+					<van-cell title="派工人员" :value="disData.dispatchWorker" size="large" />
+					<van-cell title="派工时间" :value="disData.createTime" size="large" />
+					<van-collapse :border="false" :value="activeNames" @change="onChange" accordion>
+						<van-collapse-item title="商品详情" name="1">
+							<view class="goodsdetails" v-for="item in disData.goodsList">
+								<view>
+									<view>商品名称:{{item.name}}</view>
+									<view>商家编码:{{item.merchantCode}}</view>
+									<view>货品编号:{{item.itemCode}}</view>
+									<view>颜色:{{item.colour}}</view>
+								</view>
+								
+								<view>
+									<view>品牌:{{item.brand}}</view>
+									<view>包装材料:{{item.packag}}</view>
+									<view>克重:{{item.weight}}</view>
+									<view>面料成分:{{item.ingredients}}</view>
+								</view>
+								
+								
+							</view>
+						</van-collapse-item>
+					</van-collapse>
+				</view>
 
-				<van-cell title="派单编号" :value="disData.dispatchCode" size="large" />
-				<van-cell title="派单工厂" :value="disData.factoryName" size="large" />
-				<van-cell title="预加工时间" :value="disData.expectProcessTime" size="large" />
-				<van-cell title="预完工时间" :value="disData.expectCompleteTime" size="large" />
-				<van-cell title="款式编号" :value="disData.styleCode" size="large" />
-				<van-cell title="派工工艺" :value="disData.processNode=='weave'?'织造':disData.processNode=='seamHead'?'缝头':disData.processNode=='stereoType'?'定型':'包装'"
-				 size="large" />
-				<van-cell title="加工数量" :value="disData.totalNumber" size="large" />
-				<van-cell title="接受状态" :value="disData.receiveState==0?'待处理':disData.receiveState==1?'已接单':'已拒绝'" size="large" />
-				<van-cell title="派工人员" :value="disData.dispatchWorker" size="large" />
-				<van-cell title="派工时间" :value="disData.createTime" size="large" />
-			</view>
-			<view slot="footer">
-			</view>
-		</van-panel>
-		<!-- 	<view class="boxButon">
-			<van-button type="danger" :disabled="butState" @click="Refused">拒绝</van-button>
-			<van-button type="primary" :disabled="butState" @click="accept">接受</van-button>
-		</view> -->
+			</van-panel>
 
 
-		<van-tabbar active-color="#7d7e80">
-			<van-tabbar-item icon="cross" @click="Refused">拒绝</van-tabbar-item>
-			<van-tabbar-item icon="success" @click="accept">接受</van-tabbar-item>
-
-		</van-tabbar>
-
-		<prompt :visible.sync="promptVisible" title="拒绝原因" @confirm="clickPromptConfirm" @confirms="cancel">
-
-		</prompt>
+		</view>
+			<van-tabbar active-color="#7d7e80">
+				<van-tabbar-item icon="cross" @click="Refused">拒绝</van-tabbar-item>
+				<van-tabbar-item icon="success" @click="accept">接受</van-tabbar-item>
+			
+			</van-tabbar>
+	
+		<prompt :visible.sync="promptVisible" title="拒绝原因" @confirm="clickPromptConfirm" @confirms="cancel"></prompt>
 
 	</view>
 
@@ -50,6 +65,7 @@
 		},
 		data() {
 			return {
+				activeNames: '1',
 				uuid: '', //UUID
 				disData: [], //派单详情数据
 				refuseReason: '', //拒绝原因
@@ -62,6 +78,10 @@
 			this.dispatchDetailsQuery()
 		},
 		methods: {
+			onChange(event) {
+				console.log(event)
+				this.activeNames = event.detail
+			},
 			cancel() {
 				//弹出框取消按钮
 				this.promptVisible = true
@@ -73,7 +93,7 @@
 					receiveState: 2,
 					refuseReason: val
 				}
-				
+
 				if (val != '') {
 					this.$http.post(this.$store.state.saveState, data).then(res => {
 						if (res.data.code == 200) {
@@ -84,13 +104,13 @@
 									that.promptVisible = true
 									that.dispatchDetailsQuery()
 									// that.dispatchDetailsQuery()
-										if (res.confirm) {
-											console.log('用户点击确定');
-											uni.reLaunch({
-												url: '../myPage/myPage'
-											});
-										}
-									
+									if (res.confirm) {
+										console.log('用户点击确定');
+										uni.reLaunch({
+											url: '../myPage/myPage'
+										});
+									}
+
 								}
 							});
 							this.butState = true
@@ -151,8 +171,8 @@
 									// 	that.butState = true
 									// 	that.dispatchDetailsQuery()
 									// }
-									
-										if (res.data.code == 200) {
+
+									if (res.data.code == 200) {
 										uni.showModal({
 											title: '提示',
 											content: '操作成功！',
@@ -160,12 +180,12 @@
 											success(res) {
 												that.butState = true
 												that.dispatchDetailsQuery()
-													if (res.confirm) {
-														console.log('用户点击确定');
-														uni.reLaunch({
-															url: '../myPage/myPage'
-														});
-													}
+												if (res.confirm) {
+													console.log('用户点击确定');
+													uni.reLaunch({
+														url: '../myPage/myPage'
+													});
+												}
 											}
 										});
 										// this.butState = true
@@ -200,6 +220,15 @@
 </script>
 
 <style>
+	.goodsdetails{
+		display: flex;
+		/* justify-content: space-between; */
+		/* justify-content: space-around; */
+		flex-wrap: nowrap;
+	}
+	.box{
+		 margin-bottom: 150upx;
+	}
 	.boxButon {
 		display: flex;
 		justify-content: space-around;

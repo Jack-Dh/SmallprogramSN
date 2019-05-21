@@ -11,6 +11,8 @@
     "van-tag": "/wxcomponents/vant/dist/tag/index",
     "van-panel": "/wxcomponents/vant/dist/panel/index",
     "van-popup": "/wxcomponents/vant/dist/popup/index",
+    "van-collapse": "/wxcomponents/vant/dist/collapse/index",
+    "van-collapse-item": "/wxcomponents/vant/dist/collapse-item/index",
     "prompt": "/components/zz-prompt/index"
   }
 }
