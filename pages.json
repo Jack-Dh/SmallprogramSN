@@ -1,6 +1,6 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		 {
+		{
 			//我的
 			"path": "pages/myPage/myPage/myPage",
 			"style": {
@@ -27,7 +27,7 @@
 				}
 		
 			}
-		}, {
+		},  {
 			//生产日志
 			"path": "pages/myPage/productionManagement/productionLog",
 			"style": {
@@ -44,8 +44,10 @@
 					"van-panel": "/wxcomponents/vant/dist/panel/index",
 					"van-field": "/wxcomponents/vant/dist/field/index",
 					"van-datetime-picker": "/wxcomponents/vant/dist/datetime-picker/index",
-					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index"
-
+					"van-action-sheet": "/wxcomponents/vant/dist/action-sheet/index",
+					"van-popup": "/wxcomponents/vant/dist/popup/index",
+					"van-checkbox": "/wxcomponents/vant/dist/checkbox/index",
+					"van-checkbox-group": "/wxcomponents/vant/dist/checkbox-group/index"
 
 				}
 			}

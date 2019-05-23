@@ -7,8 +7,7 @@
 				<van-cell title="实际生产时间" :value="disData.actualCompleteTime" size="large" />
 				<van-cell title="填报时间" :value="disData.createTime" size="large" />
 				<van-cell title="款式编号" :value="disData.styleCode" size="large" />
-				<van-cell title="商家编号" :value="disData.itemCode" size="large" />
-				<van-cell title="货品编号" :value="disData.itemCode" size="large" />
+				<van-cell title="派单编号" :value="disData.dispatchCode" size="large" />
 				<van-cell title="状态" :value="disData.auditStatus=='sh02'?'审核中':disData.auditStatus=='sh01'?'审核通过':'审核驳回'" size="large" />
 				<van-cell title="商品名称" :value="disData.goodsName" size="large" />
 				<van-cell title="填报人" :value="disData.createName" size="large" />

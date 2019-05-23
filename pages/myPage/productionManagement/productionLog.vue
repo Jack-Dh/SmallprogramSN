@@ -3,7 +3,7 @@
 		<van-panel>
 			<view>
 				<van-cell title="派单编号" :value="disData.dispatchCode" size="large" />
-				<van-cell title="款式编号" :value="item.styleCode" size="large" />
+				<van-cell title="款式编号" :value="disData.styleCode" size="large" />
 				</van-cell>
 				<van-cell title="派工工艺" :value="disData.processNode=='weave'?'织造':disData.processNode=='seamHead'?'缝头':disData.processNode=='stereoType'?'定型':'包装'"
 				 size="large" />
@@ -11,8 +11,20 @@
 				<van-cell title="预加工时间" :value="disData.expectProcessTime" size="large" />
 				<van-cell title="预完工时间" :value="disData.expectCompleteTime" size="large" />
 				<van-cell title="剩余生产总量" :value="disData.restNumber" size="large" />
+				<van-cell title="选择商品" is-link value="内容" @click="popShow=true" />
 			</view>
 		</van-panel>
+
+		<!-- 弹出层 -->
+		<van-popup :show="popShow" position="bottom">
+		<view>
+			<van-checkbox-group :value="resultList" @change="onChangeSelect">
+				<van-checkbox v-for="(item,index) in disData.goodsList" :key="index" :name="item.name">
+					{{ item.name }}
+				</van-checkbox>
+			</van-checkbox-group>
+		</view>
+		</van-popup>
 
 
 		<view class="timebox">
@@ -29,11 +41,10 @@
 			<van-field label="实际生产时间" readonly required :error-message="errorMessageTime" :value="actualProduceTime" />
 
 		</view>
-<!-- :startYear="startYear" -->
+		<!-- :startYear="startYear" -->
 		<view class="btnstyle">
 			<!-- 时间 选择控件，配合弹起控件一起 -->
-			<w-picker :mode="mode"   :endYear="endYear" :defaultVal="defaultVals" @confirm="onConfirm" ref="picker"
-			 themeColor="#f00"></w-picker>
+			<w-picker :mode="mode" :endYear="endYear" :defaultVal="defaultVals" @confirm="onConfirm" ref="picker" themeColor="#f00"></w-picker>
 
 			<van-button type="info" @click="saveProLog" :disabled="numberState" size="normal">提交</van-button>
 			<van-button type="primary" @click="history" size="normal">历史提交</van-button>
@@ -45,6 +56,8 @@
 	import ruiDatePicker from '@/components/rattenking-dtpicker/rattenking-dtpicker.vue';
 	import cmdInput from "@/components/cmd-input/cmd-input.vue";
 	import wPicker from "@/components/w-picker/w-picker.vue";
+
+	
 	export default {
 		components: {
 			ruiDatePicker,
@@ -52,8 +65,10 @@
 			wPicker
 		},
 		data() {
-		
+
 			return {
+				resultList: [], //选择商品数据
+				popShow: false, //弹出层
 				currentDate: new Date().getTime(),
 				minDate: new Date().getTime(),
 				errorMessage: '', //实际生产数量错误信息
@@ -108,7 +123,9 @@
 			this.dispatchDetailsQuery()
 		},
 		methods: {
-
+			onChangeSelect(event) {
+				console.log(event)
+			},
 
 			onConfirm(event) {
 				//选择时间确认按钮

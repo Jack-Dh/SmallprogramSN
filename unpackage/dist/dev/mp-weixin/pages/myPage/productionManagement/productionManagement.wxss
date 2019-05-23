@@ -8,6 +8,7 @@
 	background: #FFFFFF;
 }
 .vanTag {
+	margin-top: 20rpx;
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;

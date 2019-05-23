@@ -6,4 +6,7 @@
 .Home {
 	background-color: #f2f3f5;
 }
+.vanTag{
+	margin-top: 20rpx;
+}
 

@@ -4,11 +4,10 @@
 	display: -webkit-flex;
 	display: -ms-flexbox;
 	display: flex;
-	/* justify-content: space-between; */
+/* 	justify-content: space-between; */
 	/* justify-content: space-around; */
-	-webkit-flex-wrap: nowrap;
-	    -ms-flex-wrap: nowrap;
-	        flex-wrap: nowrap;
+	margin-top: 20rpx;
+	background-color: #FFFFFF;
 }
 .box{
 	 margin-bottom: 150rpx;

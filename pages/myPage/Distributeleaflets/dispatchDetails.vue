@@ -16,23 +16,35 @@
 					<van-cell title="派工时间" :value="disData.createTime" size="large" />
 					<van-collapse :border="false" :value="activeNames" @change="onChange" accordion>
 						<van-collapse-item title="商品详情" name="1">
+						
 							<view class="goodsdetails" v-for="item in disData.goodsList">
+								<!-- <view>
+									<view>商品名称:</view>
+									<view>商家编码:</view>
+									<view>货品编号:</view>
+									<view>颜色:</view>
+								</view>
+								
+								<view>
+									<view>品牌:</view>
+									<view>包装材料:</view>
+									<view>克重:</view>
+									<view>面料成分:</view>
+								</view> -->
 								<view>
 									<view>商品名称:{{item.name}}</view>
 									<view>商家编码:{{item.merchantCode}}</view>
 									<view>货品编号:{{item.itemCode}}</view>
 									<view>颜色:{{item.colour}}</view>
-								</view>
 								
-								<view>
 									<view>品牌:{{item.brand}}</view>
 									<view>包装材料:{{item.packag}}</view>
 									<view>克重:{{item.weight}}</view>
 									<view>面料成分:{{item.ingredients}}</view>
 								</view>
 								
-								
 							</view>
+						
 						</van-collapse-item>
 					</van-collapse>
 				</view>
@@ -222,10 +234,12 @@
 <style>
 	.goodsdetails{
 		display: flex;
-		/* justify-content: space-between; */
+	/* 	justify-content: space-between; */
 		/* justify-content: space-around; */
-		flex-wrap: nowrap;
+		margin-top: 20upx;
+		background-color: #FFFFFF;
 	}
+	
 	.box{
 		 margin-bottom: 150upx;
 	}

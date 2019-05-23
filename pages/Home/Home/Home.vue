@@ -12,16 +12,17 @@
 						</van-search>
 						<view v-for="item in newsList" class="newslist">
 							<view @click="Jump(item.uuid)" class="box">
-								<van-card :title="item.factoryName" :tag="item.receiveState==0?'待处理':item.receiveState==1?'已接单':'已拒绝'">
+								<van-card >
 
 									<view slot="desc">
 										<view>派工单号:{{item.dispatchCode}}</view>
-										<view>款式编号:{{item.styleCode}}</view>
+										<view style="margin-top: 20upx;">款式编号:{{item.styleCode}}</view>
 									</view>
-									<view slot="tags">
+									<view slot="tags" class="vanTag">
 										<van-tag plain type="danger" v-for="j in item.processNodeList">
 											{{j=='weave'?'织造':j=='seamHead'?'缝头':j=='stereoType'?'定型':'包装'}}</van-tag>
-
+										<van-tag style="margin-left: 20upx;" plain type="danger">
+											{{item.receiveState==0?'待处理':item.receiveState==1?'已接单':'已拒绝'}}</van-tag>
 									</view>
 
 								</van-card>
@@ -54,8 +55,8 @@
 								<view slot="desc">
 									<view>实际生产数量:{{item.actualProduceQuantity}}</view>
 									<view>填报时间:{{item.createTime}}</view>
-									<view>货品编号:{{item.itemCode}}</view>
-									<view>填报人:{{item.createName}}</view>
+									<view>派单编号:{{item.dispatchCode}}</view>
+									<view>填报人:{{item.applicant}}</view>
 								</view>
 								<view slot="tags">
 
@@ -108,7 +109,7 @@
 					contentnomore: '没有更多数据了'
 				},
 				logCode: '', //生产日志编号查询
-				dispatchCode:'',//派工单单号查询
+				dispatchCode: '', //派工单单号查询
 			};
 		},
 		onLoad: function() {
@@ -150,12 +151,12 @@
 			valCopy(val) {
 				//派单信息查询数据赋值
 				console.log(val)
-				this.dispatchCode=val
+				this.dispatchCode = val
 			},
 			valCopyLog(val) {
 				//生产日志信息查询数据赋值
 				console.log(val)
-				this.logCode = val//生产日志编号查询
+				this.logCode = val //生产日志编号查询
 			},
 			Jump(uuid) {
 				//点击查看详情
@@ -250,7 +251,7 @@
 					pageNum: page,
 					pageSize: 10,
 					receiveState: 0,
-					dispatchCode:this.dispatchCode
+					dispatchCode: this.dispatchCode
 				}).then(res => {
 					page++; //得到数据之后page+1
 					_self.newsList = res.data.list;
@@ -319,5 +320,8 @@
 
 	.Home {
 		background-color: #f2f3f5;
+	}
+	.vanTag{
+		margin-top: 20upx;
 	}
 </style>
