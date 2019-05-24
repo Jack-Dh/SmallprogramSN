@@ -42,6 +42,30 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     Prompt: Prompt },
@@ -49,6 +73,7 @@
   data: function data() {
 
     return {
+      activeNames: '1',
       uuid: '',
       disData: [],
       refuseReason: '', //拒绝原因
@@ -62,6 +87,10 @@
     console.log(this.uuid);
   },
   methods: {
+    onChange: function onChange(event) {
+      console.log(event);
+      this.activeNames = event.detail;
+    },
     dispatchDetailsQuery: function dispatchDetailsQuery() {var _this = this;
       var that = this;
       //查询生产日志单详情

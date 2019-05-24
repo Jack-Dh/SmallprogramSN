@@ -43,10 +43,8 @@
 	margin-bottom: 20rpx;
 }
 .van-popup {
-	-webkit-box-sizing: border-box;
-	        box-sizing: border-box;
 
 	width: 100%;
-	height: 50%;
+	height: 100%;
 }
 

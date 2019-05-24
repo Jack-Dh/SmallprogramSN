@@ -11,19 +11,26 @@
 				<van-cell title="预加工时间" :value="disData.expectProcessTime" size="large" />
 				<van-cell title="预完工时间" :value="disData.expectCompleteTime" size="large" />
 				<van-cell title="剩余生产总量" :value="disData.restNumber" size="large" />
-				<van-cell title="选择商品" is-link value="内容" @click="popShow=true" />
+				<van-cell title="选择商品" is-link @click="popShow=true" />
 			</view>
 		</van-panel>
 
+
 		<!-- 弹出层 -->
-		<van-popup :show="popShow" position="bottom">
-		<view>
+		<van-popup :show="popShow" position="bottom" close-on-click-overlay @close="onClose"  @click-overlay="popShow=false">
+
+			<view class="popupView">
+				<text type="text" @click="popShow=false">取消</text>
+				<text type="text" @click="popShow=false">确定</text>
+			</view>
 			<van-checkbox-group :value="resultList" @change="onChangeSelect">
-				<van-checkbox v-for="(item,index) in disData.goodsList" :key="index" :name="item.name">
-					{{ item.name }}
-				</van-checkbox>
+				<van-cell-group>
+					<van-cell v-for="(item,index) in disData.goodsList" :key="index" :title="item.name" clickable :data-name="item.name"
+					 @click="toggle">
+						<van-checkbox :name="item.goodsUuid" />
+					</van-cell>
+				</van-cell-group>
 			</van-checkbox-group>
-		</view>
 		</van-popup>
 
 
@@ -57,12 +64,12 @@
 	import cmdInput from "@/components/cmd-input/cmd-input.vue";
 	import wPicker from "@/components/w-picker/w-picker.vue";
 
-	
+
 	export default {
 		components: {
 			ruiDatePicker,
 			cmdInput,
-			wPicker
+			wPicker,
 		},
 		data() {
 
@@ -123,9 +130,25 @@
 			this.dispatchDetailsQuery()
 		},
 		methods: {
+			toggle(event) {
+				console.log(event)
+				// const {
+				// 	name
+				// } = event.currentTarget.dataset;
+				// const checkbox = this.selectComponent(`.checkboxes-${name}`);
+				// this.toggle();
+			},
+			onClose(event) {
+				console.log(event)
+
+			},
 			onChangeSelect(event) {
 				console.log(event)
+				this.resultList = event.detail
+
 			},
+
+
 
 			onConfirm(event) {
 				//选择时间确认按钮
@@ -169,7 +192,8 @@
 					dispatchSheetList: [this.disData],
 					// actualProduceTime: this.actualProduceTime,
 					expectProduceQuantity: this.expectProduceQuantity,
-					actualProduceQuantity: parseInt(this.actualProduceQuantity)
+					actualProduceQuantity: parseInt(this.actualProduceQuantity),
+					goodsUuidList: this.resultList
 				}
 
 				// 	errorMessage: '',//实际生产数量错误信息
@@ -237,6 +261,19 @@
 </script>
 
 <style>
+	.popupView {
+		position: relative;
+		display: flex;
+		top: 0;
+		justify-content: space-between;
+		margin-bottom: 20upx;
+		padding: 10upx;
+	}
+
+	.popupView text {
+		color: #2d93fa
+	}
+
 	.timebox {
 		margin-top: 20upx;
 		background-color: #FFFFFF;
@@ -264,8 +301,21 @@
 
 	}
 
+
+
 	.van-button {
 		width: 600upx;
 		margin-bottom: 20upx;
+	}
+
+
+
+
+	.van-popup {
+		box-sizing: border-box;
+
+		width: 100%;
+		height: 50%;
+
 	}
 </style>

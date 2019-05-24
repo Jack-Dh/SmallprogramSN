@@ -68,6 +68,13 @@
 
 
 
+
+
+
+
+
+
+
 {
   components: {
     ruiDatePicker: ruiDatePicker,
@@ -133,9 +140,25 @@
     this.dispatchDetailsQuery();
   },
   methods: {
+    toggle: function toggle(event) {
+      console.log(event);
+      // const {
+      // 	name
+      // } = event.currentTarget.dataset;
+      // const checkbox = this.selectComponent(`.checkboxes-${name}`);
+      // this.toggle();
+    },
+    onClose: function onClose(event) {
+      console.log(event);
+
+    },
     onChangeSelect: function onChangeSelect(event) {
       console.log(event);
+      this.resultList = event.detail;
+
     },
+
+
 
     onConfirm: function onConfirm(event) {
       //选择时间确认按钮
@@ -179,7 +202,8 @@
         dispatchSheetList: [this.disData],
         // actualProduceTime: this.actualProduceTime,
         expectProduceQuantity: this.expectProduceQuantity,
-        actualProduceQuantity: parseInt(this.actualProduceQuantity)
+        actualProduceQuantity: parseInt(this.actualProduceQuantity),
+        goodsUuidList: this.resultList
 
 
         // 	errorMessage: '',//实际生产数量错误信息
@@ -275,7 +299,19 @@ var render = function() {
       _vm.popShow = true
     }
 
-    _vm.e1 = _vm.$refs.picker.show
+    _vm.e1 = function($event) {
+      _vm.popShow = false
+    }
+
+    _vm.e2 = function($event) {
+      _vm.popShow = false
+    }
+
+    _vm.e3 = function($event) {
+      _vm.popShow = false
+    }
+
+    _vm.e4 = _vm.$refs.picker.show
   }
 }
 var staticRenderFns = []

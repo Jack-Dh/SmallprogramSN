@@ -1,0 +1,26 @@
+{
+  "navigationBarTitleText": "首诺供应链",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "van-button": "/wxcomponents/vant/dist/button/index",
+    "van-dialog": "/wxcomponents/vant/dist/dialog/index",
+    "van-tabbar-item": "/wxcomponents/vant/dist/tabbar-item/index",
+    "van-tabbar": "/wxcomponents/vant/dist/tabbar/index",
+    "van-cell": "/wxcomponents/vant/dist/cell/index",
+    "van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
+    "van-card": "/wxcomponents/vant/dist/card/index",
+    "van-tag": "/wxcomponents/vant/dist/tag/index",
+    "van-search": "/wxcomponents/vant/dist/search/index",
+    "van-panel": "/wxcomponents/vant/dist/panel/index",
+    "van-popup": "/wxcomponents/vant/dist/popup/index",
+    "van-checkbox": "/wxcomponents/vant/dist/checkbox/index",
+    "van-checkbox-group": "/wxcomponents/vant/dist/checkbox-group/index",
+    "van-stepper": "/wxcomponents/vant/dist/stepper/index",
+    "van-goods-action": "/wxcomponents/vant/dist/goods-action/index",
+    "van-goods-action-icon": "/wxcomponents/vant/dist/goods-action-icon/index",
+    "van-goods-action-button": "/wxcomponents/vant/dist/goods-action-button/index",
+    "rui-date-picker": "/components/rattenking-dtpicker/rattenking-dtpicker",
+    "cmd-input": "/components/cmd-input/cmd-input",
+    "w-picker": "/components/w-picker/w-picker"
+  }
+}

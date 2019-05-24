@@ -1,13 +1,15 @@
 {
   "pages": [
-    "pages/myPage/myPage/myPage",
     "pages/login/login",
+    "pages/myPage/myPage/myPage",
     "pages/myPage/productionManagement/productionLog",
     "pages/Home/Home/Home",
     "pages/Home/Home/logAudit",
     "pages/myPage/productionManagement/historyLog",
     "pages/myPage/factoryInformation/factoryInformation",
     "pages/myPage/productionManagement/productionManagement",
+    "pages/myPage/delivery/deliveryManagement",
+    "pages/myPage/delivery/inventoryDelivery",
     "pages/myPage/Distributeleaflets/dispatchDetails",
     "pages/myPage/Distributeleaflets/Distributeleaflets",
     "pages/good/good/good"

@@ -9,8 +9,32 @@
 				<van-cell title="款式编号" :value="disData.styleCode" size="large" />
 				<van-cell title="派单编号" :value="disData.dispatchCode" size="large" />
 				<van-cell title="状态" :value="disData.auditStatus=='sh02'?'审核中':disData.auditStatus=='sh01'?'审核通过':'审核驳回'" size="large" />
-				<van-cell title="商品名称" :value="disData.goodsName" size="large" />
+				<!-- <van-cell title="商品名称" :value="disData.goodsName" size="large" /> -->
 				<van-cell title="填报人" :value="disData.createName" size="large" />
+				
+				<van-collapse :border="false" :value="activeNames" @change="onChange" accordion>
+					<van-collapse-item title="商品详情" name="1">
+					
+						<view class="goodsdetails" v-for="item in disData.goodsBeanList">
+							
+							<view>
+								<view>商品名称:{{item.name}}</view>
+								<view>商家编码:{{item.merchantCode}}</view>
+								<view>货品编号:{{item.itemCode}}</view>
+								<view>颜色:{{item.colour}}</view>
+							
+								<view>品牌:{{item.brand}}</view>
+								<view>包装材料:{{item.packag}}</view>
+								<view>克重:{{item.weight}}</view>
+								<view>面料成分:{{item.ingredients}}</view>
+							</view>
+							
+						</view>
+					
+					</van-collapse-item>
+				</van-collapse>
+				
+				
 
 			</view>
 			<view slot="footer">
@@ -39,6 +63,7 @@
 		data() {
 
 			return {
+				activeNames: '1',
 				uuid: '',
 				disData: [],
 				refuseReason: '', //拒绝原因
@@ -52,6 +77,10 @@
 			console.log(this.uuid)
 		},
 		methods: {
+			onChange(event) {
+				console.log(event)
+				this.activeNames = event.detail
+			},
 			dispatchDetailsQuery() {
 				let that=this
 				//查询生产日志单详情
