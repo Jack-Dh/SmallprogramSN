@@ -2,6 +2,8 @@
   "pages": [
     "pages/login/login",
     "pages/myPage/myPage/myPage",
+    "pages/Home/Home/historyAudit",
+    "pages/myPage/delivery/deliveDetails",
     "pages/myPage/productionManagement/productionLog",
     "pages/Home/Home/Home",
     "pages/Home/Home/logAudit",

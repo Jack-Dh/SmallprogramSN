@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var ruiDatePicker = function ruiDatePicker() {return Promise.all(/*! import() | components/rattenking-dtpicker/rattenking-dtpicker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rattenking-dtpicker/rattenking-dtpicker")]).then(__webpack_require__.bind(null, /*! @/components/rattenking-dtpicker/rattenking-dtpicker.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\rattenking-dtpicker\\rattenking-dtpicker.vue"));};var cmdInput = function cmdInput() {return __webpack_require__.e(/*! import() | components/cmd-input/cmd-input */ "components/cmd-input/cmd-input").then(__webpack_require__.bind(null, /*! @/components/cmd-input/cmd-input.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\cmd-input\\cmd-input.vue"));};var wPicker = function wPicker() {return Promise.all(/*! import() | components/w-picker/w-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/w-picker/w-picker")]).then(__webpack_require__.bind(null, /*! @/components/w-picker/w-picker.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\w-picker\\w-picker.vue"));};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var ruiDatePicker = function ruiDatePicker() {return Promise.all(/*! import() | components/rattenking-dtpicker/rattenking-dtpicker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/rattenking-dtpicker/rattenking-dtpicker")]).then(__webpack_require__.bind(null, /*! @/components/rattenking-dtpicker/rattenking-dtpicker.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\rattenking-dtpicker\\rattenking-dtpicker.vue"));};var cmdInput = function cmdInput() {return __webpack_require__.e(/*! import() | components/cmd-input/cmd-input */ "components/cmd-input/cmd-input").then(__webpack_require__.bind(null, /*! @/components/cmd-input/cmd-input.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\cmd-input\\cmd-input.vue"));};var wPicker = function wPicker() {return Promise.all(/*! import() | components/w-picker/w-picker */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/w-picker/w-picker")]).then(__webpack_require__.bind(null, /*! @/components/w-picker/w-picker.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\w-picker\\w-picker.vue"));};
 
 
 
@@ -67,7 +67,8 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
-{
+// Vue.use(Stepper);
+var _default = {
   components: {
     ruiDatePicker: ruiDatePicker,
     cmdInput: cmdInput,
@@ -84,9 +85,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       disData: [], //派单详情数据
 
       restNumber: '', //剩余生产总量
-      totalNumber: 0 //总数量
+      totalNumber: 0, //总数量
+      actualSendGoodsNumber: '' //当前选择商品的数量
     };
-
 
   },
 
@@ -97,19 +98,61 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     this.dispatchDetailsQuery();
   },
   methods: {
-    changeStepper: function changeStepper(event) {var _this = this;
+    changeStepper: function changeStepper(event) {
       //数量选择
-      console.log(event.detail);
-      console.log(this.disData);
       console.log(event);
+      this.actualSendGoodsNumber = event.detail;
+    },
+    blurStepper: function blurStepper(index) {var _this = this;
+      /**
+                                                                 * 通过传递下标，来获取当前商品的发货值
+                                                                 * */
+      this.disData.goodsList[index].actualSendGoodsQuantity = this.actualSendGoodsNumber;
 
+      this.totalNumber = 0;
       this.disData.goodsList.forEach(function (item) {
+        console.log(item);
         _this.totalNumber += item.actualSendGoodsQuantity;
       });
-
     },
+    delivery: function delivery() {
+      /**
+                                    *半成品 发货
+                                    * */
+
+      if (this.totalNumber !== 0) {
 
 
+        this.$http.post(this.$store.state.deliverySendgoods, this.disData).then(function (res) {
+          if (res.data.code == 200) {
+            uni.showModal({
+              title: '提示',
+              content: '操作成功',
+              showCancel: false,
+              success: function success(res) {
+                if (res.confirm) {
+                  uni.reLaunch({
+                    url: '../myPage/myPage' });
+
+                }
+              } });
+
+          } else {
+            uni.showModal({
+              title: res.data.msg,
+              showCancel: false });
+
+          }
+        });
+      } else {
+        uni.showModal({
+          title: '提示',
+          content: '发货数量不能为空',
+          showCancel: false });
+
+
+      }
+    },
 
     dispatchDetailsQuery: function dispatchDetailsQuery() {var _this2 = this;
       //查询派工单详情
@@ -125,6 +168,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
         }
       });
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),
 

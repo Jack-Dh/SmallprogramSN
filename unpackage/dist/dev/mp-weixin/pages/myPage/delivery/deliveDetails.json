@@ -1,6 +1,6 @@
 {
-  "navigationBarTitleText": "首诺供应链",
   "enablePullDownRefresh": true,
+  "navigationBarTitleText": "首诺供应链",
   "usingComponents": {
     "van-button": "/wxcomponents/vant/dist/button/index",
     "van-dialog": "/wxcomponents/vant/dist/dialog/index",
@@ -10,12 +10,11 @@
     "van-cell-group": "/wxcomponents/vant/dist/cell-group/index",
     "van-card": "/wxcomponents/vant/dist/card/index",
     "van-tag": "/wxcomponents/vant/dist/tag/index",
-    "van-search": "/wxcomponents/vant/dist/search/index",
     "van-panel": "/wxcomponents/vant/dist/panel/index",
-    "van-stepper": "/wxcomponents/vant/dist/stepper/index",
+    "van-popup": "/wxcomponents/vant/dist/popup/index",
     "van-tab": "/wxcomponents/vant/dist/tab/index",
     "van-tabs": "/wxcomponents/vant/dist/tabs/index",
-    "uni-load-more": "/components/uni-load-more",
-    "m-search": "/components/mehaotian-search-revision/mehaotian-search-revision"
+    "van-collapse": "/wxcomponents/vant/dist/collapse/index",
+    "van-collapse-item": "/wxcomponents/vant/dist/collapse-item/index"
   }
 }

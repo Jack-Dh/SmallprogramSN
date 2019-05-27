@@ -46,6 +46,38 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _self,
 page = 1,
 timer = null;
@@ -59,8 +91,11 @@ var _default =
 
   data: function data() {
     return {
+      active: 0,
       dispatchCode: '', //派工单编号
-      newsList: [],
+      sendCode: '', //发货单编号
+      newsList: [], //派工单数据
+      historyList: [], //历史发货数据
       loadingText: '加载中...',
       loadingType: 0, //定义加载方式 0---contentdown  1---contentrefresh 2---contentnomore
       contentText: {
@@ -76,11 +111,13 @@ var _default =
   onLoad: function onLoad() {
     _self = this;
     //页面一加载时请求一次数据
-    _self.getnewsList();
+    _self.getnewsList(); //派单信息
+    _self.historysendgoods(); //历史发货数据
   },
   onPullDownRefresh: function onPullDownRefresh() {
     //下拉刷新的时候请求一次数据
-    _self.getnewsList();
+    _self.getnewsList(); //派工单
+    _self.historysendgoods(); //历史发货数据
   },
   onReachBottom: function onReachBottom() {
     //触底的时候请求数据，即为上拉加载更多
@@ -89,7 +126,8 @@ var _default =
       clearTimeout(timer);
     }
     timer = setTimeout(function () {
-      _self.getmorenews();
+      _self.getmorenews(); //派工单
+      _self.historymorenews(); //历史发货数据
     }, 1000);
 
     // 正常应为:
@@ -98,19 +136,30 @@ var _default =
 
   methods: {
     Jump: function Jump(uuid) {
-      //点击查看详情
+      //点击派工单查看详情
       console.log(uuid);
       uni.navigateTo({
         url: "inventoryDelivery?id=".concat(uuid) });
 
     },
+    historyJump: function historyJump(code) {
+      //查看历史发货详情
+      uni.navigateTo({
+        url: "deliveDetails?id=".concat(code) });
+
+    },
     doSearch: function doSearch(key) {
-      //执行搜索
+      //执行搜索（派工单）
       this.getnewsList();
       console.log(this.dispatchCode);
 
     },
+    sendCodeSearch: function sendCodeSearch(key) {
+      //执行搜索（历史发货单）
+      this.historysendgoods();
+    },
     getmorenews: function getmorenews() {
+      // 派工单信息下拉刷新查询
       if (_self.loadingType !== 0) {//loadingType!=0;直接返回
         return false;
       }
@@ -171,6 +220,66 @@ var _default =
 
 
       });
+    },
+
+    historymorenews: function historymorenews() {
+      // 历史发货单信息下拉刷新查询
+      if (_self.loadingType !== 0) {//loadingType!=0;直接返回
+        return false;
+      }
+      _self.loadingType = 1;
+      uni.showNavigationBarLoading(); //显示加载动画
+      //我的派工单信息分页查询
+      this.$http.get(this.$store.state.sendgoodsList, {
+        pageNum: page,
+        pageSize: 10,
+        receiveState: 1 }).
+      then(function (res) {
+
+        page++; //得到数据之后page+1
+
+        var num = _self.historyList.length; //判断数据数组长度是否超过数据的总条目数
+        if (num < res.data.totalRecord) {
+          res.data.list.forEach(function (item) {
+            _self.historyList.push(item);
+          });
+          _self.loadingType = 0; //将loadingType归0重置
+        } else {
+          _self.loadingType = 2; //没有数据
+          uni.hideNavigationBarLoading(); //关闭加载动画
+        }
+
+
+        uni.hideNavigationBarLoading(); //关闭加载动画
+        console.log(res);
+      });
+
+    },
+    historysendgoods: function historysendgoods() {
+      //发货历史查询
+      page = 1;
+      this.loadingType = 0;
+      uni.showNavigationBarLoading();
+      this.loadingType = 0;
+      uni.showNavigationBarLoading();
+      this.$http.get(this.$store.state.sendgoodsList, {
+        pageNum: page,
+        pageSize: 10,
+        sendCode: this.sendCode }).
+      then(function (res) {
+        page++; //得到数据之后page+1
+        _self.historyList = res.data.list;
+        uni.hideNavigationBarLoading();
+        uni.stopPullDownRefresh(); //得到数据
+        console.log(res);
+
+        var num = _self.newsList.length; //判断数据数组长度是否超过数据的总条目数
+        if (num == res.data.totalRecord) {
+          _self.loadingType = 2; //没有数据
+          uni.hideNavigationBarLoading(); //关闭加载动画
+        }
+      });
+
     } },
 
 

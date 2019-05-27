@@ -23757,6 +23757,23 @@ createPage(_Home.default);
 
 /***/ }),
 
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FHome%2FHome%2FhistoryAudit\"}":
+/*!******************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FHome%2FHome%2FhistoryAudit"} ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _historyAudit = _interopRequireDefault(__webpack_require__(/*! ./pages/Home/Home/historyAudit.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\Home\\Home\\historyAudit.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_historyAudit.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
 /***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FHome%2FHome%2FlogAudit\"}":
 /*!**************************************************************************************!*\
   !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FHome%2FHome%2FlogAudit"} ***!
@@ -23838,6 +23855,23 @@ createPage(_Distributeleaflets.default);
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
 var _dispatchDetails = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/Distributeleaflets/dispatchDetails.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\Distributeleaflets\\dispatchDetails.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_dispatchDetails.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2Fdelivery%2FdeliveDetails\"}":
+/*!*************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2Fdelivery%2FdeliveDetails"} ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _deliveDetails = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/delivery/deliveDetails.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\delivery\\deliveDetails.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_deliveDetails.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
@@ -23982,22 +24016,26 @@ createPage(_productionManagement.default);
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 _vue.default.use(_vuex.default);
 var store = new _vuex.default.Store({
-  state: {
+  state: _defineProperty({
     nickname: "未设置",
-    loginApi: 'http://192.168.1.149:8099/supplychain/api/operator/login', //登录
-    operatorSelect: 'http://192.168.1.149:8099/supplychain/api/operator/select', //个人信息分页查询
-    dispatchlist: 'http://192.168.1.149:8099/supplychain/api/dispatch/list', //我的派单信息分页查询
-    dispatchDetailsbyID: 'http://192.168.1.149:8099/supplychain/api/dispatch/select', //根据UUID查询派工单详情
-    factoryqueryPage: 'http://192.168.1.149:8099/supplychain/api/factory/select', //查询当前用户所有工厂信息
-    saveProducelog: 'http://192.168.1.149:8099/supplychain/api/producelog/save', //保存生产日志
-    saveState: 'http://192.168.1.149:8099/supplychain/api/dispatch/saveState', //根据状态接受拒绝派工单
-    producelogQuery: 'http://192.168.1.149:8099/supplychain/api/producelog/list', //生产日志明细分页查询
-    producelogdetail: 'http://192.168.1.149:8099/supplychain/api/producelog/select', //生产日志明细查询
-    saveStateProducelog: 'http://192.168.1.149:8099/supplychain/api/producelog/saveState' //根据状态接受拒绝生产日志单
-  } });var _default =
+    loginApi: 'http://192.168.1.215:8099/supplychain/api/operator/login', //登录
+    operatorSelect: 'http://192.168.1.215:8099/supplychain/api/operator/select', //个人信息分页查询
+    dispatchlist: 'http://192.168.1.215:8099/supplychain/api/dispatch/list', //我的派单信息分页查询
+    dispatchDetailsbyID: 'http://192.168.1.215:8099/supplychain/api/dispatch/select', //根据UUID查询派工单详情
+    factoryqueryPage: 'http://192.168.1.215:8099/supplychain/api/factory/select', //查询当前用户所有工厂信息
+    saveProducelog: 'http://192.168.1.215:8099/supplychain/api/producelog/save', //保存生产日志
+    saveState: 'http://192.168.1.215:8099/supplychain/api/dispatch/saveState', //根据状态接受拒绝派工单
+    producelogQuery: 'http://192.168.1.215:8099/supplychain/api/producelog/list', //生产日志明细分页查询
+    producelogdetail: 'http://192.168.1.215:8099/supplychain/api/producelog/select', //生产日志明细查询
+    saveStateProducelog: 'http://192.168.1.215:8099/supplychain/api/producelog/saveState', //根据状态接受拒绝生产日志单
+    deliverySendgoods: 'http://192.168.1.215:8099/supplychain/api/sendgoods/add', //半成品发货
+    sendgoodsList: 'http://192.168.1.215:8099/supplychain/api/sendgoods/list', //发货历史查询接口
+    sendgoodsSelect: 'http://192.168.1.215:8099/supplychain/api/sendgoods/select' }, "saveState",
+  'http://192.168.1.215:8099/supplychain/api/sendgoods/saveState') });var _default =
+
 
 store;exports.default = _default;
 
