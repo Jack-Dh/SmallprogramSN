@@ -115,12 +115,13 @@
         receiveState: 2,
         refuseReason: val };
 
-
+      var that = this;
       if (val != '') {
         this.$http.post(this.$store.state.saveState, data).then(function (res) {
           if (res.data.code == 200) {
             uni.showModal({
-              title: '操作成功！',
+              title: '提示',
+              content: '操作成功！',
               showCancel: false,
               success: function success(res) {
                 that.promptVisible = true;
@@ -174,7 +175,7 @@
 
 
       } else {
-        var _that = this;
+        var that = this;
         //接受按钮
         var data = {
           dispatchDetailBeanList: [this.disData],
@@ -188,7 +189,7 @@
           showCancel: true,
           success: function success(res) {
             if (res.confirm) {
-              _that.$http.post(_that.$store.state.saveState, data).then(function (res) {
+              that.$http.post(that.$store.state.saveState, data).then(function (res) {
                 // if (res.data.code == 200) {
                 // 	that.butState = true
                 // 	that.dispatchDetailsQuery()
@@ -200,8 +201,8 @@
                     content: '操作成功！',
                     showCancel: false,
                     success: function success(res) {
-                      _that.butState = true;
-                      _that.dispatchDetailsQuery();
+                      that.butState = true;
+                      that.dispatchDetailsQuery();
                       if (res.confirm) {
                         console.log('用户点击确定');
                         uni.reLaunch({

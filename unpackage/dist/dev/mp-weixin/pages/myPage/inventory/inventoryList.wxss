@@ -1,0 +1,7 @@
+
+.van-card {
+	margin-bottom: 20rpx;
+	background: #FFFFFF;
+}
+
+

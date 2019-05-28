@@ -105,12 +105,13 @@
 					receiveState: 2,
 					refuseReason: val
 				}
-
+				let that=this
 				if (val != '') {
 					this.$http.post(this.$store.state.saveState, data).then(res => {
 						if (res.data.code == 200) {
 							uni.showModal({
-								title: '操作成功！',
+								title: '提示',
+								content: '操作成功！',
 								showCancel: false,
 								success(res) {
 									that.promptVisible = true
