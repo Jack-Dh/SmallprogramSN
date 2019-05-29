@@ -5,12 +5,8 @@
 	},
 	"setting": {
 		"urlCheck": false,
-		"es6": true,
-		"postcss": true,
-		"minified": true,
-		"newFeature": true,
-		"autoAudits": false,
-		"checkInvalidKey": true
+		"minified": false,
+		"es6": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.6.4",

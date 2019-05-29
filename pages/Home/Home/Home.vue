@@ -54,7 +54,7 @@
 						<view @click="Jumplog(item.uuid)" class="box">
 							<van-card :title="'生产日志编号:'+item.logCode">
 								<view slot="desc">
-									<view>实际生产数量:{{item.actualProduceQuantity}}</view>
+									<view>实际生产数量（盒）:{{item.actualProduceQuantity}}</view>
 									<view>填报时间:{{item.createTime}}</view>
 									<view>派单编号:{{item.dispatchCode}}</view>
 									<view>填报人:{{item.applicant}}</view>
@@ -90,7 +90,7 @@
 								<view slot="desc">
 									<view>发货编号：{{item.sendCode}}</view>
 									<view>派工编号：{{item.dispatchCode}}</view>
-									<view>发货总数：{{item.sendsGoodsTotalQuantity}}</view>
+									<view>发货总数（盒）：{{item.sendsGoodsTotalQuantity}}</view>
 									<view>发货时间：{{item.createTime}}</view>
 								</view>
 							</van-card>

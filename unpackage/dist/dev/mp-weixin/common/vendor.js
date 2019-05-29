@@ -8380,10 +8380,10 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\common\\http\\index.js":
-/*!*********************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/common/http/index.js ***!
-  \*********************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\common\\http\\index.js":
+/*!**********************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/common/http/index.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8485,10 +8485,10 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\common\\md5.js":
-/*!**************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/common/md5.js ***!
-  \**************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\common\\md5.js":
+/*!***************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/common/md5.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9183,10 +9183,10 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\common\\util.js":
-/*!***************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/common/util.js ***!
-  \***************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\common\\util.js":
+/*!****************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/common/util.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9247,10 +9247,10 @@ function initPicker(start, end) {var mode = arguments.length > 2 && arguments[2]
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\rattenking-dtpicker\\GetDate.js":
-/*!******************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/components/rattenking-dtpicker/GetDate.js ***!
-  \******************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\components\\rattenking-dtpicker\\GetDate.js":
+/*!*******************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/components/rattenking-dtpicker/GetDate.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9425,10 +9425,10 @@ module.exports = GetDate;
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\w-picker\\city-data\\area.js":
-/*!**************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/components/w-picker/city-data/area.js ***!
-  \**************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\components\\w-picker\\city-data\\area.js":
+/*!***************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/components/w-picker/city-data/area.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21978,10 +21978,10 @@ areaData;exports.default = _default;
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\w-picker\\city-data\\city.js":
-/*!**************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/components/w-picker/city-data/city.js ***!
-  \**************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\components\\w-picker\\city-data\\city.js":
+/*!***************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/components/w-picker/city-data/city.js ***!
+  \***************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23492,10 +23492,10 @@ cityData;exports.default = _default;
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\components\\w-picker\\city-data\\province.js":
-/*!******************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/components/w-picker/city-data/province.js ***!
-  \******************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\components\\w-picker\\city-data\\province.js":
+/*!*******************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/components/w-picker/city-data/province.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23642,25 +23642,25 @@ provinceData;exports.default = _default;
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js":
-/*!********************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js ***!
-  \********************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js":
+/*!*********************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni, createApp) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(uni, createApp) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\App.vue"));
-var _index = _interopRequireDefault(__webpack_require__(/*! ./common/http/index.js */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\common\\http\\index.js"));
+var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\App.vue"));
+var _index = _interopRequireDefault(__webpack_require__(/*! ./common/http/index.js */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\common\\http\\index.js"));
 
 
 
 
 
 
-var _index2 = _interopRequireDefault(__webpack_require__(/*! ./stroe/index.js */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\stroe\\index.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+var _index2 = _interopRequireDefault(__webpack_require__(/*! ./stroe/index.js */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\stroe\\index.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};var ownKeys = Object.keys(source);if (typeof Object.getOwnPropertySymbols === 'function') {ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {return Object.getOwnPropertyDescriptor(source, sym).enumerable;}));}ownKeys.forEach(function (key) {_defineProperty(target, key, source[key]);});}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 
 _vue.default.prototype.$store = _index2.default;
 _vue.default.prototype.$http = _index.default;
@@ -23740,282 +23740,282 @@ createApp(app).$mount();
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FHome%2FHome%2FHome\"}":
-/*!**********************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FHome%2FHome%2FHome"} ***!
-  \**********************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FHome%2FHome%2FHome\"}":
+/*!***********************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FHome%2FHome%2FHome"} ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _Home = _interopRequireDefault(__webpack_require__(/*! ./pages/Home/Home/Home.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\Home\\Home\\Home.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _Home = _interopRequireDefault(__webpack_require__(/*! ./pages/Home/Home/Home.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\Home\\Home\\Home.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_Home.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FHome%2FHome%2FhistoryAudit\"}":
-/*!******************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FHome%2FHome%2FhistoryAudit"} ***!
-  \******************************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FHome%2FHome%2FhistoryAudit\"}":
+/*!*******************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FHome%2FHome%2FhistoryAudit"} ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _historyAudit = _interopRequireDefault(__webpack_require__(/*! ./pages/Home/Home/historyAudit.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\Home\\Home\\historyAudit.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _historyAudit = _interopRequireDefault(__webpack_require__(/*! ./pages/Home/Home/historyAudit.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\Home\\Home\\historyAudit.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_historyAudit.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FHome%2FHome%2FlogAudit\"}":
-/*!**************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FHome%2FHome%2FlogAudit"} ***!
-  \**************************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FHome%2FHome%2FlogAudit\"}":
+/*!***************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FHome%2FHome%2FlogAudit"} ***!
+  \***************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _logAudit = _interopRequireDefault(__webpack_require__(/*! ./pages/Home/Home/logAudit.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\Home\\Home\\logAudit.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _logAudit = _interopRequireDefault(__webpack_require__(/*! ./pages/Home/Home/logAudit.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\Home\\Home\\logAudit.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_logAudit.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2Fgood%2Fgood%2Fgood\"}":
-/*!**********************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2Fgood%2Fgood%2Fgood"} ***!
-  \**********************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2Fgood%2Fgood%2Fgood\"}":
+/*!***********************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2Fgood%2Fgood%2Fgood"} ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _good = _interopRequireDefault(__webpack_require__(/*! ./pages/good/good/good.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\good\\good\\good.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _good = _interopRequireDefault(__webpack_require__(/*! ./pages/good/good/good.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\good\\good\\good.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_good.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2Flogin%2Flogin\"}":
-/*!*****************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2Flogin%2Flogin"} ***!
-  \*****************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2Flogin%2Flogin\"}":
+/*!******************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2Flogin%2Flogin"} ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _login = _interopRequireDefault(__webpack_require__(/*! ./pages/login/login.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\login\\login.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _login = _interopRequireDefault(__webpack_require__(/*! ./pages/login/login.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\login\\login.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_login.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FDistributeleaflets%2FDistributeleaflets\"}":
-/*!****************************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FDistributeleaflets%2FDistributeleaflets"} ***!
-  \****************************************************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2FDistributeleaflets%2FDistributeleaflets\"}":
+/*!*****************************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2FDistributeleaflets%2FDistributeleaflets"} ***!
+  \*****************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _Distributeleaflets = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/Distributeleaflets/Distributeleaflets.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\Distributeleaflets\\Distributeleaflets.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _Distributeleaflets = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/Distributeleaflets/Distributeleaflets.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\Distributeleaflets\\Distributeleaflets.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_Distributeleaflets.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FDistributeleaflets%2FdispatchDetails\"}":
-/*!*************************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FDistributeleaflets%2FdispatchDetails"} ***!
-  \*************************************************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2FDistributeleaflets%2FdispatchDetails\"}":
+/*!**************************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2FDistributeleaflets%2FdispatchDetails"} ***!
+  \**************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _dispatchDetails = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/Distributeleaflets/dispatchDetails.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\Distributeleaflets\\dispatchDetails.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _dispatchDetails = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/Distributeleaflets/dispatchDetails.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\Distributeleaflets\\dispatchDetails.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_dispatchDetails.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2Fdelivery%2FdeliveDetails\"}":
-/*!*************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2Fdelivery%2FdeliveDetails"} ***!
-  \*************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _deliveDetails = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/delivery/deliveDetails.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\delivery\\deliveDetails.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_deliveDetails.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2Fdelivery%2FdeliveryManagement\"}":
-/*!******************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2Fdelivery%2FdeliveryManagement"} ***!
-  \******************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _deliveryManagement = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/delivery/deliveryManagement.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\delivery\\deliveryManagement.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_deliveryManagement.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2Fdelivery%2FinventoryDelivery\"}":
-/*!*****************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2Fdelivery%2FinventoryDelivery"} ***!
-  \*****************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _inventoryDelivery = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/delivery/inventoryDelivery.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\delivery\\inventoryDelivery.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_inventoryDelivery.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FfactoryInformation%2FfactoryInformation\"}":
-/*!****************************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FfactoryInformation%2FfactoryInformation"} ***!
-  \****************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
-
-var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _factoryInformation = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/factoryInformation/factoryInformation.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\factoryInformation\\factoryInformation.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-createPage(_factoryInformation.default);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
-
-/***/ }),
-
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2Finventory%2FinventoryList\"}":
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2Fdelivery%2FdeliveDetails\"}":
 /*!**************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2Finventory%2FinventoryList"} ***!
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2Fdelivery%2FdeliveDetails"} ***!
   \**************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _inventoryList = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/inventory/inventoryList.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\inventory\\inventoryList.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _deliveDetails = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/delivery/deliveDetails.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\delivery\\deliveDetails.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_deliveDetails.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2Fdelivery%2FdeliveryManagement\"}":
+/*!*******************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2Fdelivery%2FdeliveryManagement"} ***!
+  \*******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _deliveryManagement = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/delivery/deliveryManagement.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\delivery\\deliveryManagement.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_deliveryManagement.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2Fdelivery%2FinventoryDelivery\"}":
+/*!******************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2Fdelivery%2FinventoryDelivery"} ***!
+  \******************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _inventoryDelivery = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/delivery/inventoryDelivery.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\delivery\\inventoryDelivery.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_inventoryDelivery.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2FfactoryInformation%2FfactoryInformation\"}":
+/*!*****************************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2FfactoryInformation%2FfactoryInformation"} ***!
+  \*****************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _factoryInformation = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/factoryInformation/factoryInformation.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\factoryInformation\\factoryInformation.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+createPage(_factoryInformation.default);
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
+
+/***/ }),
+
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2Finventory%2FinventoryList\"}":
+/*!***************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2Finventory%2FinventoryList"} ***!
+  \***************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
+
+var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
+var _inventoryList = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/inventory/inventoryList.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\inventory\\inventoryList.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_inventoryList.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FmyPage%2FmyPage\"}":
-/*!****************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FmyPage%2FmyPage"} ***!
-  \****************************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2FmyPage%2FmyPage\"}":
+/*!*****************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2FmyPage%2FmyPage"} ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _myPage = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/myPage/myPage.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\myPage\\myPage.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _myPage = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/myPage/myPage.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\myPage\\myPage.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_myPage.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FproductionManagement%2FhistoryLog\"}":
-/*!**********************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FproductionManagement%2FhistoryLog"} ***!
-  \**********************************************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2FproductionManagement%2FhistoryLog\"}":
+/*!***********************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2FproductionManagement%2FhistoryLog"} ***!
+  \***********************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _historyLog = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/productionManagement/historyLog.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\productionManagement\\historyLog.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _historyLog = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/productionManagement/historyLog.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\productionManagement\\historyLog.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_historyLog.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FproductionManagement%2FproductionLog\"}":
-/*!*************************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FproductionManagement%2FproductionLog"} ***!
-  \*************************************************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2FproductionManagement%2FproductionLog\"}":
+/*!**************************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2FproductionManagement%2FproductionLog"} ***!
+  \**************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _productionLog = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/productionManagement/productionLog.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\productionManagement\\productionLog.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _productionLog = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/productionManagement/productionLog.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\productionManagement\\productionLog.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_productionLog.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\main.js?{\"page\":\"pages%2FmyPage%2FproductionManagement%2FproductionManagement\"}":
-/*!********************************************************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/main.js?{"page":"pages%2FmyPage%2FproductionManagement%2FproductionManagement"} ***!
-  \********************************************************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\main.js?{\"page\":\"pages%2FmyPage%2FproductionManagement%2FproductionManagement\"}":
+/*!*********************************************************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/main.js?{"page":"pages%2FmyPage%2FproductionManagement%2FproductionManagement"} ***!
+  \*********************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json");
+/* WEBPACK VAR INJECTION */(function(createPage) {__webpack_require__(/*! uni-pages */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json");
 
 var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _productionManagement = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/productionManagement/productionManagement.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages\\myPage\\productionManagement\\productionManagement.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _productionManagement = _interopRequireDefault(__webpack_require__(/*! ./pages/myPage/productionManagement/productionManagement.vue */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages\\myPage\\productionManagement\\productionManagement.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 createPage(_productionManagement.default);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["createPage"]))
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\pages.json":
-/*!***********************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/pages.json ***!
-  \***********************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\pages.json":
+/*!************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/pages.json ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24024,46 +24024,46 @@ createPage(_productionManagement.default);
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\stroe\\index.js":
-/*!***************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/stroe/index.js ***!
-  \***************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\stroe\\index.js":
+/*!****************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/stroe/index.js ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ "./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js"));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js"));var _state;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 _vue.default.use(_vuex.default);
 var store = new _vuex.default.Store({
-  state: (_state = {
+  state: {
     nickname: "未设置",
-    loginApi: 'http://192.168.2.158:8099/supplychain/api/operator/login', //登录
-    operatorSelect: 'http://192.168.2.158:8099/supplychain/api/operator/select', //个人信息分页查询
-    dispatchlist: 'http://192.168.2.158:8099/supplychain/api/dispatch/list', //我的派单信息分页查询
-    dispatchDetailsbyID: 'http://192.168.2.158:8099/supplychain/api/dispatch/select', //根据UUID查询派工单详情
-    factoryqueryPage: 'http://192.168.2.158:8099/supplychain/api/factory/select', //查询当前用户所有工厂信息
-    saveProducelog: 'http://192.168.2.158:8099/supplychain/api/producelog/save', //保存生产日志
-    saveState: 'http://192.168.2.158:8099/supplychain/api/dispatch/saveState', //根据状态接受拒绝派工单
-    producelogQuery: 'http://192.168.2.158:8099/supplychain/api/producelog/list', //生产日志明细分页查询
-    producelogdetail: 'http://192.168.2.158:8099/supplychain/api/producelog/select', //生产日志明细查询
-    saveStateProducelog: 'http://192.168.2.158:8099/supplychain/api/producelog/saveState', //根据状态接受拒绝生产日志单
-    deliverySendgoods: 'http://192.168.2.158:8099/supplychain/api/sendgoods/add', //半成品发货
-    sendgoodsList: 'http://192.168.2.158:8099/supplychain/api/sendgoods/list', //发货历史查询接口
-    sendgoodsSelect: 'http://192.168.2.158:8099/supplychain/api/sendgoods/select' }, _defineProperty(_state, "saveState",
-  'http://192.168.2.158:8099/supplychain/api/sendgoods/saveState'), _defineProperty(_state, "inventorylistData",
-  'http://192.168.2.158:8099/supplychain/api/inventory/list'), _defineProperty(_state, "inventorydetails",
-  'http://192.168.2.158:8099/supplychain/api/inventory/select'), _state) });var _default =
-
+    loginApi: 'http://192.168.1.125:8099/supplychain/api/operator/login', //登录
+    operatorSelect: 'http://192.168.1.125:8099/supplychain/api/operator/select', //个人信息分页查询
+    dispatchlist: 'http://192.168.1.125:8099/supplychain/api/dispatch/list', //我的派单信息分页查询
+    dispatchDetailsbyID: 'http://192.168.1.125:8099/supplychain/api/dispatch/select', //根据UUID查询派工单详情
+    factoryqueryPage: 'http://192.168.1.125:8099/supplychain/api/factory/select', //查询当前用户所有工厂信息
+    saveProducelog: 'http://192.168.1.125:8099/supplychain/api/producelog/save', //保存生产日志
+    saveStates: 'http://192.168.1.125:8099/supplychain/api/dispatch/saveState', //根据状态接受拒绝派工单
+    producelogQuery: 'http://192.168.1.125:8099/supplychain/api/producelog/list', //生产日志明细分页查询
+    producelogdetail: 'http://192.168.1.125:8099/supplychain/api/producelog/select', //生产日志明细查询
+    saveStateProducelog: 'http://192.168.1.125:8099/supplychain/api/producelog/saveState', //根据状态接受拒绝生产日志单
+    deliverySendgoods: 'http://192.168.1.125:8099/supplychain/api/sendgoods/add', //半成品发货
+    sendgoodsList: 'http://192.168.1.125:8099/supplychain/api/sendgoods/list', //发货历史查询接口
+    sendgoodsSelect: 'http://192.168.1.125:8099/supplychain/api/sendgoods/select', //发货明细查询
+    saveState: 'http://192.168.1.125:8099/supplychain/api/sendgoods/saveState', //发货单审核
+    inventorylistData: 'http://192.168.1.125:8099/supplychain/api/inventory/list', //库存列表信息
+    inventorydetails: 'http://192.168.1.125:8099/supplychain/api/inventory/select' //库存详情信息
+  } });var _default =
 
 store;exports.default = _default;
 
 /***/ }),
 
-/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSN\\wxcomponents\\vant\\dist\\dialog\\dialog.js":
-/*!****************************************************************************!*\
-  !*** D:/上海悦为/首诺供应链/SmallprogramSN/wxcomponents/vant/dist/dialog/dialog.js ***!
-  \****************************************************************************/
+/***/ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\wxcomponents\\vant\\dist\\dialog\\dialog.js":
+/*!*****************************************************************************!*\
+  !*** D:/上海悦为/首诺供应链/SmallprogramSNS/wxcomponents/vant/dist/dialog/dialog.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

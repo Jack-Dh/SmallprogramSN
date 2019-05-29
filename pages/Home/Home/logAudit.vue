@@ -3,7 +3,7 @@
 		<van-panel>
 			<view>
 				<van-cell title="生产日志编号" :value="disData.logCode" size="large" />
-				<van-cell title="实际生产数量" :value="disData.actualProduceQuantity" size="large" />
+				<van-cell title="实际生产数量（盒）" :value="disData.actualProduceQuantity" size="large" />
 				<van-cell title="实际生产时间" :value="disData.actualCompleteTime" size="large" />
 				<van-cell title="填报时间" :value="disData.createTime" size="large" />
 				<van-cell title="款式编号" :value="disData.styleCode" size="large" />
@@ -27,6 +27,7 @@
 								<view>包装材料:{{item.packag}}</view>
 								<view>克重:{{item.weight}}</view>
 								<view>面料成分:{{item.ingredients}}</view>
+								<view>数量（双）:{{item.dispatchQuantity}}</view>
 							</view>
 							
 						</view>
@@ -43,7 +44,7 @@
 
 
 		<prompt :visible.sync="promptVisible" title="拒绝原因" @confirm="clickPromptConfirm" @confirms="cancel"></prompt>
-
+		<view style="height: 150upx;"></view>
 		<van-tabbar active-color="#7d7e80">
 			<van-tabbar-item icon="close" @click="Refused">审核驳回</van-tabbar-item>
 			<van-tabbar-item icon="passed" @click="accept">审核通过</van-tabbar-item>
@@ -205,5 +206,12 @@
 
 	.boxButon .van-button {
 		width: 200upx;
+	}
+	.goodsdetails{
+				display: flex;
+		/* 	justify-content: space-between; */
+			/* justify-content: space-around; */
+			margin-top: 20upx;
+			background-color: #FFFFFF;
 	}
 </style>

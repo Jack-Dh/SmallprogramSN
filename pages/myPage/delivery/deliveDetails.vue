@@ -5,7 +5,7 @@
 				<van-cell title="发货编号" :value="historydetailsList.sendCode" size="large" />
 				<van-cell title="派工编号" :value="historydetailsList.dispatchCode" size="large" />
 
-				<van-cell title="发货总数" :value="historydetailsList.sendsGoodsTotalQuantity" size="large" />
+				<van-cell title="发货总数(盒)" :value="historydetailsList.sendsGoodsTotalQuantity" size="large" />
 
 				<van-cell title="状态" :value="historydetailsList.auditStatus=='sh02'?'审核中':disData.auditStatus=='sh01'?'审核通过':'审核驳回'"
 				 size="large" />
@@ -24,7 +24,7 @@
 							<view>包装材料:{{item.packag}}</view>
 							<view>克重:{{item.weight}}</view>
 							<view>面料成分:{{item.ingredients}}</view>
-							<view>发货数量:{{item.actualSendGoodsQuantity}}</view>
+							<view>发货数量（双）:{{item.dispatchQuantity}}</view>
 						</view>
 
 					</van-collapse-item>

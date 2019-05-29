@@ -1,16 +1,16 @@
 
-.goodsdetails{
+.goodsdetails {
 	display: -webkit-box;
 	display: -webkit-flex;
 	display: -ms-flexbox;
 	display: flex;
-/* 	justify-content: space-between; */
+	/* 	justify-content: space-between; */
 	/* justify-content: space-around; */
 	margin-top: 20rpx;
 	background-color: #FFFFFF;
 }
-.box{
-	 margin-bottom: 150rpx;
+.box {
+	margin-bottom: 150rpx;
 }
 .boxButon {
 	display: -webkit-box;

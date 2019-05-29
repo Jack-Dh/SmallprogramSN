@@ -10,27 +10,55 @@
 				<van-cell title="完结状态" :value="disData.receiveState==1?'未完结':'已完结'" size="large" />
 				<van-cell title="预加工时间" :value="disData.expectProcessTime" size="large" />
 				<van-cell title="预完工时间" :value="disData.expectCompleteTime" size="large" />
-				<van-cell title="剩余生产总量" :value="disData.restNumber" size="large" />
+				<van-cell title="生产总量(盒)" :value="disData.totalNumber" size="large" />
+				<van-cell title="剩余生产总量(盒)" :value="disData.restNumber" size="large" />
 				<van-cell title="选择商品" is-link @click="popShow=true" />
 			</view>
 		</van-panel>
 
 
 		<!-- 弹出层 -->
-		<van-popup :show="popShow" position="bottom" close-on-click-overlay @close="onClose"  @click-overlay="popShow=false">
+		<van-popup :show="popShow" position="top" close-on-click-overlay @close="onClose" @click-overlay="popShow=false">
 
-			<view class="popupView">
+		<!-- 	<view class="popupView">
 				<text type="text" @click="popShow=false">取消</text>
 				<text type="text" @click="popShow=false">确定</text>
-			</view>
+			</view> -->
 			<van-checkbox-group :value="resultList" @change="onChangeSelect">
 				<van-cell-group>
-					<van-cell v-for="(item,index) in disData.goodsList" :key="index" :title="item.name" clickable :data-name="item.name"
+					<van-cell v-for="(item,index) in disData.goodsList" :key="index"  clickable :data-name="item.name"
 					 @click="toggle">
+					 	<view slot="title">
+					 	<view>{{item.name}}</view>
+					 	<view style="color: #999999;">
+					 		<view>SKU:{{item.sku}}</view>
+					 		<view>库存数量(双):{{item.dispatchQuantity}}</view>
+					 		<view>规格(双):{{item.specifications }}</view>
+					 	</view>
+					 </view>
 						<van-checkbox :name="item.goodsUuid" />
 					</van-cell>
+
+
+				
+
+
+
+
+
+
+
+
 				</van-cell-group>
 			</van-checkbox-group>
+
+
+
+
+
+
+
+
 		</van-popup>
 
 
@@ -315,7 +343,7 @@
 		box-sizing: border-box;
 
 		width: 100%;
-		height: 50%;
+		height: 60%;
 
 	}
 </style>

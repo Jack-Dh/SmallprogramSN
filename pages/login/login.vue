@@ -25,7 +25,9 @@
 			return {
 				loginData: {
 					username: '',
-					password: ''
+					password: '',
+
+
 				}
 			}
 		},
@@ -34,21 +36,19 @@
 			 * 获取vuex全局变量
 			 */
 			// this.$store.state.nickname
-			console.log(this.$store.state.nickname)
 		},
 		methods: {
 			login() {
-
 				if (this.loginData.username !== '' && this.loginData.password !== '') {
 					this.$http.post(this.$store.state.loginApi, this.loginData).then((res) => {
 						console.log(res)
 						if (res.data.code == 200) {
-							
-							uni.setStorageSync('wx_token',res.data.token)
 
-							uni.setStorageSync('wx_sessionID',res.data.SESSIONID)
+							uni.setStorageSync('wx_token', res.data.token)
 
-							uni.setStorageSync('wx_uuid',res.data.data.uuid)
+							uni.setStorageSync('wx_sessionID', res.data.SESSIONID)
+
+							uni.setStorageSync('wx_uuid', res.data.data.uuid)
 
 							uni.reLaunch({
 								url: '../Home/Home/Home'
@@ -85,7 +85,7 @@
 		text-align: center;
 		height: 100%;
 		background: #FFFFFF;
-		
+
 	}
 
 	.logos {

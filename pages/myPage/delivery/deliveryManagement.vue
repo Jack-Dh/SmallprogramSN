@@ -12,6 +12,8 @@
 								<view slot="desc">
 									<view>派工单号：{{item.dispatchCode}}</view>
 									<view>款式编号：{{item.styleCode}}</view>
+									<view>发货数量（盒）：{{item.totalSendGoodsQuantity}}</view>
+									
 								</view>
 								<view slot="footer" class="vanTag">
 									<van-tag plain type="danger" v-for="j in item.processNodeList">
@@ -43,7 +45,7 @@
 								<view slot="desc">
 									<view>发货编号：{{item.sendCode}}</view>
 									<view>派工编号：{{item.dispatchCode}}</view>
-									<view>发货总数：{{item.sendsGoodsTotalQuantity}}</view>
+									<view>发货总数（盒）：{{item.sendsGoodsTotalQuantity}}</view>
 									<view>发货时间：{{item.createTime}}</view>
 								</view>
 							</van-card>

@@ -1,9 +1,9 @@
 
-view.data-v-2372cf11, button.data-v-2372cf11, input.data-v-2372cf11 {
+view.data-v-858a3040, button.data-v-858a3040, input.data-v-858a3040 {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-.prompt-box.data-v-2372cf11 {
+.prompt-box.data-v-858a3040 {
   position: fixed;
   left: 0;
   top: 0;
@@ -26,7 +26,7 @@ view.data-v-2372cf11, button.data-v-2372cf11, input.data-v-2372cf11 {
   -o-transition: opacity .2s linear;
   transition: opacity .2s linear;
 }
-.prompt.data-v-2372cf11 {
+.prompt.data-v-858a3040 {
   position: relative;
   display: -webkit-box;
   display: -webkit-flex;
@@ -51,7 +51,7 @@ view.data-v-2372cf11, button.data-v-2372cf11, input.data-v-2372cf11 {
   border-radius: 20rpx;
   overflow: hidden;
 }
-.prompt-top.data-v-2372cf11 {
+.prompt-top.data-v-858a3040 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -67,16 +67,16 @@ view.data-v-2372cf11, button.data-v-2372cf11, input.data-v-2372cf11 {
           align-items: center;
   width: 100%;
 }
-.prompt-title.data-v-2372cf11 {
+.prompt-title.data-v-858a3040 {
   margin: 20rpx 0;
   color: #333;
 }
-.prompt-input.data-v-2372cf11 {
+.prompt-input.data-v-858a3040 {
   width: 520rpx;
   font-size: 28rpx;
   border-radius: 8rpx;
 }
-.prompt-buttons.data-v-2372cf11 {
+.prompt-buttons.data-v-858a3040 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -85,11 +85,11 @@ view.data-v-2372cf11, button.data-v-2372cf11, input.data-v-2372cf11 {
   -webkit-box-shadow: 0 0 2rpx 2rpx #eee;
           box-shadow: 0 0 2rpx 2rpx #eee;
 }
-button.data-v-2372cf11 {
+button.data-v-858a3040 {
   width: 50%;
   border-radius: 0;
 }
-.prompt-cancle.data-v-2372cf11 {
+.prompt-cancle.data-v-858a3040 {
   background: white;
 }
 

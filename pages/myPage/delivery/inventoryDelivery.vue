@@ -1,5 +1,6 @@
 <template>
 	<view class="productionLog">
+
 		<van-panel>
 			<view>
 				<van-cell title="派单编号" :value="disData.dispatchCode" size="large" />
@@ -8,8 +9,14 @@
 				<van-cell title="派工工艺" :value="disData.processNode=='weave'?'织造':disData.processNode=='seamHead'?'缝头':disData.processNode=='stereoType'?'定型':'包装'"
 				 size="large" />
 				<van-cell title="完结状态" :value="disData.receiveState==1?'未完结':'已完结'" size="large" />
-				<van-cell title="库存总量" :value="disData.totalSendGoodsQuantity" size="large" />
-				<van-cell title="选择商品" is-link @click="popShow=true" />
+				<van-cell title="剩余发货数量（盒）" :value="disData.totalSendGoodsQuantity" size="large" />
+				<van-cell required title="选择商品"  is-link @click="popShow=true" />
+			</view>
+
+			<view class="timebox">
+
+				<van-field label="实际发货数量" required :error-message="errorMessage" type="number" :value="actualSendGoodsQuantity"
+				 @change="actualOnChange" />
 			</view>
 		</van-panel>
 
@@ -17,38 +24,30 @@
 		<van-popup :show="popShow" position="top" :close-on-click-overlay="true" @click-overlay="popShow=false">
 
 			<!-- 商品信息列表 -->
-			<van-card :title="item.name" v-for="(item,index) in disData.goodsList">
-				<view slot="desc">
-					<view>颜色：{{item.color}}</view>
-					<view>sku：{{item.sku}}</view>
-					<view>库存数量：{{item.inventoryQuantity}}</view>
-					<van-tag type="danger" size="medium">{{item.brand}}</van-tag>
-					<view style="display: flex;justify-content: space-between;align-items: center;">
-						<!-- <input v-model="item.actualSendGoodsQuantity" placeholder="发货数量" type="number" @blur="changeStepper"/> -->
-						<van-stepper :value="item.actualSendGoodsQuantity" min='0' :max="item.inventoryQuantity"
-						 @change="changeStepper" @blur="blurStepper(index)"  @plus="blurStepper(index)" @minus="blurStepper(index)"/>
-				
-						<text>X{{item.actualSendGoodsQuantity}}</text>
-					</view>
-				</view>
-			</van-card>
+			
 
+			<van-checkbox-group :value="resultList" @change="onChangeSelect">
+				<van-cell-group>
+					<van-cell v-for="(item,index) in disData.goodsList" :key="index" :data-name="item.name">
+						<view slot="title">
+							<view>{{item.name}}</view>
+							<view style="color: #999999;">
+								<view>SKU:{{item.sku}}</view>
+								<view>库存数量(双):{{item.dispatchQuantity}}</view>
+								<view>规格(双):{{item.specifications }}</view>
+							</view>
+						</view>
+						<van-checkbox :name="item.goodsUuid" />
+					</van-cell>
+				</van-cell-group>
+			</van-checkbox-group>
 
-
-<!-- plus -->
-
-
-
-
-			<van-goods-action>
-				<van-goods-action-icon icon="cart-o" text="数量" :info="totalNumber" />
-				<van-goods-action-icon icon="arrow-up" text="返回" @click="popShow=false" />
-				<van-goods-action-button text="发货" @click="delivery" />
-			</van-goods-action>
 
 		</van-popup>
 
-
+		<view class="btnstyle">
+			<van-button type="info" @click="delivery" :disabled="numberState" size="normal">确认发货</van-button>
+		</view>
 	</view>
 </template>
 
@@ -73,10 +72,14 @@
 
 				uuid: '', //UUID
 				disData: [], //派单详情数据
+				actualSendGoodsQuantity: '', //实际发货数量
+				totalSendGoodsQuantity: '', //剩余发货总量
+				errorMessage: '', //表单验证报错提示信息
+
 
 				restNumber: '', //剩余生产总量
 				totalNumber: 0, //总数量
-				actualSendGoodsNumber:'',//当前选择商品的数量
+				actualSendGoodsNumber: '', //当前选择商品的数量
 
 			}
 		},
@@ -88,60 +91,75 @@
 			this.dispatchDetailsQuery()
 		},
 		methods: {
-			changeStepper(event) {
-				//数量选择
+			onChangeSelect(event) {
 				console.log(event)
-				this.actualSendGoodsNumber=event.detail
+				this.resultList = event.detail
+
 			},
-			blurStepper(index){
-				/**
-				 * 通过传递下标，来获取当前商品的发货值
-				 * */
-				this.disData.goodsList[index].actualSendGoodsQuantity=this.actualSendGoodsNumber
-				
-				this.totalNumber=0
-				this.disData.goodsList.forEach(item=>{
-					console.log(item)
-					this.totalNumber+=item.actualSendGoodsQuantity
-				})
+
+			actualOnChange(event) {
+				// event.detail 为当前输入实际生产总量的值
+
+
+				// actualSendGoodsQuantity:'',//实际发货数量
+				// totalSendGoodsQuantity:'',//剩余发货总量
+
+
+				this.actualSendGoodsQuantity = event.detail
+				if (this.actualSendGoodsQuantity > this.totalSendGoodsQuantity) {
+					this.errorMessage = '输入有误，实际发货数量无法大于剩余发货总量'
+					this.actualSendGoodsQuantity = ''
+				} else {
+					this.errorMessage = ''
+				}
+				console.log(event.detail);
 			},
-			delivery(){
+
+
+			delivery() {
 				/**
 				 *半成品 发货
 				 * */
-			
-			if(this.totalNumber!==0){
-				
-			
-				 this.$http.post(this.$store.state.deliverySendgoods,this.disData).then(res=>{
-					 	if (res.data.code == 200) {
-					 	uni.showModal({
-					 		title: '提示',
-					 		content: '操作成功',
-					 		showCancel: false,
-					 		success(res) {
-					 			if (res.confirm) {
-					 				uni.reLaunch({
-					 					url: '../myPage/myPage'
-					 				});
-					 			}
-					 		}
-					 	});
-					 } else {
-					 	uni.showModal({
-					 		title: res.data.msg,
-					 		showCancel: false
-					 	});
-					 }
-				 })
-				 }else{
-					 	uni.showModal({
-					 	title: '提示',
-					 	content: '发货数量不能为空',
-					 	showCancel: false,
-					 	
-					 });
-				 }
+
+				// actualSendGoodsQuantity:'',//实际发货数量
+				// totalSendGoodsQuantity:'',//剩余发货总量
+
+				let data = {
+					dispatchSheetList: this.disData,
+					actualSendGoodsQuantity: Number(this.actualSendGoodsQuantity),
+					goodsUuidList: this.resultList,
+				}
+
+				if (this.actualSendGoodsQuantity !== '' && this.resultList.length !== 0) {
+					this.$http.post(this.$store.state.deliverySendgoods, data).then(res => {
+						if (res.data.code == 200) {
+							uni.showModal({
+								title: '提示',
+								content: '操作成功',
+								showCancel: false,
+								success(res) {
+									if (res.confirm) {
+										uni.reLaunch({
+											url: '../myPage/myPage'
+										});
+									}
+								}
+							});
+						} else {
+							uni.showModal({
+								title: res.data.msg,
+								showCancel: false
+							});
+						}
+					})
+				} else {
+					uni.showModal({
+						title: '提示',
+						content: '数据填写不完全',
+						showCancel: false,
+
+					});
+				}
 			},
 
 			dispatchDetailsQuery() {
@@ -152,6 +170,7 @@
 				}).then(res => {
 					console.log(res)
 					this.disData = res.data.data
+					this.totalSendGoodsQuantity = res.data.data.totalSendGoodsQuantity //剩余发货总量
 					this.restNumber = res.data.data.restNumber
 					if (this.restNumber == 0) {
 						this.numberState = true
@@ -165,6 +184,23 @@
 </script>
 
 <style>
+	.timebox {
+		margin-top: 20upx;
+		background-color: #FFFFFF;
+	}
+
+	.btnstyle {
+		text-align: center;
+
+
+	}
+
+	.van-cell {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: nowrap;
+	}
+
 	.popupView {
 		position: relative;
 		display: flex;
@@ -218,7 +254,7 @@
 	.van-popup {
 
 		width: 100%;
-		height: 100%;
+		height: 60%;
 
 	}
 </style>

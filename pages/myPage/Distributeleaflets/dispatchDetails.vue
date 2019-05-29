@@ -8,6 +8,8 @@
 					<van-cell title="预加工时间" :value="disData.expectProcessTime" size="large" />
 					<van-cell title="预完工时间" :value="disData.expectCompleteTime" size="large" />
 					<van-cell title="款式编号" :value="disData.styleCode" size="large" />
+					<van-cell title="派工数量(盒)" :value="disData.totalNumber" size="large" />
+
 					<van-cell title="派工工艺" :value="disData.processNode=='weave'?'织造':disData.processNode=='seamHead'?'缝头':disData.processNode=='stereoType'?'定型':'包装'"
 					 size="large" />
 					<!-- <van-cell title="加工数量" :value="disData.totalNumber" size="large" /> -->
@@ -16,7 +18,7 @@
 					<van-cell title="派工时间" :value="disData.createTime" size="large" />
 					<van-collapse :border="false" :value="activeNames" @change="onChange" accordion>
 						<van-collapse-item title="商品详情" name="1">
-						
+
 							<view class="goodsdetails" v-for="item in disData.goodsList">
 								<!-- <view>
 									<view>商品名称:</view>
@@ -36,15 +38,16 @@
 									<view>商家编码:{{item.merchantCode}}</view>
 									<view>货品编号:{{item.itemCode}}</view>
 									<view>颜色:{{item.colour}}</view>
-								
+
 									<view>品牌:{{item.brand}}</view>
 									<view>包装材料:{{item.packag}}</view>
 									<view>克重:{{item.weight}}</view>
 									<view>面料成分:{{item.ingredients}}</view>
+									<view>数量（双）:{{item.dispatchQuantity}}</view>
 								</view>
-								
+
 							</view>
-						
+
 						</van-collapse-item>
 					</van-collapse>
 				</view>
@@ -53,12 +56,12 @@
 
 
 		</view>
-			<van-tabbar active-color="#7d7e80">
-				<van-tabbar-item icon="cross" @click="Refused">拒绝</van-tabbar-item>
-				<van-tabbar-item icon="success" @click="accept">接受</van-tabbar-item>
-			
-			</van-tabbar>
-	
+		<van-tabbar active-color="#7d7e80">
+			<van-tabbar-item icon="cross" @click="Refused">拒绝</van-tabbar-item>
+			<van-tabbar-item icon="success" @click="accept">接受</van-tabbar-item>
+
+		</van-tabbar>
+
 		<prompt :visible.sync="promptVisible" title="拒绝原因" @confirm="clickPromptConfirm" @confirms="cancel"></prompt>
 
 	</view>
@@ -105,7 +108,7 @@
 					receiveState: 2,
 					refuseReason: val
 				}
-				let that=this
+				let that = this
 				if (val != '') {
 					this.$http.post(this.$store.state.saveState, data).then(res => {
 						if (res.data.code == 200) {
@@ -179,7 +182,7 @@
 						showCancel: true,
 						success(res) {
 							if (res.confirm) {
-								that.$http.post(that.$store.state.saveState, data).then(res => {
+								that.$http.post(that.$store.state.saveStates, data).then(res => {
 									// if (res.data.code == 200) {
 									// 	that.butState = true
 									// 	that.dispatchDetailsQuery()
@@ -233,17 +236,18 @@
 </script>
 
 <style>
-	.goodsdetails{
+	.goodsdetails {
 		display: flex;
-	/* 	justify-content: space-between; */
+		/* 	justify-content: space-between; */
 		/* justify-content: space-around; */
 		margin-top: 20upx;
 		background-color: #FFFFFF;
 	}
-	
-	.box{
-		 margin-bottom: 150upx;
+
+	.box {
+		margin-bottom: 150upx;
 	}
+
 	.boxButon {
 		display: flex;
 		justify-content: space-around;
