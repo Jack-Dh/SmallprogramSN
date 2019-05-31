@@ -12,14 +12,14 @@
 .boxButon .van-button {
 	width: 200rpx;
 }
-.goodsdetails{
-			display: -webkit-box;
-			display: -webkit-flex;
-			display: -ms-flexbox;
-			display: flex;
+.goodsdetails {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
 	/* 	justify-content: space-between; */
-		/* justify-content: space-around; */
-		margin-top: 20rpx;
-		background-color: #FFFFFF;
+	/* justify-content: space-around; */
+	margin-top: 20rpx;
+	background-color: #FFFFFF;
 }
 

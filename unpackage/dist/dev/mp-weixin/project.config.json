@@ -5,15 +5,17 @@
 	},
 	"setting": {
 		"urlCheck": false,
-		"minified": false,
-		"es6": true
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"autoAudits": false,
+		"checkInvalidKey": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.6.4",
 	"appid": "wx1cf721c808fd3246",
 	"projectname": "SmallprogramSN",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,

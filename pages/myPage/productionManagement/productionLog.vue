@@ -32,7 +32,7 @@
 					 	<view>{{item.name}}</view>
 					 	<view style="color: #999999;">
 					 		<view>SKU:{{item.sku}}</view>
-					 		<view>库存数量(双):{{item.dispatchQuantity}}</view>
+					 		<!-- <view>库存数量(双):{{item.dispatchQuantity}}</view> -->
 					 		<view>规格(双):{{item.specifications }}</view>
 					 	</view>
 					 </view>
@@ -218,9 +218,10 @@
 				//保存生产日志
 				let data = {
 					dispatchSheetList: [this.disData],
-					// actualProduceTime: this.actualProduceTime,
+					actualProduceTime: `${this.actualProduceTime} 00:00:00`,
 					expectProduceQuantity: this.expectProduceQuantity,
 					actualProduceQuantity: parseInt(this.actualProduceQuantity),
+			
 					goodsUuidList: this.resultList
 				}
 

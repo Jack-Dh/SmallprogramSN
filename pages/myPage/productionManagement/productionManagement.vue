@@ -17,7 +17,7 @@
 							{{j=='weave'?'织造':j=='seamHead'?'缝头':j=='stereoType'?'定型':'包装'}}</van-tag>
 							
 							<van-tag style="margin-left: 20upx;" plain type="danger">
-								{{item.facstoryName=='3'?'已完结':'未完结'}}</van-tag>
+								{{item.receiveState=='3'?'已完结':'未完结'}}</van-tag>
 					</view>
 				</van-card>
 			</view>

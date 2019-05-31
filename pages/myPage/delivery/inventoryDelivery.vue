@@ -9,7 +9,7 @@
 				<van-cell title="派工工艺" :value="disData.processNode=='weave'?'织造':disData.processNode=='seamHead'?'缝头':disData.processNode=='stereoType'?'定型':'包装'"
 				 size="large" />
 				<van-cell title="完结状态" :value="disData.receiveState==1?'未完结':'已完结'" size="large" />
-				<van-cell title="剩余发货数量（盒）" :value="disData.totalSendGoodsQuantity" size="large" />
+				<van-cell title="剩余发货数量（双）" :value="disData.totalSendGoodsQuantity" size="large" />
 				<van-cell required title="选择商品"  is-link @click="popShow=true" />
 			</view>
 
@@ -33,7 +33,7 @@
 							<view>{{item.name}}</view>
 							<view style="color: #999999;">
 								<view>SKU:{{item.sku}}</view>
-								<view>库存数量(双):{{item.dispatchQuantity}}</view>
+								<view>库存数量(双):{{item.inventoryQuantity}}</view>
 								<view>规格(双):{{item.specifications }}</view>
 							</view>
 						</view>

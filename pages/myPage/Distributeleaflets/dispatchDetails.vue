@@ -43,7 +43,8 @@
 									<view>包装材料:{{item.packag}}</view>
 									<view>克重:{{item.weight}}</view>
 									<view>面料成分:{{item.ingredients}}</view>
-									<view>数量（双）:{{item.dispatchQuantity}}</view>
+									<view>派工数量（双）:{{item.dispatchQuantity}}</view>
+									<view>规格（双）:{{item.specifications}}</view>
 								</view>
 
 							</view>

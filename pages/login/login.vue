@@ -13,6 +13,9 @@
 			</form>
 			<!-- 消息提醒 -->
 			<van-dialog id="van-dialog" />
+
+
+
 		</view>
 	</view>
 </template>
@@ -36,8 +39,10 @@
 			 * 获取vuex全局变量
 			 */
 			// this.$store.state.nickname
+
 		},
 		methods: {
+
 			login() {
 				if (this.loginData.username !== '' && this.loginData.password !== '') {
 					this.$http.post(this.$store.state.loginApi, this.loginData).then((res) => {

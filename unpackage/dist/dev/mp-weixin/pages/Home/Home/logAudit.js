@@ -67,6 +67,7 @@
 
 
 
+
 {
   components: {
     Prompt: Prompt },
@@ -79,13 +80,15 @@
       disData: [],
       refuseReason: '', //拒绝原因
       promptVisible: true, //弹出层
-      butState: false //操作按钮
+      butState: false, //操作按钮
+      TIME: '' //实际生产时间
     };
   },
   onLoad: function onLoad(option) {
     this.uuid = option.id;
     this.dispatchDetailsQuery();
-    console.log(this.uuid);
+
+
   },
   methods: {
     onChange: function onChange(event) {
@@ -100,7 +103,11 @@
       then(function (res) {
         console.log(res);
         _this.disData = res.data.data;
-
+        /**
+                                        * 截取实际生产时间，只精确到天
+                                        * */
+        var Num = _this.disData.actualProduceTime.indexOf(' ');
+        _this.TIME = _this.disData.actualProduceTime.substring(0, Num);
         if (res.data.data.auditStatus !== 'sh02') {
           that.butState = true;
         }

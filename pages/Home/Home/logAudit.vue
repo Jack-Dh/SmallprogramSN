@@ -4,38 +4,39 @@
 			<view>
 				<van-cell title="生产日志编号" :value="disData.logCode" size="large" />
 				<van-cell title="实际生产数量（盒）" :value="disData.actualProduceQuantity" size="large" />
-				<van-cell title="实际生产时间" :value="disData.actualCompleteTime" size="large" />
+				<van-cell title="实际生产时间" :value="TIME" size="large" />
 				<van-cell title="填报时间" :value="disData.createTime" size="large" />
 				<van-cell title="款式编号" :value="disData.styleCode" size="large" />
 				<van-cell title="派单编号" :value="disData.dispatchCode" size="large" />
 				<van-cell title="状态" :value="disData.auditStatus=='sh02'?'审核中':disData.auditStatus=='sh01'?'审核通过':'审核驳回'" size="large" />
 				<!-- <van-cell title="商品名称" :value="disData.goodsName" size="large" /> -->
 				<van-cell title="填报人" :value="disData.createName" size="large" />
-				
+
 				<van-collapse :border="false" :value="activeNames" @change="onChange" accordion>
 					<van-collapse-item title="商品详情" name="1">
-					
+
 						<view class="goodsdetails" v-for="item in disData.goodsBeanList">
-							
+
 							<view>
 								<view>商品名称:{{item.name}}</view>
 								<view>商家编码:{{item.merchantCode}}</view>
 								<view>货品编号:{{item.itemCode}}</view>
 								<view>颜色:{{item.colour}}</view>
-							
+
 								<view>品牌:{{item.brand}}</view>
 								<view>包装材料:{{item.packag}}</view>
 								<view>克重:{{item.weight}}</view>
 								<view>面料成分:{{item.ingredients}}</view>
-								<view>数量（双）:{{item.dispatchQuantity}}</view>
+								<view>规格（双）:{{item.specifications}}</view>
+								<view>生产数量（双）:{{item.dispatchQuantity}}</view>
 							</view>
-							
+
 						</view>
-					
+
 					</van-collapse-item>
 				</van-collapse>
-				
-				
+
+
 
 			</view>
 			<view slot="footer">
@@ -70,12 +71,14 @@
 				refuseReason: '', //拒绝原因
 				promptVisible: true, //弹出层
 				butState: false, //操作按钮
+				TIME:'',//实际生产时间
 			}
 		},
 		onLoad: function(option) {
 			this.uuid = option.id
 			this.dispatchDetailsQuery()
-			console.log(this.uuid)
+
+
 		},
 		methods: {
 			onChange(event) {
@@ -83,14 +86,18 @@
 				this.activeNames = event.detail
 			},
 			dispatchDetailsQuery() {
-				let that=this
+				let that = this
 				//查询生产日志单详情
 				this.$http.get(this.$store.state.producelogdetail, {
 					uuid: this.uuid
 				}).then(res => {
 					console.log(res)
 					this.disData = res.data.data
-
+				/**
+				 * 截取实际生产时间，只精确到天
+				 * */
+					let Num=this.disData.actualProduceTime.indexOf(' ')
+					this.TIME=this.disData.actualProduceTime.substring(0,Num)
 					if (res.data.data.auditStatus !== 'sh02') {
 						that.butState = true
 					}
@@ -161,7 +168,7 @@
 					showCancel: true,
 					success(res) {
 						if (res.confirm) {
-							
+
 							that.$http.post(that.$store.state.saveStateProducelog, data).then(res => {
 								if (res.data.code == 200) {
 									that.butState = true
@@ -207,11 +214,12 @@
 	.boxButon .van-button {
 		width: 200upx;
 	}
-	.goodsdetails{
-				display: flex;
+
+	.goodsdetails {
+		display: flex;
 		/* 	justify-content: space-between; */
-			/* justify-content: space-around; */
-			margin-top: 20upx;
-			background-color: #FFFFFF;
+		/* justify-content: space-around; */
+		margin-top: 20upx;
+		background-color: #FFFFFF;
 	}
 </style>

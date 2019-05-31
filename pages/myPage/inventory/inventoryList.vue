@@ -1,9 +1,8 @@
 <template>
 	<view class="inventory">
 		<view v-for="item in storeList" class="newslist">
-			<view @click="Jump(item.uuid)">
+			<view>
 				<van-card :title="item.factoryName">
-
 					<view slot="desc">
 						<view>商品名称:{{item.goodsName}}</view>
 						<view>商品编号:{{item.goodsCode}}</view>
@@ -12,13 +11,8 @@
 						<view>库存数量:{{item.inventoryQuantity}}</view>
 						<view>已加工数量:{{item.processedQuantity}}</view>
 					</view>
-
 				</van-card>
 			</view>
-
-
-
-
 		</view>
 
 
@@ -136,7 +130,6 @@
 	.van-card {
 		margin-bottom: 20upx;
 		background: #FFFFFF;
-	
+
 	}
-	
 </style>

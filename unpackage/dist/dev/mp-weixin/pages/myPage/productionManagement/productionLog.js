@@ -228,9 +228,10 @@
       //保存生产日志
       var data = {
         dispatchSheetList: [this.disData],
-        // actualProduceTime: this.actualProduceTime,
+        actualProduceTime: "".concat(this.actualProduceTime, " 00:00:00"),
         expectProduceQuantity: this.expectProduceQuantity,
         actualProduceQuantity: parseInt(this.actualProduceQuantity),
+
         goodsUuidList: this.resultList
 
 

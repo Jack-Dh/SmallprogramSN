@@ -5,14 +5,11 @@
 		<view v-for="item in newsList" class="newslist">
 			<van-card :title="'生产日志编号:'+item.logCode">
 				<view slot="desc">
-					<view>预计生产总量:{{item.expectProduceQuantity}}</view>
-					<view>实际生产数量:{{item.actualProduceQuantity}}</view>
-					<view>实际生产时间:{{item.actualCompleteTime}}</view>
-					<view>填报时间时间:{{item.createTime}}</view>
-					<view>商家编号:{{item.merchantCode}}</view>
-					<view>货品编号:{{item.itemCode}}</view>
-					<view>商品名称:{{item.goodsName}}</view>
-					<view>填报人:{{item.createName}}</view>
+				
+					<view>实际生产数量（盒）:{{item.actualProduceQuantity}}</view>
+					<view>实际生产时间:{{item.actualProduceTime}}</view>
+					<view>填报时间:{{item.createTime}}</view>
+					<view>填报人:{{item.applicant}}</view>
 				</view>
 				<view slot="tags">
 			

@@ -28,8 +28,14 @@
 
 
 
+
+
+
 var _dialog = _interopRequireDefault(__webpack_require__(/*! ../../wxcomponents/vant/dist/dialog/dialog */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\wxcomponents\\vant\\dist\\dialog\\dialog.js"));
 var _md = _interopRequireDefault(__webpack_require__(/*! ../../common/md5.js */ "D:\\上海悦为\\首诺供应链\\SmallprogramSNS\\common\\md5.js"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
 //
 //
 //
@@ -51,8 +57,7 @@ var _md = _interopRequireDefault(__webpack_require__(/*! ../../common/md5.js */ 
 var _default = { data: function data() {return { loginData: { username: '', password: '' } };}, onLoad: function onLoad() {/**
                                                                                                                             * 获取vuex全局变量
                                                                                                                             */ // this.$store.state.nickname
-  }, methods: { login: function login() {if (this.loginData.username !== '' && this.loginData.password !== '') {this.$http.post(this.$store.state.loginApi, this.loginData).then(function (res) {console.log(res);
-          if (res.data.code == 200) {
+  }, methods: { login: function login() {if (this.loginData.username !== '' && this.loginData.password !== '') {this.$http.post(this.$store.state.loginApi, this.loginData).then(function (res) {console.log(res);if (res.data.code == 200) {
 
             uni.setStorageSync('wx_token', res.data.token);
 
