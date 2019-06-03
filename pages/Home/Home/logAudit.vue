@@ -6,11 +6,10 @@
 				<van-cell title="实际生产数量（盒）" :value="disData.actualProduceQuantity" size="large" />
 				<van-cell title="实际生产时间" :value="TIME" size="large" />
 				<van-cell title="填报时间" :value="disData.createTime" size="large" />
-				<van-cell title="款式编号" :value="disData.styleCode" size="large" />
 				<van-cell title="派单编号" :value="disData.dispatchCode" size="large" />
 				<van-cell title="状态" :value="disData.auditStatus=='sh02'?'审核中':disData.auditStatus=='sh01'?'审核通过':'审核驳回'" size="large" />
 				<!-- <van-cell title="商品名称" :value="disData.goodsName" size="large" /> -->
-				<van-cell title="填报人" :value="disData.createName" size="large" />
+				<van-cell title="填报人" :value="disData.applicant" size="large" />
 
 				<van-collapse :border="false" :value="activeNames" @change="onChange" accordion>
 					<van-collapse-item title="商品详情" name="1">

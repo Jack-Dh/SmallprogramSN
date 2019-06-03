@@ -90,7 +90,7 @@
 								<view slot="desc">
 									<view>发货编号：{{item.sendCode}}</view>
 									<view>派工编号：{{item.dispatchCode}}</view>
-									<view>发货总数（盒）：{{item.sendsGoodsTotalQuantity}}</view>
+									<view>发货总数（双）：{{item.sendsGoodsTotalQuantity}}</view>
 									<view>发货时间：{{item.createTime}}</view>
 								</view>
 							</van-card>

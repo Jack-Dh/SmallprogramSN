@@ -67,7 +67,6 @@
 
 
 
-
 {
   components: {
     Prompt: Prompt },

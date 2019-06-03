@@ -5,7 +5,7 @@
 				<van-cell title="发货编号" :value="historydetailsList.sendCode" size="large" />
 				<van-cell title="派工编号" :value="historydetailsList.dispatchCode" size="large" />
 
-				<van-cell title="发货总数（盒）" :value="historydetailsList.sendsGoodsTotalQuantity" size="large" />
+				<van-cell title="发货总数（双）" :value="historydetailsList.sendsGoodsTotalQuantity" size="large" />
 
 				<van-cell title="状态" :value="historydetailsList.auditStatus=='sh02'?'审核中':disData.auditStatus=='sh01'?'审核通过':'审核驳回'"
 				 size="large" />
